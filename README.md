@@ -1,11 +1,9 @@
 ## That Startpage Rocks
 
-A simple and quick startpage that lets you access your favourite websites as well as the most famous services, all that with just a click or a few keywords. It's a good replacement to the default startpage on your browser.  
+A simple and quick startpage that lets you access your favourite websites as well as the most famous services, all that with just a click or few keywords. It's a perfect replacement to the default startpage on your browser.  
 [Check out the website !](http://startpage-1072.appspot.com)
 
-## How it works
-
-Just login on our website with either facebook or google. Then follow the setup guide, a link to your startpage will be generated. Then set this link as your startpage (this process depends on your browser). You can use that link on any browser, just login to access that startpage.
+That Startpage Rocks (formely 'The Startpage') is released under the GNU GPL v3 licence. The website is hosted on Google App Engine and is written in Python, using the [Flask](http://flask.pocoo.org) microframework. Of course, there is fair use of HTML and Javascript, as well as JQuery, for the web interface.
 
 ## Features
 
@@ -40,4 +38,4 @@ Please submit bugs if you find some:) If you've got new web services that you'd 
 
 ## Authors
 
-Mark Spurgeon (a.k.a the-duck)
+Mark Spurgeon (a.k.a [the-duck](https://github.com/the-duck))
