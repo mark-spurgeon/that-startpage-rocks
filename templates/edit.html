@@ -1,0 +1,193 @@
+<html manifest="/static/startpage.manifest">
+<head>
+  <title>Edit - The Startpage</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href='https://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Roboto Condensed' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Graduate' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+  <link type="text/css" href="/static/styles/perfect-scrollbar.css" rel="stylesheet" media="all" />
+  <script src="/static/js/jquery-2.1.3.min.js"></script>
+  <script type="text/javascript" src="/static/js/perfect-scrollbar.jquery.min.js"></script>
+  <script type="text/javascript" src="/static/js/perfect-scrollbar.min.js"></script>
+  <script type="text/javascript" src="/static/js/jquery.sortable.js"></script>
+  <link href="/static/styles/edit.css" rel="stylesheet" type="text/css">
+  <script src='/static/js/main.js'></script>
+  <script type='text/javascript'>
+  $.extend(
+{
+    redirectPost: function(location, args)
+    {
+        var form = '';
+        $.each( args, function( key, value ) {
+            value = value.split('"').join('\"')
+            form += '<input type="hidden" name="'+key+'" value="'+value+'">';
+        });
+        $('<form action="' + location + '" method="POST">' + form + '</form>').appendTo($(document.body)).submit();
+    }
+});
+
+
+    function changeDisplayName(node) {
+      console.log(node.dataset.position);
+      d = document.getElementById('popup');
+
+      ti = document.getElementById('popup-title');
+      ti.innerHTML="Change Website's Name";
+      de = document.getElementById('popup-content');
+      de.innerHTML = "<form action='/config/modify-website/"+node.dataset.position+"/title' method='post' enctype='multipart/form-data'><input type='text' placeholder='Change Title' name='value'></input> <input type='submit' value='Change Title'></input></form>";
+      d.style.display = 'block';
+    }
+    function addWebsite() {
+      d = document.getElementById('popup');
+      ti = document.getElementById('popup-title');
+      ti.innerHTML='Add a new Website';
+      de = document.getElementById('popup-content');
+      de.innerHTML = "<form action='/config/add-website' method='post' enctype='multipart/form-data'><input type='text' placeholder='Paste URL' name='url'></input> <input type='submit' value='Add Website'></input></form>";
+      d.style.display = 'block';
+    }
+
+    function elementChildren (element) {
+    var childNodes = element.childNodes,
+        children = [],
+        i = childNodes.length;
+
+    while (i--) {
+        if (childNodes[i].nodeType == 1) {
+            children.unshift(childNodes[i]);
+        }
+    }
+
+    return children;
+}
+
+    function changeWebsitePositions() {
+      /*Get Positions from elements*/
+
+    }
+
+    function changeWebsitePositions () {
+      newOrder = ""
+      var c = $("#apps_list").children();
+      c.each(function(idx, val){
+        p = $(this).context.dataset.position;
+        console.log(p);
+        newOrder+=p+",";
+      });
+      newOrder = newOrder.substring(0, newOrder.length - 1);
+      console.log(newOrder);
+      var redirect = '/config/change-apps-positions';
+      $.redirectPost(redirect, {value:newOrder});
+      /*$.post( "/config/change-apps-positions", {value:newOrder}, function( data ) {
+        console.log(data);
+      });*/
+      }
+
+
+    function closePopup() {
+      d = document.getElementById('popup');
+      d.style.display='none';
+    }
+    function closeNotification() {
+      d = document.getElementById('notification');
+      d.style.display='none';
+    }
+
+
+
+  </script>
+</head>
+<body>
+
+  <div id='container'>
+    {% if message %}
+      <div id='notification' class='{% if message.startswith("Success")%}success{% elif message.startswith("Error")%}error{%endif%}'>
+        <p>{{message}}</p>
+        <button onclick='closeNotification()'>x</button>
+      </div>
+
+    {% endif %}
+      <h1 id='sp-title'>EDIT YOUR STARTPAGE</h1>
+      <div id='search-div'>
+      </div>
+      <div id='edit-panel'>
+        <p>You are logged in as <i>{{user.username}}</i></p>
+        <p><a class="usr-link" href='http://startpage-1072.appspot.com/sp/{{user.source}}/{{user.userID}}'>This </a> is the link to your startpage. </p>
+        <p><a class='usr-link' href='/logout'>Logout</a></p>
+      </div>
+      <div id='app-view'>
+        <div style="background:url('{{img}}')" id='edit-bg' >
+          <p id='image'>Change Background Image</p>
+          <form id='bg-image' action='{{upload_bg}}' enctype="multipart/form-data" method='post'>
+            <input type="file" name="filename" accept="image/gif, image/jpeg, image/png">
+            <input type='submit' value="Change Image"></input>
+          </form>
+        </div>
+
+        <div id='edit-theme'>
+          <p id='theme'>Change Color Theme</p>
+        <form id='bg-theme' action='/config/change-theme' enctype="multipart/form-data" method='post'>
+          <select name='theme' selected='{{theme}}'>
+            <option value="white" {% if theme == 'white'%}selected{% endif %}>White</option>
+            <option value="dark" {% if theme == 'dark'%}selected{% endif %}>Dark</option>
+          </select>
+          <input type='submit' value="Change Theme"></input>
+        </form>
+      </div>
+
+      <div id='edit-title'>
+        <p id='title'>Change Startpage Title</p>
+      <form id='bg-theme' action='/config/change-title' enctype="multipart/form-data" method='post'>
+        <input type='text' name='title' value='{{title}}'></input>
+        <input type='submit' value="Change Title"></input>
+      </form>
+    </div>
+    <div id='edit-title'>
+      <p id='apps'>Modify Apps</p>
+      <button value="add-website" onclick='addWebsite()' id='edit-add-website'>+ Add App</button>
+      <ul class="sortable" id='apps_list'>
+        {% for a in  apps %}
+        <li class='website-item' data-position={{a.position}} >
+          <table width="100%">
+          <tr>
+            <td style='width:20px'><div class='web-icon' style="background-image:url('{{a.icon}}')"></div></td>
+            <td style='width:80px' class='web-display-name'>{{a.display_name}}<button class='btn-edit-title' value='edit' onclick='changeDisplayName(this.parentNode.parentNode.parentNode.parentNode.parentNode)'><i class='fa fa-pencil'></i></button></td>
+            <td style='width:100px' class='web-url'>{{a.url}}</td>
+            <td style='width:15px' class='web-url'><a href='/config/delete-website?website={{a.position}}' class='btn-remove-website'>X</a></td>
+          </tr>
+          </table>
+        </li>
+        {% endfor %}
+      </ul>
+      <button value="change-web-positions" onclick='changeWebsitePositions()' id='edit-apply-website'><i class="fa fa-check"></i>
+ Apply Order</button>
+
+      <script>
+        $('.sortable').sortable({
+          handle:'.web-icon'
+        });
+        $('.sortable').sortable().bind('sortupdate', function(e, ui) {
+          console.log(ui);
+          console.log(ui.item.context.dataset.position);
+          //Triggered when the user stopped sorting and the DOM position has changed.
+          console.log('Changed');
+        });
+      </script>
+  </div>
+
+    <div id='popup'>
+      <div id='popup-top-bar'>
+        <p id='popup-title'></p>
+        <button onclick='closePopup()' id='popup-close-button'><span id='popup-cross'>X</span> Close</button>
+      </div>
+      <div id='popup-content'></div>
+    </div>
+      </div>
+  </div>
+</body>
+
+
+
+
+</html>

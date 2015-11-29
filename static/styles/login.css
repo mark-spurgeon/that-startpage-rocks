@@ -1,0 +1,142 @@
+body {
+  background: url('/static/bg7_pix.jpg') center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  font-family:'Roboto Condensed',serif;
+  background:repeating-linear-gradient(
+    45deg,
+    white,
+    rgb(230,230,230) 2px,
+    white 2px,
+    white 10px
+    )
+}
+
+div#container {
+  margin-left:auto;
+  margin-right:auto;
+  width:1024px;
+  height:90%;
+  height:512px;
+}
+div#logo {
+  margin:0px auto;
+  margin-top:150px;
+  padding:5px;
+  width:340px;
+  background-color:#F4D03F;
+  box-shadow:0px 0px 1px #888888;
+}
+div#logo img {
+  width:160px;
+  margin:20px;
+  margin-left:90px;
+}
+
+div#login {
+  margin:0 auto;
+  width: 340px;
+  height:140px;
+  padding:5px;
+  background-color:white;
+  border-style:solid;
+  border-width:0px;
+  border-top-width:3px;
+  border-color:rgb(30,30,30);
+  box-shadow:0px 0px 1px #888888;
+}
+
+input {
+  padding:5px;
+  margin:10px;
+  margin-left:auto;
+  margin-right:auto;
+  transition: border-bottom-width .1s;
+  border-style:solid;
+  border-width:0px;
+  border-bottom-width:0px;
+  border-color:rgb(40,40,40);
+  background-color:rgba(0,0,0,0.03);
+  width:300px;
+  font-family:'Roboto Condensed',sans-serif;
+}
+input[type='text'] {
+  border-bottom-width: 1px;
+}
+input[type='password'] {
+  border-bottom-width: 1px;
+}
+input[type='submit'] {
+  background-color:transparent;
+  margin-bottom:0px;
+  padding-bottom:0px;
+}
+input:hover {
+  border-bottom-width:3px;
+  background-color:rgba(0,0,0,0.06);
+
+}
+input:active {
+  background-color:rgba(0,0,0,0.1)
+}
+
+p {
+  text-transform:uppercase;
+  text-align:center;
+  margin:5px;
+}
+.link {
+  float:left;
+  width:94px;
+  height:94px;
+  margin:5px;
+  text-decoration:none;
+  color:rgb(30,30,30);
+  border-style:solid;
+  border-width:0px;
+  border-bottom-width:0px;
+  border-color:rgb(30,30,30)
+}
+.link p {
+  font-size:0.8em;
+  padding:0px;
+  margin:0px;
+  margin-top:5px;
+}
+.link p i {
+  margin-top:2px;
+  font-size:5em;
+}
+.link.facebook {
+  color:#3B5998;
+  border-color:rgb(30,30,30);
+}
+.link.facebook:hover {
+  color:white;
+  background-color:#3B5998;
+}
+.link.google {
+  color:#dd4b39;
+  border-color:rgb(30,30,30);
+}
+.link.google:hover {
+  color:white;
+  background-color:#dd4b39;
+}
+.link:active {
+  border-bottom-width:3px;
+}
+
+/* media */
+@media screen and (max-width: 1024px) {
+  div#container {
+    width:860px;
+  }
+}
+@media screen and (max-width: 920px) {
+  div#container {
+    width:500px;
+  }
+}

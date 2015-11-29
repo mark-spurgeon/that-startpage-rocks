@@ -1,0 +1,26 @@
+body {
+  overflow:auto;
+}
+.browser-link {
+  display:block;
+  font-size:2em;
+  background-color:rgb(30,30,30);
+  color:rgb(220,220,220);
+  padding:30px;
+  text-decoration:none;
+  margin:5px;
+  width:400px;
+  float:left;
+}
+.browser-link:hover {
+  background-color:rgb(40,40,40);
+  color:white;
+}
+.browser-link.default {
+  color:rgb(30,30,30);
+  background-color:#F4D03F;
+}
+.browser-link.default:hover {
+  color:black;
+  background-color:#F4D03F;
+}

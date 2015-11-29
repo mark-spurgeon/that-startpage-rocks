@@ -1,0 +1,6 @@
+body {
+  background: url('/static/images/home.jpg') center center fixed;
+}
+div#login {
+  height:250px;
+}
