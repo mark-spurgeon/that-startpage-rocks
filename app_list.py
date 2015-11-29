@@ -1,4 +1,4 @@
-
+# Copyright 2015 Mark Spurgeon
 
 appList = [
         {'url':'http://www.youtube.com',

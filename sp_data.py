@@ -1,3 +1,5 @@
+# Copyright 2015 Mark Spurgeon
+
 from google.appengine.ext import ndb
 
 defaultAppList = [

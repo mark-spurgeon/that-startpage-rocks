@@ -1,3 +1,4 @@
+# Copyright 2015 Mark Spurgeon
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import httplib2

@@ -3,7 +3,7 @@
 A simple and quick startpage that lets you access your favourite websites as well as the most famous services, all that with just a click or few keywords. It's a perfect replacement to the default startpage on your browser.  
 [Check out the website !](http://startpage-1072.appspot.com)
 
-That Startpage Rocks (formely 'The Startpage') is released under the GNU GPL v3 licence. The website is hosted on Google App Engine and is written in Python, using the [Flask](http://flask.pocoo.org) microframework. Of course, there is fair use of HTML and Javascript, as well as JQuery, for the web interface.
+That Startpage Rocks (formely 'The Startpage') is released under the GNU LGPL v3 license. The website is hosted on Google App Engine and is written in Python, using the [Flask](http://flask.pocoo.org) microframework. Of course, there is fair use of HTML and Javascript, as well as JQuery, for the web interface.
 
 ## Features
 
