@@ -1,79 +1,43 @@
-## Python Flask Skeleton for Google App Engine
+## That Startpage Rocks
 
-A skeleton for building Python applications on Google App Engine with the
-[Flask micro framework](http://flask.pocoo.org).
+A simple and quick startpage that lets you access your favourite websites as well as the most famous services, all that with just a click or a few keywords. It's a good replacement to the default startpage on your browser.  
+[Check out the website !](http://startpage-1072.appspot.com)
 
-See our other [Google Cloud Platform github
-repos](https://github.com/GoogleCloudPlatform) for sample applications and
-scaffolding for other python frameworks and use cases.
+## How it works
 
-## Run Locally
-1. Install the [App Engine Python SDK](https://developers.google.com/appengine/downloads).
-See the README file for directions. You'll need python 2.7 and [pip 1.4 or later](http://www.pip-installer.org/en/latest/installing.html) installed too.
+Just login on our website with either facebook or google. Then follow the setup guide, a link to your startpage will be generated. Then set this link as your startpage (this process depends on your browser). You can use that link on any browser, just login to access that startpage.
 
-2. Clone this repo with
+## Features
 
-   ```
-   git clone https://github.com/GoogleCloudPlatform/appengine-python-flask-skeleton.git
-   ```
-3. Install dependencies in the project's lib directory.
-   Note: App Engine can only import libraries from inside your project directory.
+Compared to other startpages available on the web, _That Startpage Rocks_ is focused on simplicity and productivity. Our aim is that you spend the least time finding what you want, no distractions are there to slow you down, just powerful tools to help you quickly find the right content. This does not affect the beauty of your startpage, however, thanks to our modern interface and the ability to customize your startpage with your own background image.
+_In a few words: Simplicity, Speed, Productivity, Beauty, Delight_
 
-   ```
-   cd appengine-python-flask-skeleton
-   pip install -r requirements.txt -t lib
-   ```
-4. Run this project locally from the command line:
+#### Add your favourite websites
 
-   ```
-   dev_appserver.py .
-   ```
+Like you would expect, add your favourite websites to your startpage. Thanks to our [[scalable]](http://startpage-1072.appspot.com/icons) icon repository, your apps have beautifully sharp icons.
 
-Visit the application [http://localhost:8080](http://localhost:8080)
+#### Search famous websites
 
-See [the development server documentation](https://developers.google.com/appengine/docs/python/tools/devserver)
-for options when running dev_appserver.
+The very special search engine lets you quickly find content from major web services. It works a little bit like a command line. For instance, if you'd like to search a youtube video, just type `youtube` followed by a query. You'll then get realtime results, linking directly to videos.
 
-## Deploy
-To deploy the application:
+_Here are all the supported web services :_
 
-1. Use the [Admin Console](https://appengine.google.com) to create a
-   project/app id. (App id and project id are identical)
-1. [Deploy the
-   application](https://developers.google.com/appengine/docs/python/tools/uploadinganapp) with
+- youtube
+- spotify
+- soundcloud
+- pixabay
+- wikipedia
+- guardian
+- new york times
 
-   ```
-   appcfg.py -A <your-project-id> --oauth2 update .
-   ```
-1. Congratulations!  Your application is now live at your-app-id.appspot.com
+#### Customize your startpage
 
-## Next Steps
-This skeleton includes `TODO` markers to help you find basic areas you will want
-to customize.
+Change your startpage's title, colour theme, and background image, with the editor.
 
-### Relational Databases and Datastore
-To add persistence to your models, use
-[NDB](https://developers.google.com/appengine/docs/python/ndb/) for
-scale.  Consider
-[CloudSQL](https://developers.google.com/appengine/docs/python/cloud-sql)
-if you need a relational database.
+## Contribute
 
-### Installing Libraries
-See the [Third party
-libraries](https://developers.google.com/appengine/docs/python/tools/libraries27)
-page for libraries that are already included in the SDK.  To include SDK
-libraries, add them in your app.yaml file. Other than libraries included in
-the SDK, only pure python libraries may be added to an App Engine project.
+Please submit bugs if you find some:) If you've got new web services that you'd like me to add, please do also submit a bug.
 
-### Feedback
-Star this repo if you found it useful. Use the github issue tracker to give
-feedback on this repo.
+## Authors
 
-## Contributing changes
-See [CONTRIB.md](CONTRIB.md)
-
-## Licensing
-See [LICENSE](LICENSE)
-
-## Author
-Logan Henriquez and Johan Euphrosine
+Mark Spurgeon (a.k.a the-duck)
