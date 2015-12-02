@@ -52,10 +52,10 @@ def jsonResponse(json_dict):
 
 @app.route('/')
 def index():
-    return render_template('the-index.html')
-@app.route('/next')
-def index_new():
     return render_template('index.html')
+@app.route('/old')
+def index_old():
+    return render_template('the-index.html')
 @app.route('/features')
 def features():
     return redirect(url_for("index"))
@@ -253,6 +253,7 @@ def cfg_upload_bg():
             l = images.get_serving_url(blob_key)
             user.backgroundImageURL = l
             user.backgroundImageKey=BlobKey(blob_key)
+
             #import datetime
             #user.imgUrl="http://startpage-1072.appspot.com/img/{0}/{1}/{2}".format(us[0].source,us[0].userID,datetime.datetime.now())
             user.put()
@@ -577,7 +578,8 @@ def customsearch():
 ## Icon repo
 #####
 def getDomainFromUrl(u):
-    dom = u.replace('http://','').replace('https:','')
+    dom = u.replace('http://','')
+    dom = dom.replace('https://','')
     dom1 = dom.split('/')[0].split('.')
     f_dom = dom1[-2]+'.'+dom1[-1]
     return f_dom

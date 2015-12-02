@@ -1,6 +1,13 @@
 body {
   background: url('/static/images/home.jpg') center center fixed;
 }
+div#logo {
+  width:400px;
+}
+div#logo img {
+  margin-left:120px;
+}
 div#login {
-  height:250px;
+  width:400px;
+  height:300px ;
 }

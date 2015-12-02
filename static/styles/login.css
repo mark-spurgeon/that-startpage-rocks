@@ -27,7 +27,6 @@ div#logo {
   padding:5px;
   width:340px;
   background-color:#F4D03F;
-  box-shadow:0px 0px 1px #888888;
 }
 div#logo img {
   width:160px;
@@ -44,7 +43,6 @@ div#login {
   border-style:solid;
   border-width:0px;
   border-top-width:3px;
-  border-color:rgb(30,30,30);
   box-shadow:0px 0px 1px #888888;
 }
 
