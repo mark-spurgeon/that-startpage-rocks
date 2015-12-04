@@ -53,9 +53,15 @@ def jsonResponse(json_dict):
 @app.route('/')
 def index():
     return render_template('index.html')
+
+@app.route('/sitemap')
+def index_sitemap():
+    return render_template('sitemap.html')
+
 @app.route('/old')
 def index_old():
     return render_template('the-index.html')
+
 @app.route('/features')
 def features():
     return redirect(url_for("index"))

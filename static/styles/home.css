@@ -55,6 +55,9 @@ h1,h2,p {
   background-color:white;
   width:710px;
 }
+#about a {
+  color:rgb(30,30,30);
+}
 #right-panel {
   display:block;
   width:300px;
