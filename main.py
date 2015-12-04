@@ -53,6 +53,13 @@ def jsonResponse(json_dict):
 @app.route('/')
 def index():
     return render_template('index.html')
+@app.route('/_data_info')
+def info():
+    l = [ i for i in sp_data.ExternalUser.query()]
+    count = len(l)+1
+    l2 = [ i for i in sp_data.appIconProposed.query()]
+    count2 = len(l2)+1
+    return render_template('data.html', userCount=count,iconCount=count2 )
 
 @app.route('/sitemap')
 def index_sitemap():
