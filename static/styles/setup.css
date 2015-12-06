@@ -59,3 +59,28 @@ a:hover {
   background-color: #F4D03F;
   color:rgb(30,30,30);
 }
+.theme {
+  margin:5px;
+  padding:0px;
+  color:white;
+  text-decoration: none;
+  cursor:pointer;
+  }
+.theme:hover {
+  background-color:rgb(50,50,50)
+}
+.th-display {
+  padding:20px;
+  float:left;
+}
+.th-title {
+  margin-left:120px;
+  padding:80px;
+
+}
+.app-item {
+  border-bottom-width:0px !important;
+}
+.app-item:hover {
+  border-bottom-width:1px !important;
+}

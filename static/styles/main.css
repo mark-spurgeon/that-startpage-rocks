@@ -49,10 +49,9 @@ div#container {
   font-family:'Roboto Condensed',serif;
   color:white;
   font-weight:bolder;
-  font-style: italic;
   border-style:solid;
   border-width:0px;
-  border-top-width:2px;
+  border-top-width:0px;
   border-color:white;
   margin:10px;
   width:300px;
@@ -98,7 +97,7 @@ div#search-bar input[type='text']:focus {
   outline:none;
 }
 div#search-bar button[type='submit'] {
-    transition: border-bottom-color .1s;
+    transition:  background-color .1s;
     width:34px;
     height:40px;
     padding:20px;
@@ -111,14 +110,13 @@ div#search-bar button[type='submit'] {
     background:url('/static/search.svg') center center;
     color:white;
     outline:none;
+    text-shadow: 0px 1px 2px rgb(30,30,30);
 }
 div#search-bar button[type='submit']:hover {
-  border-bottom-color:white;
-  outline:none;
+  background-color:rgba(255,255,255,0.04);
 }
 div#search-bar button[type='submit']:active {
-  border-bottom-color:white;
-  outline:none;
+  background-color:rgba(255,255,255,0.08);
 }
 
 div#search-panel {
@@ -204,7 +202,7 @@ div#edit-panel {
   overflow: hidden;
   border-style:solid;
   border-width:0px;
-  border-top-width: 2px;
+  border-top-width: 0px;
   border-color:white;
 }
 div#edit-panel:hover {
@@ -246,7 +244,7 @@ div#cog i {
 
 
 .app-item {
-  transition:border-color .1s, background-color .1s;
+  transition:border-color .1s, background-color .1s, box-shadow .1s;
   display:block;
   float:left;
   width:94px;
@@ -259,9 +257,11 @@ div#cog i {
   border-bottom-width:1px;
   border-color:transparent;
   outline:none;
+  box-shadow: 0 2px 2px -2px transparent;
 }
 .app-item:hover {
   border-color:white;
+  box-shadow: 0 2px 2px -2px black;
 }
 .app-item:active {
   outline:none;
@@ -279,6 +279,7 @@ div#cog i {
 .app-item p {
   text-decoration:none;
   text-transform:uppercase;
+  text-shadow: 1px 1px 2px black;
   color:white;
   font-family:'Roboto Condensed',sans-serif;
   /*font-weight:bold;*/
@@ -312,6 +313,7 @@ div#cog i {
   text-transform: capitalize;
   text-align:center;
   color:rgb(30,30,30);
+  text-shadow: 1px 1px 2px transparent;
 }
 .widget-item {
   display:block;

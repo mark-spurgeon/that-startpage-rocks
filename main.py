@@ -199,21 +199,40 @@ def setup_two():
     else:
         return redirect(url_for('login'))
 
-#Add websites
+#Choose a theme
 @app.route('/setup/3')
 def setup_three():
-    return redirect(url_for('setup_four'))
+    u, u_i = checkUserLoggedIn()
+    if u and u_i:
+        usr = sp_data.ExternalUser.query()
+        us = [u for u in usr if str(u.source)==str(u_i['source']) and str(u.userID)==u_i['userID']]
+        if len(us)>0:
+            #url = '/sp/{0}/{1}'.format(us[0].source,us[0].userID)
+            bg_image = us[0].backgroundImageURL
+            return render_template('setup/3.html',bg_image=bg_image)
+        else:
+            return redirect(url_for('login'))
+    else:
+        return redirect(url_for('login'))
 
-#Enjoy
+
+#Add websites
 @app.route('/setup/4')
 def setup_four():
+    return redirect(url_for('setup_five'))
+
+
+
+#Enjoy
+@app.route('/setup/5')
+def setup_five():
     u, u_i = checkUserLoggedIn()
     if u and u_i:
         usr = sp_data.ExternalUser.query()
         us = [u for u in usr if str(u.source)==str(u_i['source']) and str(u.userID)==u_i['userID']]
         if len(us)>0:
             url = '/sp/{0}/{1}'.format(us[0].source,us[0].userID)
-            return render_template('setup/4.html',url=url)
+            return render_template('setup/5.html',url=url)
         else:
             return redirect(url_for('login'))
     else:
@@ -518,7 +537,10 @@ def cfg_change_color():
         if len(us)>0:
             us[0].themeName=theme
             us[0].put()
-            return redirect(url_for('edit',message="Success! You've changed your startpage's theme.")+"#theme")
+            if request.cookies.has_key('first-login') and request.cookies.get('first-login')==str(True):
+                return redirect(url_for('setup_four'))
+            else:
+                return redirect(url_for('edit',message="Success! You've changed your startpage's theme.")+"#theme")
         else:
             return redirect(url_for('edit'))
     else:
