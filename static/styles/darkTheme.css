@@ -112,15 +112,18 @@ div#app-view.searching {
 }
 .app-item:hover {
   border-color: rgb(30,30,30);
+  box-shadow:none;
 }
 .app-item:active {
   background-color: rgba(30,30,30,0.1);
   border-color: rgb(30,30,30);
+  box-shadow:none;
 }
 .app-item img {
 }
 .app-item p {
   color:rgb(30,30,30);
+  text-shadow: none;
 }
 
 

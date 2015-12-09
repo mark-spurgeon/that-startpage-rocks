@@ -1,0 +1,26 @@
+<html>
+<head>
+  <title>FIREFOX ADDON STARTPAGE</title>
+  <link href="/static/styles/main.css" rel="stylesheet" type="text/css">
+  <link href="/static/styles/darkTheme.css" rel="stylesheet" type="text/css">
+  <link href="/static/styles/firefox_addon.css" rel="stylesheet" type="text/css">
+  <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Roboto+Condensed:700,400' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+  <script src='main.js'></script>
+</head>
+<body style='overflow-y:auto;'>
+    {% for a in apps %}
+    <a  class='app-item' onclick="openTab('{{a.url}}')" href='{{a.url}}' target="_blank">
+      {% if a.icon.startswith('/') or a.icon.startswith('http') %}
+        <img src='{{a.icon}}'>
+        {% else %}
+        <div class='letter' style='background-color:{{a.bg_color}}'>
+          <p>{{a.display_name[0]}}</p>
+        </div>
+      {% endif %}
+      <p>{{a.display_name}}</p>
+    </a>
+    {% endfor %}
+</body>
+</html>

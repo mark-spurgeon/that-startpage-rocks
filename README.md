@@ -1,7 +1,7 @@
 ## That Startpage Rocks
 
 A simple and quick startpage that lets you access your favourite websites as well as the most famous services, all that with just a click or few keywords. It's a perfect replacement to the default startpage on your browser.  
-[Check out the website !](http://startpage-1072.appspot.com)
+[Check out the website !](http://that.startpage.rocks)
 
 That Startpage Rocks (formely 'The Startpage') is released under the GNU LGPL v3 license. The website is hosted on Google App Engine and is written in Python, using the [Flask](http://flask.pocoo.org) microframework. Of course, there is fair use of HTML and Javascript, as well as JQuery, for the web interface.
 
@@ -12,7 +12,7 @@ _In a few words: Simplicity, Speed, Productivity, Beauty, Delight_
 
 #### Add your favourite websites
 
-Like you would expect, add your favourite websites to your startpage. Thanks to our [[scalable]](http://startpage-1072.appspot.com/icons) icon repository, your apps have beautifully sharp icons.
+Like you would expect, add your favourite websites to your startpage. Thanks to our [[scalable]](http://that.startpage.rocks/icons) icon repository, your apps have beautifully sharp icons.
 
 #### Search famous websites
 

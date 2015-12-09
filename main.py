@@ -147,6 +147,30 @@ def sp(source,user):
     else:
         abort(404)
 
+@app.route('/firefox_addon/<source>/<user>')
+def sp_firefox_addon(source,user):
+    sp_l = sp_data.ExternalUser.query()
+    u  =  [u for u in sp_l if str(u.source)==source and str(u.userID) == str(user)]
+    if len(u)>0:
+        theme = u[0].themeName
+        apps = u[0].linksList
+        apps = sorted(apps, key=lambda k: k['position'])
+        a_list = []
+        for a in apps :
+            if a['icon'].startswith('icon:'):
+                ur  = a['icon'].replace('icon:','')
+                a['icon']='/icons/get?url='+ur
+        img_url =  str(u[0].backgroundImageURL)+"=s0"#"http://startpage-1072.appspot.com/image/"+str(u[0].backgroundImageKey)
+        #md = markdown.Markdown()
+        title = u[0].spTitle #Markup(md.convert(u[0].spTitle))
+        manifest_url = "http://startpage-1072.appspot.com/manifest/{0}/{1}".format(u[0].source,u[0].userID)
+
+        resp = make_response(render_template('sp_firefox_addon.html',title=title,apps=apps, theme=theme,img=img_url,manifest=manifest_url))
+        resp.set_cookie('first-login',str(False))
+        return resp
+    else:
+        abort(404)
+
 @app.route('/manifest/<source>/<user>')
 def sp_manifest(source,user):
     sp_l = sp_data.ExternalUser.query()
