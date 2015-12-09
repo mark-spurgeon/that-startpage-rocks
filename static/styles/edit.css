@@ -1,18 +1,13 @@
 body {
   background-color:white;
   font-family:'Roboto Condensed',serif;
-  background:repeating-linear-gradient(
-    45deg,
-    white,
-    rgb(230,230,230) 2px,
-    white 2px,
-    white 10px
-    )
+  background:white;
 }
 
 div#container {
   margin-left:auto;
   margin-right:auto;
+  margin-top:80px;
   width:1024px;
   height:90%;
   height:512px;
@@ -23,8 +18,10 @@ div#container {
   color:rgb(30,30,30);
   border-style:solid;
   border-width:0px;
-  border-top-width:3px;
+  border-top-width:0px;
+  padding:2px;
   border-color:rgb(30,30,30);
+  background-color:#F4D03F;
   margin:10px;
   width:200px;
 }
@@ -101,7 +98,8 @@ div#edit-panel {
   border-style: solid;
   border-width: 0px;
   border-bottom-width: 3px;
-  border-color:rgb(60,60,60)
+  border-color:rgb(60,60,60);
+  padding:2px;
 }
 
 div#edit-panel p {color:white;margin:15px;font-size:1.2em;}

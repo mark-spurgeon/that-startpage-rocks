@@ -21,7 +21,7 @@ class ExternalUser(ndb.Model):
     username = ndb.StringProperty()
     userID = ndb.StringProperty()
     thumbnail = ndb.StringProperty()
-
+    email = ndb.StringProperty()
     linksList = ndb.JsonProperty(default=defaultAppList, indexed=False)
 
     spTitle = ndb.StringProperty(default='The Startpage')

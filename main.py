@@ -24,13 +24,12 @@ import markdown
 
 import uuid
 
-
 import app_list
 from plugins import plugins1 as plugins
 import sp_data
 
 app = Flask(__name__)
-app.config['DEBUG'] = True
+app.config['DEBUG'] = False
 app.secret_key = str(uuid.uuid4())
 
 # Note: We don't need to call run() since our application is embedded within
@@ -702,6 +701,7 @@ def getUserInfoGoogle(credentials):
         print_exc()
     if user_info_ and user_info_.get('id'):
         print user_info_
+        userInfo['email']=user_info_['email']
         userInfo['source']='google'
         userInfo['username']=user_info_['name']
         userInfo['picture']=user_info_['picture']
@@ -713,6 +713,7 @@ def getUserInfoFacebook(cred):
     try:
         user_info['source']='facebook'
         user_info['username']=cred['name']
+        user_info['email']=cred['email']
         user_info['picture']=cred['picture']['data']['url']
         user_info['id']=str(cred['id'])
     except:
@@ -739,7 +740,7 @@ def oauth2callback():
 
     flow = client.flow_from_clientsecrets(
         'client_secrets.json',
-        scope='https://www.googleapis.com/auth/userinfo.profile',
+        scope='https://www.googleapis.com/auth/userinfo.email',
         redirect_uri=flask.url_for('oauth2callback', _external=True))
     if 'code' not in flask.request.args:
         auth_uri = flow.step1_get_authorize_url()
@@ -754,11 +755,12 @@ def oauth2callback():
         l = sp_data.ExternalUser.query()
         g_user = [f for f in l if f.source=='google' and f.userID==u["id"] ]
         if len(g_user)>0:
+            g_user[0].email=u['email']
             g_user[0].thumbnail=u['picture']
             g_user[0].put()
         else:
             signup=True
-            fb = sp_data.ExternalUser(source='google', userID=u['id'],username=u['username'],thumbnail=u['picture'])
+            fb = sp_data.ExternalUser(source='google', userID=u['id'],username=u['username'],thumbnail=u['picture'], email=u['email'])
             fb.put()
         resp = make_response(flask.redirect(flask.url_for('edit')))
         resp.set_cookie('ext-user', u['id'])
@@ -775,11 +777,14 @@ def auth_login_fb():
 @app.route('/oauth2callback-fb')
 def oauth2callback_fb():
 
+    from plugins import apikeys
+    fb_key=apikeys.keys['facebook']
+
     signup=False
 
 
     if 'code' not in flask.request.args and 'token' not in flask.request.args:
-        auth_uri = "https://www.facebook.com/dialog/oauth?client_id=153041951709457&scope=public_profile&redirect_uri=http://startpage-1072.appspot.com/oauth2callback-fb"
+        auth_uri = "https://www.facebook.com/dialog/oauth?client_id=153041951709457&scope=public_profile,email&redirect_uri=http://that.startpage.rocks/oauth2callback-fb"
         return flask.redirect(auth_uri)
     elif 'code' in flask.request.args:
         auth_code = flask.request.args.get('code')
@@ -788,7 +793,7 @@ def oauth2callback_fb():
         expired=False
         #get tokens
         try:
-            app_token_uri = '''https://graph.facebook.com/v2.4/oauth/access_token?client_id=153041951709457&redirect_uri=http://startpage-1072.appspot.com/oauth2callback-fb&client_secret=41c6a4277b9d0dba15428c139d99bf68&grant_type=client_credentials'''
+            app_token_uri = '''https://graph.facebook.com/v2.4/oauth/access_token?client_id=153041951709457&redirect_uri=http://that.startpage.rocks/oauth2callback-fb&client_secret={0}&grant_type=client_credentials'''.format(fb_key)
             h = httplib2.Http()
             r, content = h.request(app_token_uri, "GET")
             app_tok = json.loads(content)
@@ -796,8 +801,8 @@ def oauth2callback_fb():
             expired=True
             #not correct, but it's allright for now
         try:
-            token_uri = '''https://graph.facebook.com/v2.4/oauth/access_token?client_id=153041951709457&redirect_uri=http://startpage-1072.appspot.com/oauth2callback-fb&client_secret=41c6a4277b9d0dba15428c139d99bf68&code={}
-            '''.format(auth_code)
+            token_uri = '''https://graph.facebook.com/v2.4/oauth/access_token?client_id=153041951709457&redirect_uri=http://that.startpage.rocks/oauth2callback-fb&client_secret={0}&code={1}
+            '''.format(fb_key,auth_code)
             r2, content2 = h.request(token_uri, "GET")
             tok = json.loads(content2)
         except:
@@ -812,7 +817,7 @@ def oauth2callback_fb():
                 dat = json.loads(content3)
                 if "data" in dat and "user_id" in dat['data']:
                     #get user data
-                    data_uri= 'https://graph.facebook.com/{0}?access_token={1}&fields=name,id,picture'.format(dat['data']['user_id'],app_tok['access_token'])
+                    data_uri= 'https://graph.facebook.com/{0}?access_token={1}&fields=name,id,picture,email'.format(dat['data']['user_id'],app_tok['access_token'])
                     r4, content4 = h.request(data_uri, "GET")
                     data = json.loads(content4)
 
@@ -823,11 +828,12 @@ def oauth2callback_fb():
                     l = sp_data.ExternalUser.query()
                     fb_user = [f for f in l if f.source=='facebook' and f.userID==u['id'] ]
                     if len(fb_user)>0:
+                        fb_user[0].email=u['email']
                         fb_user[0].thumbnail=u['picture']
                         fb_user[0].put()
                     else:
                         signup=True
-                        fb = sp_data.ExternalUser(source='facebook', userID=data['id'],username=data['name'],thumbnail=u['picture'])
+                        fb = sp_data.ExternalUser(source='facebook', userID=data['id'],username=data['name'],thumbnail=u['picture'], email=u['email'])
                         fb.put()
                     resp = make_response(flask.redirect(flask.url_for('edit')))
                     resp.set_cookie('ext-user', u['id'])
@@ -839,7 +845,6 @@ def oauth2callback_fb():
                     return flask.redirect(flask.url_for('auth_login'))
             except:
                 print_exc()
-                print ""
                 return flask.redirect(flask.url_for('auth_login_fb'))
         elif expired ==True:
             print "expired"

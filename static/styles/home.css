@@ -4,6 +4,7 @@ body {
   padding:0px;
   overflow:auto;
   font-size:1.2em;
+  background-color:white !important;
 }
 h1,h2,p {
   color:rgb(30,30,30)

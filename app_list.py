@@ -1,5 +1,3 @@
-# Copyright 2015 Mark Spurgeon
-
 appList = [
         {'url':'http://www.youtube.com',
         'icon':'http://startpage-1072.appspot.com/static/icons/youtube-logo.png',

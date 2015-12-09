@@ -5,13 +5,7 @@ body {
   -o-background-size: cover;
   background-size: cover;
   font-family:'Roboto Condensed',serif;
-  background:repeating-linear-gradient(
-    45deg,
-    white,
-    rgb(230,230,230) 2px,
-    white 2px,
-    white 10px
-    )
+  background:#ececec
 }
 
 div#container {
@@ -37,13 +31,12 @@ div#logo img {
 div#login {
   margin:0 auto;
   width: 340px;
-  height:140px;
+  height:135px;
   padding:5px;
   background-color:white;
   border-style:solid;
   border-width:0px;
   border-top-width:3px;
-  box-shadow:0px 0px 1px #888888;
 }
 
 input {

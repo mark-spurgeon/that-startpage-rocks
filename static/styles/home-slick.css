@@ -1,0 +1,91 @@
+.slideshow-container {
+  background-color:rgb(30,30,30);
+}
+.slideshow {
+  background-color:rgb(30,30,30);
+  position:relative;
+  width:90%;
+  margin:0 auto;
+}
+
+.slick-slide {
+  transition:opacity .2s;
+  background-size:cover;
+  background-position: center;
+  height:500px;
+  width:700px;
+  opacity: .66;
+}
+.slick-current {
+  opacity: 1;
+}
+.slick-prev, .slick-next {
+  position:absolute;
+  top:50%;
+  border-style: solid;
+  border-width:1px;
+  border-color:rgba(30,30,30,0.3);
+  background-color:#F4D03F;
+  text-transform: uppercase;
+  font-family: 'Roboto Condensed',Arial,sans-serif;
+  font-weight: bold;
+  font-style: italic;
+}
+.slick-prev {
+  left:-50px;
+  z-index:100;
+}
+.slick-next {
+  right:-50px;
+  z-index:101;
+}
+.slick-dots {
+
+  width:140px;
+  margin:2 auto;
+}
+.slick-dots li {
+  display:inline;
+}
+.slick-dots li button {
+  border-style: solid;
+  border-width:1px;
+  border-color:rgba(30,30,30,0.3);
+  background-color:transparent;
+  color:#F4D03F;
+  font-family: 'Roboto Condensed',Arial,sans-serif;
+  font-weight: bold;
+  font-style: italic;
+}
+.slick-dots .slick-active button {
+  color:rgb(30,30,30);
+  background-color: #F4D03F;
+}
+
+.pres {
+  text-transform: uppercase;
+  font-family: 'Roboto Condensed',Arial,sans-serif;
+  font-weight: bold;
+  color:white;
+  background-color:rgb(30,30,30);
+  font-size:1.6em;
+  font-style: italic;
+  margin-left:40px;
+  position:absolute;
+  bottom:10px;
+  padding:6px;
+  z-index:200;
+  width:400px;
+}
+.pres.yellow {
+  background-color: #F4D03F;
+  color:rgb(30,30,30)
+}
+.pres.white {
+  background-color: white;
+  color:rgb(30,30,30);
+}
+.pres.dark {
+  background: rgb(30,30,30);
+  color:#F4D03F;
+}

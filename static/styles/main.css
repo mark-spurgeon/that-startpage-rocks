@@ -16,7 +16,7 @@
 }
 
 body {
-  background: url('/static/bg11.jpg') center center fixed;
+  background-color:rgb(30,30,30);
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;

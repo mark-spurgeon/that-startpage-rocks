@@ -18,7 +18,6 @@
 
 
 body {
-  background: url('/static/bg10.jpg') center center fixed;
   background-color:white;
   -webkit-background-size: cover;
   -moz-background-size: cover;
@@ -73,6 +72,11 @@ div#search-panel.searching {
 }
 div#search-results {
   color:white;
+  background-color:rgb(30,30,30) !important;
+}
+div#search-results.searching {
+  color:white;
+  background-color:rgb(30,30,30)
 }
 div#search-message {
   color:white;
