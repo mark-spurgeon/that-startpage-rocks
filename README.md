@@ -34,7 +34,7 @@ Change your startpage's title, colour theme, and background image, with the edit
 
 ## Contribute
 
-Please submit bugs if you find some:) If you've got new web services that you'd like me to add, please do also submit a bug.
+Please [submit bugs](https://github.com/the-duck/that-startpage-rocks/issues/new) if you find some:) If you've got new web services that you'd like me to add, please do also submit a bug.
 
 ## Authors
 

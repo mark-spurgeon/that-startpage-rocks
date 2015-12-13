@@ -135,10 +135,18 @@ h1,h2,p {
 
 @media screen and (max-width: 800px) {
   #about {
-    width:500px;
+    width:100%;
+    margin:0px;
   }
   #right-panel{
     display:none;
   }
-
+  .slideshow-container {display:none !important;}
+}
+@media screen and (max-width: 600px) {
+  #container {
+    width:100% !important;
+  }
+  #edit-btn {display: none;}
+  #signup-btn {display: none;}
 }

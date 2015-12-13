@@ -25,6 +25,17 @@ body {
   overflow-y: hidden;
 }
 
+code {
+  background-color:rgb(40,40,40);
+  border-radius:3px;
+  padding:3px;
+  margin:2px;
+  color:white;
+  border-style:solid;
+  border-width:1px;
+  border-color:rgb(50,50,50)
+}
+
 .middle {
   position: relative;
   top:50%;

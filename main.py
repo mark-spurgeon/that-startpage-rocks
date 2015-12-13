@@ -80,22 +80,22 @@ def browsers():
     return render_template('browsers.html')
 @app.route('/browsers/firefox')
 def browsers_f():
-    return redirect(url_for("browsers"))
+    return render_template('browsers/firefox.html')
 @app.route('/browsers/chrome')
 def browsers_c():
-    return redirect(url_for("browsers"))
+    return render_template('browsers/chrome.html')
 @app.route('/browsers/safari')
 def browsers_s():
-    return redirect(url_for("browsers"))
+    return render_template('browsers/safari.html')
 @app.route('/browsers/ie')
 def browsers_e():
-    return redirect(url_for("browsers"))
+    return render_template('browsers/ie.html')
 @app.route('/browsers/opera')
 def browsers_o():
-    return redirect(url_for("browsers"))
+    return render_template('browsers/opera.html')
 @app.route('/browsers/other')
 def browsers_other():
-    return redirect(url_for("browsers"))
+    return render_template('browsers/other.html')
 @app.route('/login')
 def login():
     u, u_i = checkUserLoggedIn()
@@ -145,6 +145,31 @@ def sp(source,user):
         return resp
     else:
         abort(404)
+
+@app.route('/<id_>')
+def sp_short(id_):
+    sp_l = sp_data.ExternalUser.query()
+    u  =  [u for u in sp_l if str(u.key.id()) == str(id_)]
+    if len(u)>0:
+        theme = u[0].themeName
+        apps = u[0].linksList
+        apps = sorted(apps, key=lambda k: k['position'])
+        a_list = []
+        for a in apps :
+            if a['icon'].startswith('icon:'):
+                ur  = a['icon'].replace('icon:','')
+                a['icon']='/icons/get?url='+ur
+        img_url =  str(u[0].backgroundImageURL)+"=s0"#"http://startpage-1072.appspot.com/image/"+str(u[0].backgroundImageKey)
+        #md = markdown.Markdown()
+        title = u[0].spTitle #Markup(md.convert(u[0].spTitle))
+        manifest_url = "http://startpage-1072.appspot.com/manifest/{0}/{1}".format(u[0].source,u[0].userID)
+
+        resp = make_response(render_template('sp.html',title=title,apps=apps, theme=theme,img=img_url,manifest=manifest_url))
+        resp.set_cookie('first-login',str(False))
+        return resp
+    else:
+        abort(404)
+
 
 @app.route('/firefox_addon/<source>/<user>')
 def sp_firefox_addon(source,user):
@@ -254,7 +279,7 @@ def setup_five():
         usr = sp_data.ExternalUser.query()
         us = [u for u in usr if str(u.source)==str(u_i['source']) and str(u.userID)==u_i['userID']]
         if len(us)>0:
-            url = '/sp/{0}/{1}'.format(us[0].source,us[0].userID)
+            url = 'http://that.startpage.rocks/{}'.format(us[0].key.id())
             return render_template('setup/5.html',url=url)
         else:
             return redirect(url_for('login'))
@@ -281,12 +306,13 @@ def edit():
                 if a['icon'].startswith('icon:'):
                     ur  = a['icon'].replace('icon:','')
                     a['icon']='/icons/get?url='+ur
+            linkUrl = "http://that.startpage.rocks/"+str(us[0].key.id())
             uploadUri = blobstore.create_upload_url('/config/upload-bg')
 
             if request.cookies.has_key('first-login') and request.cookies.get('first-login')==str(True):
                 return redirect(url_for('setup_one'))
             else:
-                return render_template('edit.html', user=u_i, upload_bg=uploadUri, title = title, img = img, theme= theme, apps = apps,message=msg)
+                return render_template('edit.html', user=u_i, upload_bg=uploadUri, title = title, img = img, theme= theme, apps = apps,linkUrl=linkUrl, message=msg)
     else:
         return redirect(url_for('login'))
 
@@ -360,7 +386,11 @@ def cfg_add_website():
             if not img_url:
 
 
-                d = par.find('link',attrs={'rel':'icon','sizes':'96x96'})
+                d = par.find('link',attrs={'rel':'icon','sizes':'128x128'})
+                if not d:
+                    d = par.find('link',attrs={'rel':'icon','sizes':'96x96'})
+                if not d:
+                    d = par.find('link',attrs={'rel':'icon','sizes':'64x64'})
                 if not d:
                     d = par.find('link',attrs={'rel':'icon','sizes':'48x48'})
                 if not d:

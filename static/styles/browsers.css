@@ -1,11 +1,18 @@
 body {
   overflow:auto;
+  color:rgb(30,30,30) !important;
+}
+a {
+  color:#4183D7 ;
+}
+a:active {
+  color:#22313F ;
 }
 .browser-link {
   display:block;
   font-size:2em;
   background-color:rgb(30,30,30);
-  color:rgb(220,220,220);
+  color:rgb(220,220,220) !important;
   padding:30px;
   text-decoration:none;
   margin:5px;
@@ -14,13 +21,13 @@ body {
 }
 .browser-link:hover {
   background-color:rgb(40,40,40);
-  color:white;
+  color:white !important;
 }
 .browser-link.default {
   color:rgb(30,30,30);
   background-color:#F4D03F;
 }
 .browser-link.default:hover {
-  color:black;
+  color:black !important;
   background-color:#F4D03F;
 }

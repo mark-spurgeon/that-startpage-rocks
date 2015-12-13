@@ -3,6 +3,10 @@
   <title>That Startpage Rocks - A Simple & Beautiful Startpage</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- Missing icon -->
+ <link rel="icon" href="/static/icons/app/tsr-16.png" type="image/png" sizes="16x16">
+ <link rel="icon" href="/static/icons/app/tsr-32.png" type="image/png" sizes="32x32">
+ <link rel="icon" href="/static/icons/app/tsr-64.png" type="image/png" sizes="64x64">
+ <link rel="icon" href="/static/icons/app/tsr-128.png" type="image/png" sizes="128x128">
   <meta property="og:image" content=""/>
 	<meta property="og:title" content="That Startpage Rocks"/>
 	<meta property="og:url" content="http://startpage-1072.appspot.com"/>
@@ -14,7 +18,7 @@
   <meta name="description" content="A simple and quick startpage that lets you access your favourite websites as well as the most famous services, all that with just a click or few keywords. It's a perfect replacement to the default startpage on your browser.">
   <meta name="google-site-verification" content="OrYyrm5tXp4_lAYfyVIzfguo3L_5I-uzZSnoEqGEsiA" />
   <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
-  <link href='https://fonts.googleapis.com/css?family=Roboto Condensed' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Roboto+Condensed:700,400' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
   <script src="/static/js/jquery-2.1.3.min.js"></script>
   <link href="/static/styles/main.css" rel="stylesheet" type="text/css">
@@ -52,10 +56,10 @@ $(document).ready(function(){
     <div id='icon-block'>
       <img src='/static/icons/tsr.svg' />
     </div>
-    <a class='h-icon' href='/signup' itemscope itemtype="http://schema.org/SoftwareApplication">
+    <a class='h-icon' href='/signup' itemscope itemtype="http://schema.org/SoftwareApplication" id='signup-btn'>
       <img itemprop="image" src='/static/icons/signup.svg' />
     </a>
-    <a class='h-icon' href='/edit'>
+    <a class='h-icon' href='/edit' id='edit-btn'>
       <img src='/static/icons/login.svg' />
     </a>
     <a class='h-icon' href='https://github.com/the-duck/that-startpage-rocks'>
@@ -65,16 +69,16 @@ $(document).ready(function(){
 
   <div class='slideshow-container'>
   <div class="slideshow">
-    <div style='background-image:url(/static/images/bg1.png)'>
+    <div style='background-image:url(/static/images/bg1_small.png)'>
       <p class='pres yellow'>Start on the web</br> with your own startpage.</p>
     </div>
-    <div style='background-image:url(/static/images/bg2.png)'>
+    <div style='background-image:url(/static/images/bg2_small.png)'>
       <p class='pres dark'>Quickly find content</br> from many web services.</p>
     </div>
-    <div style='background-image:url(/static/images/bg3.png)'>
+    <div style='background-image:url(/static/images/bg3_small.png)'>
     <p class='pres yellow'>Customize your startpage </br> with our editor.</p>
     </div>
-    <div style='background-image:url(/static/images/bg4.png)'>
+    <div style='background-image:url(/static/images/bg4_small.png)'>
       <p class='pres white'>Coming soon...</br> The Firefox Addon.</p>
     </div>
   </div>
@@ -108,7 +112,7 @@ $(document).ready(function(){
       <h2>Add your favourite websites</h2>
       <p>Like you would expect, add your favourite websites to your startpage. Thanks to our <a href='/icons'>icon repository</a>, your apps have beautifully sharp icons.</p>
       <h2>Search famous websites</h2>
-      <p>Our very special search engine lets you quickly find content from major web services. It works a little bit like a command line. For instance, if you'd like to search a youtube video, just type `youtube` followed by a query. You'll then get realtime results, linking directly to videos.</p>
+      <p>Our very special search engine lets you quickly find content from major web services. It works a little bit like a command line. For instance, if you'd like to search a youtube video, just type <code>youtube</code> followed by a query. You'll then get realtime results, linking directly to videos.</p>
 
       <p><i>Here are all the supported web services :</i></p>
       <p>
@@ -126,7 +130,7 @@ $(document).ready(function(){
       <p>Change your startpage's look and feel with our simple interface, which lets you choose a colour theme, change your startpage's name or change your startpage's background.</p>
       <a class="signup-icon" href="/signup">Create Your Startpage → </a>
       <h2>Contribute</h2>
-      <p>Please <a href="https://github.com/the-duck/that-startpage-rocks">submit bugs</a> if you find some:) If you've got new web services that you'd like us to add, please do also submit a bug.</p>
+      <p>Please <a href="https://github.com/the-duck/that-startpage-rocks/issues/new">submit bugs</a> if you find some:) If you've got new web services that you'd like us to add, please do also submit a bug.</p>
       </div>
     </div>
   </div>
