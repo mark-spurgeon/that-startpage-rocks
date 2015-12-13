@@ -1,3 +1,5 @@
+![Screenshot of That Startpage Rocks](http://that.startpage.rocks/static/images/bg1.png)
+
 ## That Startpage Rocks
 
 A simple and quick startpage that lets you access your favourite websites as well as the most famous services, all that with just a click or few keywords. It's a perfect replacement to the default startpage on your browser.  
@@ -34,7 +36,7 @@ Change your startpage's title, colour theme, and background image, with the edit
 
 ## Contribute
 
-Please [submit bugs](https://github.com/the-duck/that-startpage-rocks/issues/new) if you find some:) If you've got new web services that you'd like me to add, please do also submit a bug.
+Please [submit a bug](https://github.com/the-duck/that-startpage-rocks/issues/new) if you find one. If you've got new web services that you'd like me to add, please do also submit a bug. Other ideas or questions are also welcome.
 
 ## Authors
 

@@ -24,7 +24,7 @@ a:active {
   color:white !important;
 }
 .browser-link.default {
-  color:rgb(30,30,30);
+  color:rgb(30,30,30) !important;
   background-color:#F4D03F;
 }
 .browser-link.default:hover {
