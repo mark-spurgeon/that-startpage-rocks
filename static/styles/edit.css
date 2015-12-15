@@ -92,7 +92,7 @@ div#edit-panel {
   float:left;
   display:block;
   width:200px;
-  height:460px;
+  height:400px;
   box-shadow: 1px 1px 0px 0px rgba(10,10,10,0.1);
   background-color:rgb(30,30,30);
   border-style: solid;
@@ -103,7 +103,14 @@ div#edit-panel {
 }
 
 div#edit-panel p {color:white;margin:15px;font-size:1.2em;}
-
+hr {
+  display: block;
+  height: 1px;
+  border: 0;
+  border-top: 1px solid #F4D03F;
+  margin: 1em 0;
+  padding: 0;
+}
 .usr-link {
   padding:3px;
   color:#F4D03F;
@@ -117,6 +124,21 @@ a {
   color:white;
 }
 a:active {color:rgb(230,230,230)}
+
+code {
+  display: inline-block;
+  background-color:rgb(40,40,40);
+  border-radius:3px;
+  padding:3px;
+  margin:2px;
+  color:#F4D03F;
+  border-style:solid;
+  border-width:1px;
+  border-color:rgb(50,50,50);
+  width:150px;
+  overflow-x:scroll;
+  line-height:1;
+}
 
 div#search-results {
   margin:0px;
@@ -226,6 +248,7 @@ div#app-view.searching {
   padding:20px;
   font-size:1.5em;
   font-family: 'Roboto Condensed',sans-serif;
+  cursor:pointer;
 }
 #edit-add-website:hover {
   background-color:rgb(60,60,60)
@@ -233,7 +256,7 @@ div#app-view.searching {
 #edit-apply-website {
   background-color:rgb(30,30,30);;
   text-transform:uppercase;
-  color:white;
+  color:rgb(200,200,200);
   width:100%;
   border-style:solid;
   border-width:0px;
@@ -243,9 +266,17 @@ div#app-view.searching {
   font-size:1.5em;
   font-family: 'Roboto Condensed',sans-serif;
   margin-bottom:10px;
+  cursor:pointer;
 }
 #edit-apply-website:hover {
   background-color:rgb(60,60,60)
+}
+#edit-apply-website.do-apply {
+  color:white;
+  background-color:rgb(80,180,80);
+}
+#edit-apply-website.do-apply:hover {
+  background-color:rgb(90,190,90);
 }
 
 #bg-theme {
@@ -255,6 +286,7 @@ div#app-view.searching {
 #apps_list {
   background-color:rgb(30,30,30);
   padding:50px;
+  padding-bottom:5px;
   margin-bottom:0px;
 }
 #notification {
@@ -326,6 +358,22 @@ li {
   background-size: contain;
   overflow:hidden;
 }
+
+.handle {
+  transition: background-color .2s, color .2s  ;
+  font-size:16px;
+  padding:14px;
+  padding-right:18px;
+  color:transparent;
+  background-color:rgba(0,0,0,0);
+  cursor:grab;
+}
+.web-icon:hover .handle {
+  color:white;
+  background-color:rgba(0,0,0,0.6);
+}
+
+
 .btn-remove-website {
   padding:2px;
   text-decoration: none;

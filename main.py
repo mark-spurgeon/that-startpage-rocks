@@ -5,8 +5,7 @@ import flask
 from flask import Flask
 from flask import g, make_response, request, current_app,send_from_directory,render_template,redirect,url_for, Markup, Response, session, Markup
 from werkzeug import parse_options_header
-
-from google.appengine.api import search
+from flask.ext.cache import Cache
 
 from traceback import print_exc
 
@@ -20,7 +19,6 @@ from apiclient import discovery
 from oauth2client import client
 import httplib2
 import json
-import markdown
 
 import uuid
 
@@ -31,6 +29,8 @@ import sp_data
 app = Flask(__name__)
 app.config['DEBUG'] = False
 app.secret_key = str(uuid.uuid4())
+cache = Cache(app,config={'CACHE_TYPE': 'gaememcached'})
+
 
 # Note: We don't need to call run() since our application is embedded within
 # the App Engine WSGI application server.
@@ -297,7 +297,7 @@ def edit():
         usr = sp_data.ExternalUser.query()
         us = [u for u in usr if str(u.source)==str(u_i['source']) and str(u.userID)==u_i['userID']]
         if len(us)>0:
-            img = "/image/"+str(us[0].backgroundImageKey)
+            img = us[0].backgroundImageURL+"=s0"
             theme =  us[0].themeName
             title =  us[0].spTitle
             apps = us[0].linksList
@@ -354,6 +354,10 @@ def cfg_add_website():
 
 
     url  = request.form.get('url')
+    if url.startswith('http://') or url.startswith('https://'):
+        pass
+    else:
+        url = "http://"+url
     title = ""#request.args.get('title')
 
 
@@ -648,7 +652,14 @@ def cfg_change_apps_order():
 ####
 # Search Functio
 ####
+def make_cache_key(*args, **kwargs):
+    path = request.path
+    args = str(hash(frozenset(request.args.items())))
+    lang = get_locale()
+    return (path + args + lang).encode('utf-8')
+
 @app.route('/search')
+@cache.cached(timeout=7200, key_prefix=make_cache_key)
 def search_():
     query = request.args['q']
     f, resp = plugins.pluginFilter(query)

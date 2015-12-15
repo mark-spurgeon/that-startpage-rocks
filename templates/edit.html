@@ -112,12 +112,16 @@
 
     {% endif %}
       <h1 id='sp-title'>EDIT YOUR STARTPAGE</h1>
-      <div id='search-div'>
-      </div>
       <div id='edit-panel'>
-        <p>You are logged in as <i>{{user.username}}</i></p>
-        <p><a class="usr-link" href='{{linkUrl}}'>This </a> is the link to your startpage. </p>
-        <p><a class='usr-link' href='/logout'>Logout</a></p>
+        <h2 style='color:white;padding:2px;margin:15px;'>Welcome back, {{user.username}}</h2>
+        <p>This is the link to your <a class="usr-link" href='{{linkUrl}}'>startpage</a> :</p>
+        <p><code>{{linkUrl}}</code></p>
+        <hr/>
+        <p>Add your startpage to your <a class='usr-link' href='/browsers'>browser</a> to really make that startpage rock !</p>
+        <hr/>
+        <div style='margin:0px;'>
+          <p><a href='/logout' style='color:rgb(100,100,100)'>logout</a></p>
+        </div>
       </div>
       <div id='app-view'>
         <div style="background:url('{{img}}')" id='edit-bg' >
@@ -147,14 +151,14 @@
       </form>
     </div>
     <div id='edit-title'>
-      <p id='apps'>Modify Apps</p>
-      <button value="add-website" onclick='addWebsite()' id='edit-add-website'>+ Add App</button>
+      <p id='apps'>Modify Bookmarks</p>
+      <button value="add-website" onclick='addWebsite()' id='edit-add-website'>+ Add Bookmark</button>
       <ul class="sortable" id='apps_list'>
         {% for a in  apps %}
         <li class='website-item' data-position={{a.position}} >
           <table width="100%">
           <tr>
-            <td style='width:20px'><div class='web-icon' style="background-image:url('{{a.icon}}')"></div></td>
+            <td style='width:20px'><div class='web-icon' style="background-image:url('{{a.icon}}')"><i class='fa fa-bars handle' title='Move bookmark' ></i></div></td>
             <td style='width:80px' class='web-display-name'>{{a.display_name}}<button class='btn-edit-title' value='edit' onclick='changeDisplayName(this.parentNode.parentNode.parentNode.parentNode.parentNode)'><i class='fa fa-pencil'></i></button></td>
             <td style='width:100px' class='web-url'>{{a.url}}</td>
             <td style='width:15px' class='web-url'><a href='/config/delete-website?website={{a.position}}' class='btn-remove-website'>X</a></td>
@@ -171,10 +175,10 @@
           handle:'.web-icon'
         });
         $('.sortable').sortable().bind('sortupdate', function(e, ui) {
-          console.log(ui);
-          console.log(ui.item.context.dataset.position);
           //Triggered when the user stopped sorting and the DOM position has changed.
           console.log('Changed');
+          var d = document.getElementById('edit-apply-website');
+          d.className='do-apply';
         });
       </script>
   </div>
