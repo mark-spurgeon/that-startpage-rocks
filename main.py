@@ -171,10 +171,10 @@ def sp_short(id_):
         abort(404)
 
 
-@app.route('/firefox_addon/<source>/<user>')
-def sp_firefox_addon(source,user):
+@app.route('/firefox_addon/<id_>')
+def sp_firefox_addon(id_):
     sp_l = sp_data.ExternalUser.query()
-    u  =  [u for u in sp_l if str(u.source)==source and str(u.userID) == str(user)]
+    u  =  [u for u in sp_l if str(u.key.id()) == str(id_)]
     if len(u)>0:
         theme = u[0].themeName
         apps = u[0].linksList
@@ -194,7 +194,9 @@ def sp_firefox_addon(source,user):
         return resp
     else:
         abort(404)
-
+@app.route('/firefox_addon_setup')
+def sp_firefox_addon_setup():
+    return render_template('sp_firefox_addon_setup.html')
 @app.route('/manifest/<source>/<user>')
 def sp_manifest(source,user):
     sp_l = sp_data.ExternalUser.query()

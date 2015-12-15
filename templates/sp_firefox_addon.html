@@ -1,15 +1,15 @@
 <html>
 <head>
   <title>FIREFOX ADDON STARTPAGE</title>
-  <link href="/static/styles/main.css" rel="stylesheet" type="text/css">
-  <link href="/static/styles/darkTheme.css" rel="stylesheet" type="text/css">
-  <link href="/static/styles/firefox_addon.css" rel="stylesheet" type="text/css">
-  <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
   <link href='https://fonts.googleapis.com/css?family=Roboto+Condensed:700,400' rel='stylesheet' type='text/css'>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-  <script src='main.js'></script>
+  <link href="http://that.startpage.rocks/static/styles/firefox_addon.css" rel="stylesheet" type="text/css">
+  <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">-->
 </head>
-<body style='overflow-y:auto;'>
+<body>
+  <div id='header'>
+    <h1 style='color:black;margin-left:4px;;'>{{title}}</h1>
+  </div>
+    <div id='app-view'>
     {% for a in apps %}
     <a  class='app-item' onclick="openTab('{{a.url}}')" href='{{a.url}}' target="_blank">
       {% if a.icon.startswith('/') or a.icon.startswith('http') %}
@@ -22,5 +22,6 @@
       <p>{{a.display_name}}</p>
     </a>
     {% endfor %}
+  </div>
 </body>
 </html>
