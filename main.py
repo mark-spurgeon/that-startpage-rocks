@@ -184,7 +184,10 @@ def sp_firefox_addon(id_):
             if a['icon'].startswith('icon:'):
                 ur  = a['icon'].replace('icon:','')
                 a['icon']='/icons/get?url='+ur
-        img_url =  str(u[0].backgroundImageURL)+"=s0"#"http://startpage-1072.appspot.com/image/"+str(u[0].backgroundImageKey)
+        if u[0].backgroundImageURL:
+            img_url =  str(u[0].backgroundImageURL)+"=s0"#"http://startpage-1072.appspot.com/image/"+str(u[0].backgroundImageKey)
+        else:
+            img_url=''
         #md = markdown.Markdown()
         title = u[0].spTitle #Markup(md.convert(u[0].spTitle))
         manifest_url = "http://startpage-1072.appspot.com/manifest/{0}/{1}".format(u[0].source,u[0].userID)
@@ -299,7 +302,10 @@ def edit():
         usr = sp_data.ExternalUser.query()
         us = [u for u in usr if str(u.source)==str(u_i['source']) and str(u.userID)==u_i['userID']]
         if len(us)>0:
-            img = us[0].backgroundImageURL+"=s0"
+            if us[0].backgroundImageURL:
+                img = us[0].backgroundImageURL+"=s0"
+            else:
+                img=''
             theme =  us[0].themeName
             title =  us[0].spTitle
             apps = us[0].linksList
@@ -670,6 +676,20 @@ def search_():
     elif f=='not-found':
         return jsonResponse({'status':'ok','responseType':'plugins-available','results':resp})
 
+
+@app.route('/emails')
+def emails():
+    a = request.args.get('key')
+    if a:
+
+        from plugins import apikeys
+        if str(a)==str(apikeys.keys['self']):
+            l = [e.email for e in sp_data.ExternalUser.query() if e.email!=None]
+            return jsonResponse({'status':'ok','emails':l})
+        else:
+            return jsonResponse({'status':'error', 'details':'key is not valid'})
+    else:
+        return jsonResponse({'status':'error', 'details':"please add a 'key' argument with the right key.."})
 @app.route('/customsearch_xml')
 def customsearch():
     return render_template('customsearch.html')
