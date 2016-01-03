@@ -29,8 +29,8 @@
       <h1 id='sp-title'>{{title}}</h1>
       <div id='search-div'>
         <div id='search-bar'>
-          <form action='http://www.google.com/search' method='get' style='margin:0px;padding:0px'>
-            <input type='text' id='search-input' name='q' placeholder='Type to search' onkeyup='searchFunction(this.value)' autocomplete='off' autofocus></input>
+          <form action='{{searchEngineURL}}' method='get' style='margin:0px;padding:0px'>
+            <input type='text' id='search-input' name='{{searchEngineArg_search}}' placeholder='Type to search' onkeyup='searchFunction(this.value)' autocomplete='off' autofocus></input>
             <button type='submit' value=' ' tabindex="100"></button>
           </form>
         </div>
@@ -38,7 +38,7 @@
     </div>
       <div id='search-panel'>
         <div id='search-results' ></div>
-        <div id='search-message' ><p>Press Enter to search <span style='color:#0266C8'>Google</span></p></div>
+        <div id='search-message' ><p>Press Enter to search <span style='color:#0266C8'>{{searchEngine}}</span></p></div>
       </div>
       <div id='app-view'>
         <!--<a class='widget-item' href='/'>

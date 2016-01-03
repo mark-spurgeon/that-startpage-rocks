@@ -24,6 +24,7 @@ import uuid
 
 import app_list
 from plugins import plugins1 as plugins
+from plugins import browsers as sp_browsers
 import sp_data
 
 app = Flask(__name__)
@@ -63,10 +64,6 @@ def info():
 @app.route('/sitemap')
 def index_sitemap():
     return render_template('sitemap.html')
-
-@app.route('/old')
-def index_old():
-    return render_template('the-index.html')
 
 @app.route('/features')
 def features():
@@ -124,47 +121,42 @@ def imag(bkey):
 ###
 @app.route('/sp/<source>/<user>')
 def sp(source,user):
-    sp_l = sp_data.ExternalUser.query()
-    u  =  [u for u in sp_l if str(u.source)==source and str(u.userID) == str(user)]
-    if len(u)>0:
-        theme = u[0].themeName
-        apps = u[0].linksList
-        apps = sorted(apps, key=lambda k: k['position'])
-        a_list = []
-        for a in apps :
-            if a['icon'].startswith('icon:'):
-                ur  = a['icon'].replace('icon:','')
-                a['icon']='/icons/get?url='+ur
-        img_url =  str(u[0].backgroundImageURL)+"=s0"#"http://startpage-1072.appspot.com/image/"+str(u[0].backgroundImageKey)
-        #md = markdown.Markdown()
-        title = u[0].spTitle #Markup(md.convert(u[0].spTitle))
-        manifest_url = "http://startpage-1072.appspot.com/manifest/{0}/{1}".format(u[0].source,u[0].userID)
-
-        resp = make_response(render_template('sp.html',title=title,apps=apps, theme=theme,img=img_url,manifest=manifest_url))
-        resp.set_cookie('first-login',str(False))
-        return resp
-    else:
-        abort(404)
+    return redirect(url_for('edit'))
 
 @app.route('/<id_>')
 def sp_short(id_):
     sp_l = sp_data.ExternalUser.query()
     u  =  [u for u in sp_l if str(u.key.id()) == str(id_)]
     if len(u)>0:
-        theme = u[0].themeName
-        apps = u[0].linksList
+        user = u[0]
+        theme = user.themeName
+        apps = user.linksList
         apps = sorted(apps, key=lambda k: k['position'])
         a_list = []
         for a in apps :
             if a['icon'].startswith('icon:'):
                 ur  = a['icon'].replace('icon:','')
                 a['icon']='/icons/get?url='+ur
-        img_url =  str(u[0].backgroundImageURL)+"=s0"#"http://startpage-1072.appspot.com/image/"+str(u[0].backgroundImageKey)
+        img_url =  str(user.backgroundImageURL)+"=s0"#"http://startpage-1072.appspot.com/image/"+str(u[0].backgroundImageKey)
         #md = markdown.Markdown()
-        title = u[0].spTitle #Markup(md.convert(u[0].spTitle))
-        manifest_url = "http://startpage-1072.appspot.com/manifest/{0}/{1}".format(u[0].source,u[0].userID)
+        title = user.spTitle #Markup(md.convert(u[0].spTitle))
+        manifest_url = "http://startpage-1072.appspot.com/manifest/{0}/{1}".format(user.source,user.userID)
 
-        resp = make_response(render_template('sp.html',title=title,apps=apps, theme=theme,img=img_url,manifest=manifest_url))
+        #search browser
+        if not user.searchBrowser:
+            user.searchBrowser = 'google'
+            user.put()
+        if user.searchBrowser in sp_browsers.browserOptions:
+            se = user.searchBrowser
+        else:
+            se = sp_browsers.defaultBrowser
+        se_info = sp_browsers.browsers[se]
+        searchEngine = user.searchBrowser
+        searchEngineURL = se_info['url']
+        searchEngineArg_search = se_info['#search']
+
+
+        resp = make_response(render_template('sp.html',title=title,apps=apps, theme=theme,img=img_url,manifest=manifest_url,searchEngine = searchEngine,searchEngineURL =searchEngineURL,searchEngineArg_search=searchEngineArg_search))
         resp.set_cookie('first-login',str(False))
         return resp
     else:
@@ -300,7 +292,7 @@ def edit():
     u, u_i = checkUserLoggedIn()
     if u and u_i:
         usr = sp_data.ExternalUser.query()
-        us = [u for u in usr if str(u.source)==str(u_i['source']) and str(u.userID)==u_i['userID']]
+        us = [ue for ue in usr if str(ue.source)==str(u_i['source']) and str(ue.userID)==u_i['userID']]
         if len(us)>0:
             if us[0].backgroundImageURL:
                 img = us[0].backgroundImageURL+"=s0"
@@ -317,10 +309,13 @@ def edit():
             linkUrl = "http://that.startpage.rocks/"+str(us[0].key.id())
             uploadUri = blobstore.create_upload_url('/config/upload-bg')
 
+            searchEngine = us[0].searchBrowser
+            searchEngineOptions = sp_browsers.browserOptions
+
             if request.cookies.has_key('first-login') and request.cookies.get('first-login')==str(True):
                 return redirect(url_for('setup_one'))
             else:
-                return render_template('edit.html', user=u_i, upload_bg=uploadUri, title = title, img = img, theme= theme, apps = apps,linkUrl=linkUrl, message=msg)
+                return render_template('edit.html', user=u_i, upload_bg=uploadUri, title = title, img = img, theme= theme, apps = apps,linkUrl=linkUrl, message=msg,searchEngine = searchEngine,searchEngineOptions = searchEngineOptions)
     else:
         return redirect(url_for('login'))
 
@@ -376,103 +371,96 @@ def cfg_add_website():
         if len(us)>0:
 
             user = us[0]
+            try:
+                #Find Webapp Image Url + Title
+                h = httplib2.Http()
+                r, content = h.request(url, "GET")
+                from BeautifulSoup import BeautifulSoup
+                par = BeautifulSoup(content)
 
-            #Find Webapp Image Url + Title
-            h = httplib2.Http()
-            r, content = h.request(url, "GET")
-            from BeautifulSoup import BeautifulSoup
-            par = BeautifulSoup(content)
+                the_title = par.find('title').string
 
-            the_title = par.find('title').string
-
-            #find icon in repo
-            img_url=None
-            icos = sp_data.appIconProposed.query()
-            for i in icos:
-                if ',' in i.domains:
-                    d_list = [ l.replace(' ','') for l in i.domains.split(',')]
-                else:
-                    d_list = [i.domains.replace(' ','')]
-                if  getDomainFromUrl(url) in d_list:
-                    img_url="icon:"+url
-            if not img_url:
-
-
-                d = par.find('link',attrs={'rel':'icon','sizes':'128x128'})
-                if not d:
-                    d = par.find('link',attrs={'rel':'icon','sizes':'96x96'})
-                if not d:
-                    d = par.find('link',attrs={'rel':'icon','sizes':'64x64'})
-                if not d:
-                    d = par.find('link',attrs={'rel':'icon','sizes':'48x48'})
-                if not d:
-                    d = par.find('link',attrs={'rel':'apple-touch-icon-precomposed'})
-                if not d:
-                    d = par.find('link',attrs={'rel':'apple-touch-icon'})
-                if not d:
-                    d = par.find('link',attrs={'rel':'icon'})
-
-                if d:
-                    static = d.get('href')
-                    if not static.startswith('http://') or not static.startswith('https://'):
-                        if static.startswith('//'):
-                            n_url = url.replace('https://','')
-                            n_url = url.replace('http://','')
-                            l  = n_url.split('/')
-                            if url.startswith('http://'):
-                                img_url = 'http://'
-                            if url.startswith('https://'):
-                                img_url = 'https://'
-
-                            for a  in l[:-1]:
-                                img_url+=a
-                            img_url+=static.replace('//','')
-                        elif static.startswith('/'):
-                            n_url = url.replace('https://','')
-                            n_url = url.replace('http://','')
-                            l  = n_url.split('/')
-                            if url.startswith('http://'):
-                                img_url = 'http://'
-                            if url.startswith('https://'):
-                                img_url = 'https://'
-                            for a  in l:
-                                img_url+=a
-                            if not img_url.endswith('/'):
-                                img_url+='/'
-                            img_url+=static[1:]
-                        else:
-                            img_url='letter'
+                #find icon in repo
+                img_url=None
+                icos = sp_data.appIconProposed.query()
+                for i in icos:
+                    if ',' in i.domains:
+                        d_list = [ l.replace(' ','') for l in i.domains.split(',')]
                     else:
-                        img_url=static
+                        d_list = [i.domains.replace(' ','')]
+                        if  getDomainFromUrl(url) in d_list:
+                            img_url="icon:"+url
+                if not img_url:
+                    d = par.find('link',attrs={'rel':'icon','sizes':'128x128'})
+                    if not d:
+                        d = par.find('link',attrs={'rel':'icon','sizes':'96x96'})
+                    if not d:
+                        d = par.find('link',attrs={'rel':'icon','sizes':'64x64'})
+                    if not d:
+                        d = par.find('link',attrs={'rel':'icon','sizes':'48x48'})
+                    if not d:
+                        d = par.find('link',attrs={'rel':'apple-touch-icon-precomposed'})
+                    if not d:
+                        d = par.find('link',attrs={'rel':'apple-touch-icon'})
+                    if not d:
+                        d = par.find('link',attrs={'rel':'icon'})
+
+                    if d:
+                        static = d.get('href')
+                        if not static.startswith('http://') or not static.startswith('https://'):
+                            if static.startswith('//'):
+                                n_url = url.replace('https://','')
+                                n_url = url.replace('http://','')
+                                l  = n_url.split('/')
+                                if url.startswith('http://'):
+                                    img_url = 'http://'
+                                if url.startswith('https://'):
+                                    img_url = 'https://'
+
+                                for a  in l[:-1]:
+                                    img_url+=a
+                                img_url+=static.replace('//','')
+                            elif static.startswith('/'):
+                                n_url = url.replace('https://','')
+                                n_url = url.replace('http://','')
+                                l  = n_url.split('/')
+                                if url.startswith('http://'):
+                                    img_url = 'http://'
+                                if url.startswith('https://'):
+                                    img_url = 'https://'
+                                for a  in l:
+                                    img_url+=a
+                                if not img_url.endswith('/'):
+                                    img_url+='/'
+                                img_url+=static[1:]
+                            else:
+                                img_url='letter'
+                        else:
+                            img_url=static
+                    else:
+                        img_url='letter'
+
+
+                #Get BG color
+                if img_url == 'letter':
+                    bg_color="#F4D03F"
                 else:
-                    img_url='letter'
-
-
-            #Get BG color
-            if img_url == 'letter':
-                #img = image_url = 'http://www.google.com/s2/favicons?domain='+url
-                #h = httplib2.Http()
-                #r, content = h.request(img, "GET")
-                #from PIL import Image
-                #i = Image.fromstring('RGB',(5,5),content)
-                #r,g,b = i.getpixel((1,1))
-                #bg_color="rgb({0},{1},{2})".format(r,g,b)
-                bg_color="#F4D03F"
-            else:
-                bg_color="rgb(30,30,30)"
-            ##
-            wa_list = user.linksList#json.loads(user.linksList)
-            print len(wa_list)+1
-            new_webapp = {'url':url,
-                        'icon':img_url,
-                        'display_name':the_title,
-                        'bg_color':bg_color,
-                        'position':len(wa_list)+1}
-            wa_list.append(new_webapp)
-            user.linksList = wa_list
-            user.put()
-            return redirect(url_for('edit',message='Success! The website has been added!')+"#apps")
-            #return jsonResponse({'status':'ok','url':url,'img':img_url,'title':the_title})
+                    bg_color="rgb(30,30,30)"
+                ##
+                wa_list = user.linksList#json.loads(user.linksList)
+                print len(wa_list)+1
+                new_webapp = {'url':url,
+                            'icon':img_url,
+                            'display_name':the_title,
+                            'bg_color':bg_color,
+                            'position':len(wa_list)+1}
+                wa_list.append(new_webapp)
+                user.linksList = wa_list
+                user.put()
+                return redirect(url_for('edit',message='Success! The website has been added!')+"#apps")
+                #return jsonResponse({'status':'ok','url':url,'img':img_url,'title':the_title})
+            except:
+                return redirect(url_for('edit',message='Error. The website does not exist !')+"#apps")
         else:
             #user not logged in
             return redirect(url_for('login'))
@@ -585,7 +573,7 @@ def cfg_del_website():
             user.linksList=new_apps
             user.put()
             #return jsonResponse({'status':'ok','results':sorted(new_apps, key=lambda k: k['position'])})
-            return redirect(url_for('edit',message='Success! The Website has been deleted.'))
+            return redirect(url_for('edit',message='Success! The Website has been deleted.')+"#apps")
         else:
             return redirect(url_for('login'))
     else:
@@ -657,6 +645,34 @@ def cfg_change_apps_order():
             return redirect(url_for('edit',message="Error.. You are not logged in"))
     else:
         return redirect(url_for('edit',message="Error.. You are not logged in"))
+
+@app.route('/config/change-search-engine',methods=['POST'])
+def cfg_change_search_engine():
+    u, u_i = checkUserLoggedIn()
+    if u and u_i:
+        usr = sp_data.ExternalUser.query()
+        us = [u for u in usr if str(u.source)==str(u_i['source']) and str(u.userID)==u_i['userID']]
+        if len(us)>0:
+            user = us[0]
+
+            new_browser = str(request.form.get('value'))
+
+            from plugins import browsers as sp_browsers
+
+            if new_browser in sp_browsers.browserOptions:
+                user.searchBrowser = new_browser
+                user.put()
+                return redirect(url_for('edit',message="Success! You've changed you search engine.")+"#search")
+            else:
+                return redirect(url_for('edit',message="Error.. Somehow, the search engine you've chosen is not valid")+"#search")
+
+
+
+
+        else:
+            return redirect(url_for('edit',message="Error.. You are not logged in"))
+    else:
+        return redirect(url_for('edit',message="Error.. You are not logged in"))
 ####
 # Search Functio
 ####
@@ -719,11 +735,49 @@ def add_icon():
     blob_key = parsed_header[1]['blob-key']
     theKey =BlobKey(blob_key)
     theDomains = domainlist.split(',')
+    theParsedDomains = []
+    from plugins import domains
+    for dom in theDomains:
+        newdo = domains.parseDomain(dom)
+        if newdo!=None:
+            theParsedDomains.append(newdo)
+    if len(theParsedDomains)>0:
+        domainslist = ""
+        for do in theParsedDomains:
+            domainslist+=do+","
+        newDomain = sp_data.appIconProposed(domains=domainlist, imageKey=theKey, imageURL=images.get_serving_url(blob_key))
+        newDomain.put()
+        return redirect(url_for('icons'))
+    else:
+        return redirect(url_for('icons'))
+'''
+@app.route('/icons/reset')
+def reset_icons():
+    from plugins import domains
+    a = sp_data.appIconProposed.query()
+    all_icons = []
+    for i in a :
 
-    newDomain = sp_data.appIconProposed(domains=domainlist, imageKey=theKey, imageURL=images.get_serving_url(blob_key))
-    newDomain.put()
-    return redirect(url_for('icons'))
+        dom = [a.replace(' ',"") for a in i.domains.split(',')]
+        new_dom = ""
+        for d in dom:
+            new = domains.parseDomain(d)
+            if new!=None:
+                new_dom+=new
+                new_dom+=","
+            else:
+                pass
+            all_icons.append(new_dom[:-1])
+        if new_dom!='':
+            i.domains = new_dom[:-1]
+            i.put()
+        else:
+            i.key.delete()
+
+    return jsonResponse({'status':'ok',"results":all_icons})
+'''
 @app.route('/icons/get')
+@cache.cached(timeout=7200, key_prefix=make_cache_key)
 def get_icon():
     domain = request.args.get('url')
     s = sp_data.appIconProposed.query()
@@ -782,7 +836,17 @@ def getUserInfoFacebook(cred):
     except:
         user_info=None
     return user_info
-
+def getUserInfoGithub(cred):
+    user_info = {}
+    try:
+        user_info['source']='github'
+        user_info['username']=cred['name']
+        user_info['email']=cred['email']
+        user_info['picture']=cred['avatar_url']
+        user_info['id']=str(cred['id'])
+    except:
+        user_info=None
+    return user_info
 @app.route("/login-google")
 def auth_login():
     if 'ext-user' not in flask.session:
@@ -825,9 +889,15 @@ def oauth2callback():
             signup=True
             fb = sp_data.ExternalUser(source='google', userID=u['id'],username=u['username'],thumbnail=u['picture'], email=u['email'])
             fb.put()
+
+        # expiration date
+        import datetime
+        expire_date = datetime.datetime.now()
+        expire_date = expire_date + datetime.timedelta(days=90)
+        #
         resp = make_response(flask.redirect(flask.url_for('edit')))
-        resp.set_cookie('ext-user', u['id'])
-        resp.set_cookie('ext-user-s',u['source'])
+        resp.set_cookie('ext-user', u['id'],expires=expire_date)
+        resp.set_cookie('ext-user-s',u['source'],expires=expire_date)
         resp.set_cookie('first-login',str(signup))
         return resp
 
@@ -898,9 +968,15 @@ def oauth2callback_fb():
                         signup=True
                         fb = sp_data.ExternalUser(source='facebook', userID=data['id'],username=data['name'],thumbnail=u['picture'], email=u['email'])
                         fb.put()
+
+                    # expiration date
+                    import datetime
+                    expire_date = datetime.datetime.now()
+                    expire_date = expire_date + datetime.timedelta(days=90)
+                    #
                     resp = make_response(flask.redirect(flask.url_for('edit')))
-                    resp.set_cookie('ext-user', u['id'])
-                    resp.set_cookie('ext-user-s',u['source'])
+                    resp.set_cookie('ext-user', u['id'],expires=expire_date)
+                    resp.set_cookie('ext-user-s',u['source'],expires=expire_date)
                     resp.set_cookie('first-login',str(signup))
                     return resp
                 else:
@@ -914,6 +990,176 @@ def oauth2callback_fb():
             return flask.redirect(flask.url_for('auth_login_fb'))
     elif 'token' in flask.request.args:
         return flask.request.args['token']
+#twitter
+@app.route("/login-twit")
+def auth_login_twit():
+    if 'ext-user' not in flask.session:
+        return flask.redirect(flask.url_for('oauth2callback_twit'))
+
+    return redirect(flask.url_for('auth_logout'))
+@app.route('/oauth2callback-twit')
+def oauth2callback_twit():
+
+    from plugins import apikeys
+
+    twit_key=apikeys.keys['twitter']
+    twit_sec_key=apikeys.keys['twitter_secret']
+    twit_token=apikeys.keys['twitter_token']
+    twit_sec_token=apikeys.keys['twitter_secret_token']
+    signup=False
+
+
+    if 'code' not in flask.request.args and 'token' not in flask.request.args:
+        import httplib2
+        import urllib
+        oauth="http%3A%2F%2Fbeta-dot-that-startpage.appspot.com%2Foauth2callback-twit"
+        auth_uri = "https://api.twitter.com/oauth/request_token"
+        h = httplib2.Http()
+        data = urllib.urlencode({'oauth_callback':oauth,"oauth_consumer_key":twit_key,"oauth_token":twit_token})
+        headers = {"Content-type": "application/x-www-form-urlencoded", "Accept": "text/plain"}
+        r, content = h.request(auth_uri, "POST", data,headers)
+        return content
+        #return flask.redirect(auth_uri,code=307)
+    elif 'code' in flask.request.args:
+        auth_code = flask.request.args.get('code')
+
+        #e
+        expired=False
+        #get tokens
+        try:
+            app_token_uri = '''https://graph.facebook.com/v2.4/oauth/access_token?client_id=153041951709457&redirect_uri=http://that.startpage.rocks/oauth2callback-fb&client_secret={0}&grant_type=client_credentials'''.format(fb_key)
+            h = httplib2.Http()
+            r, content = h.request(app_token_uri, "GET")
+            app_tok = json.loads(content)
+        except:
+            expired=True
+            #not correct, but it's allright for now
+        try:
+            token_uri = '''https://graph.facebook.com/v2.4/oauth/access_token?client_id=153041951709457&redirect_uri=http://that.startpage.rocks/oauth2callback-fb&client_secret={0}&code={1}
+            '''.format(fb_key,auth_code)
+            r2, content2 = h.request(token_uri, "GET")
+            tok = json.loads(content2)
+        except:
+            expired=True #now that's accurate
+
+        if expired == False:
+            try:
+                #verify token
+                print tok, app_tok
+                dat_uri = 'https://graph.facebook.com/debug_token?input_token={0}&access_token={1}'.format(tok['access_token'],app_tok['access_token'])
+                r3, content3 = h.request(dat_uri, "GET")
+                dat = json.loads(content3)
+                if "data" in dat and "user_id" in dat['data']:
+                    #get user data
+                    data_uri= 'https://graph.facebook.com/{0}?access_token={1}&fields=name,id,picture,email'.format(dat['data']['user_id'],app_tok['access_token'])
+                    r4, content4 = h.request(data_uri, "GET")
+                    data = json.loads(content4)
+
+                    #This is a user!!!!!
+                    u = getUserInfoFacebook(data)
+                    flask.session['ext-user']= str(u['id'])
+                    flask.session['ext-user-s']=u['source']
+                    l = sp_data.ExternalUser.query()
+                    fb_user = [f for f in l if f.source=='facebook' and f.userID==u['id'] ]
+                    if len(fb_user)>0:
+                        fb_user[0].email=u['email']
+                        fb_user[0].thumbnail=u['picture']
+                        fb_user[0].put()
+                    else:
+                        signup=True
+                        fb = sp_data.ExternalUser(source='facebook', userID=data['id'],username=data['name'],thumbnail=u['picture'], email=u['email'])
+                        fb.put()
+
+                    # expiration date
+                    import datetime
+                    expire_date = datetime.datetime.now()
+                    expire_date = expire_date + datetime.timedelta(days=90)
+                    #
+                    resp = make_response(flask.redirect(flask.url_for('edit')))
+                    resp.set_cookie('ext-user', u['id'],expires=expire_date)
+                    resp.set_cookie('ext-user-s',u['source'],expires=expire_date)
+                    resp.set_cookie('first-login',str(signup))
+                    return resp
+                else:
+                    print "no data"
+                    return flask.redirect(flask.url_for('auth_login'))
+            except:
+                print_exc()
+                return flask.redirect(flask.url_for('auth_login_fb'))
+        elif expired ==True:
+            print "expired"
+            return flask.redirect(flask.url_for('auth_login_fb'))
+    elif 'token' in flask.request.args:
+        return flask.request.args['token']
+
+#github
+@app.route("/login-github")
+def auth_login_gh():
+    if 'ext-user' not in flask.session:
+        return flask.redirect(flask.url_for('oauth2callback_github'))
+
+    return redirect(flask.url_for('auth_logout'))
+@app.route('/oauth2callback-github')
+def oauth2callback_github():
+
+    from plugins import apikeys
+
+    git_client_id="5ad12c1688855215b4ad"
+    git_client_secret="4eaafce79dceb55c06d0a938f2033d0830cbdff8"
+    signup=False
+    oauth="https://beta-dot-that-startpage.appspot.com/oauth2callback-github"
+
+    if 'code' not in flask.request.args and 'token' not in flask.request.args:
+        #import random,string
+        #N=5
+        #ran =''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(N))
+        auth_uri = "https://github.com/login/oauth/authorize?client_id={0}&redirect_uri={1}&scope=user".format(git_client_id,oauth)
+        return redirect(auth_uri)
+        #return flask.redirect(auth_uri,code=307)
+    elif 'code' in flask.request.args:
+        code = flask.request.args.get('code')
+        auth_uri = "https://github.com/login/oauth/access_token?client_id={0}&redirect_uri={1}&code={2}&client_secret={3}".format(git_client_id,oauth,code,git_client_secret)
+        print auth_uri
+        import httplib2
+        h = httplib2.Http()
+        r, content = h.request(auth_uri, "GET")
+        if content:
+            new = "https://api.github.com/user?"+content
+            h = httplib2.Http()
+            r, content = h.request(new, "GET")
+            if content:
+                data = json.loads(content)
+                #This is a user!!!!!
+                u = getUserInfoGithub(data)
+                flask.session['ext-user']= str(u['id'])
+                flask.session['ext-user-s']=u['source']
+                l = sp_data.ExternalUser.query()
+                fb_user = [f for f in l if f.source=='github' and f.userID==u['id'] ]
+                if len(fb_user)>0:
+                    fb_user[0].email=u['email']
+                    fb_user[0].thumbnail=u['picture']
+                    fb_user[0].put()
+                else:
+                    signup=True
+                    fb = sp_data.ExternalUser(source='github', userID=u['id'],username=u['username'],thumbnail=u['picture'], email=u['email'])
+                    fb.put()
+
+                # expiration date
+                import datetime
+                expire_date = datetime.datetime.now()
+                expire_date = expire_date + datetime.timedelta(days=90)
+                #
+                resp = make_response(flask.redirect(flask.url_for('edit')))
+                resp.set_cookie('ext-user', u['id'],expires=expire_date)
+                resp.set_cookie('ext-user-s',u['source'],expires=expire_date)
+                resp.set_cookie('first-login',str(signup))
+                return resp
+
+            else:
+                return redirect(url_for('login'))
+        else:
+            return redirect(url_for('login'))
+
 @app.route("/logout")
 def auth_logout():
     if 'ext-user' in flask.session:

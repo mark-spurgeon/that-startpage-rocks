@@ -2,6 +2,8 @@
 
 from google.appengine.ext import ndb
 
+from plugins import browsers
+
 defaultAppList = [
         {'url':'http://www.youtube.com',
         'icon':'icon:http://www.youtube.com',
@@ -26,6 +28,7 @@ class ExternalUser(ndb.Model):
 
     spTitle = ndb.StringProperty(default='The Startpage')
     themeName = ndb.StringProperty(default='dark')
+    searchBrowser = ndb.StringProperty(default=browsers.defaultBrowser)
     backgroundImageKey = ndb.BlobKeyProperty()
     backgroundImageURL = ndb.StringProperty()
 class appIconProposed(ndb.Model):

@@ -1,8 +1,8 @@
 .slideshow-container {
-  background-color:rgb(30,30,30);
+  background-color:white;
 }
 .slideshow {
-  background-color:rgb(30,30,30);
+  background-color:white;
   position:relative;
   width:90%;
   margin:0 auto;
@@ -50,14 +50,15 @@
 .slick-dots li button {
   border-style: solid;
   border-width:1px;
-  border-color:rgba(30,30,30,0.3);
+  border-color:transparent;
   background-color:transparent;
   color:#F4D03F;
   font-family: 'Roboto Condensed',Arial,sans-serif;
   font-weight: bold;
-  font-style: italic;
+  margin:4px;
 }
 .slick-dots .slick-active button {
+  border-color:rgba(30,30,30,0.3);
   color:rgb(30,30,30);
   background-color: #F4D03F;
 }

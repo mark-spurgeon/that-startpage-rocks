@@ -132,6 +132,14 @@
           </form>
         </div>
 
+        <div id='edit-title'>
+          <p id='title'>Change Startpage Title</p>
+        <form id='bg-theme' action='/config/change-title' enctype="multipart/form-data" method='post'>
+          <input type='text' name='title' value='{{title}}'></input>
+          <input type='submit' value="Change Title"></input>
+        </form>
+      </div>
+
         <div id='edit-theme'>
           <p id='theme'>Change Color Theme</p>
         <form id='bg-theme' action='/config/change-theme' enctype="multipart/form-data" method='post'>
@@ -142,12 +150,15 @@
           <input type='submit' value="Change Theme"></input>
         </form>
       </div>
-
-      <div id='edit-title'>
-        <p id='title'>Change Startpage Title</p>
-      <form id='bg-theme' action='/config/change-title' enctype="multipart/form-data" method='post'>
-        <input type='text' name='title' value='{{title}}'></input>
-        <input type='submit' value="Change Title"></input>
+      <div id='edit-theme'>
+        <p id='theme'>Change Search Engine</p>
+      <form id='bg-theme' action='/config/change-search-engine' enctype="multipart/form-data" method='post'>
+        <select name='value' selected='{{searchEngine}}'>
+          {% for se in searchEngineOptions %}
+          <option value="{{se}}" {% if searchEngine == se %}selected{% endif %}>{{se | capitalize}}</option>
+          {%endfor%}
+        </select>
+        <input type='submit' value="Change Search Engine"></input>
       </form>
     </div>
     <div id='edit-title'>

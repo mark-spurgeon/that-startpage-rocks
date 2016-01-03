@@ -1,5 +1,5 @@
 application: that-startpage
-version: 1
+version: beta
 runtime: python27
 api_version: 1
 threadsafe: yes
@@ -24,6 +24,6 @@ libraries:
   version: "0.15"
 - name: PIL
   version: "1.1.7"
-  
+
 builtins:
 - remote_api: on
