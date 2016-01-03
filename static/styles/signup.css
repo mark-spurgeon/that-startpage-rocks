@@ -1,13 +1,83 @@
 body {
-  background: url('/static/images/home.jpg') center center fixed;
+  border-width: 0px;
+  border-style:solid;
+  border-top-width: 3px;
+  border-color:#F4D03F;
+  background: url('/static/images/crowd-1056764_1280.jpg') center center fixed;
+  color:white;
+  font-family: "Roboto Condensed", Arial, sans-serif;
 }
-div#logo {
+#filter {
+  padding:0px;
+  margin:0px;
+  background-color:rgba(10,10,20,0.6);
+  height:100%;
+}
+h1 {
+  text-transform: uppercase;
+  color:white;
+  font-style: italic;
+}
+p {
+  color:white;
+  padding:15px;
+}
+a {
+  color:#F4D03F;
+}
+div#container {
+  width:720px;
+  margin:60px auto;
+  height:400px;
+  border-radius: 3px;
+}
+div#left-block {
+  margin:0px;
+  margin-right:10px;
+  padding:0px;
   width:400px;
+  height:400px;
+  float:left;
+  border-style: dashed;
+  border-width: 0px;
+  border-right-width: 1px;
+  border-color:white;
 }
-div#logo img {
-  margin-left:120px;
+div#right-block {
+  margin:0px;
+  padding:0px;
+  width:300px;
+  height:400px;
+  float:right;
 }
-div#login {
-  width:400px;
-  height:300px ;
+
+.login-btn{
+  margin:10px;
+  width:280px;
+  padding:15px;
+  color:rgb(30,30,30);
+  border-style: solid;
+  border-width:1px;
+  border-color:rgba(30,30,30,0.5);
+  border-radius: 3px;
+  text-decoration: none;
+  background-color:white;
+  background:linear-gradient(white, rgb(240,240,240));
+}
+.login-btn:hover {
+  background:linear-gradient(white, rgb(230,230,230));
+}
+.login-btn.google{
+  color:white;
+  background:linear-gradient(#dd4b39,#d14736);
+}
+.login-btn.google:hover{
+  background:linear-gradient(#dd4b39,#c44333);
+}
+.login-btn.facebook{
+  color:white;
+  background:linear-gradient(#3B5998,#36528c);
+}
+.login-btn.facebook:hover{
+  background:linear-gradient(#3B5998,#314b80);
 }

@@ -1,4 +1,8 @@
 body {
+  border-width: 0px;
+  border-style:solid;
+  border-top-width: 3px;
+  border-color:#F4D03F;
   color:rgb(30,30,30);
   margin:0px;
   padding:0px;
@@ -86,7 +90,6 @@ h1,h2,p {
   color:rgb(30,30,30)
 }
 #right-panel a:hover {
-  background-color:rgb(30,30,30);
   color:#F4D03F;
 }
 .signup-icon {

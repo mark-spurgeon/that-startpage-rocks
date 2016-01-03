@@ -64,7 +64,12 @@ def info():
 @app.route('/sitemap')
 def index_sitemap():
     return render_template('sitemap.html')
-
+@app.route('/terms')
+def tos():
+    return render_template("tos.html")
+@app.route('/privacy')
+def privacy():
+    return render_template("privacy.html")
 @app.route('/features')
 def features():
     return redirect(url_for("index"))

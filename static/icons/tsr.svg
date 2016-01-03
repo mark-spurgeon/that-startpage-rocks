@@ -25,9 +25,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="7.919596"
-     inkscape:cx="31.910711"
-     inkscape:cy="53.658815"
+     inkscape:zoom="2.8"
+     inkscape:cx="231.17385"
+     inkscape:cy="29.548187"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -158,5 +158,17 @@
            height="102.85714"
            x="25"
            y="-14.214286" /></flowRegion><flowPara
-         id="flowPara4152" /></flowRoot>  </g>
+         id="flowPara4152" /></flowRoot>    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="18.814091"
+       y="1026.2245"
+       id="text4160"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4162"
+         x="18.814091"
+         y="1026.2245"
+         style="-inkscape-font-specification:'Roboto Condensed, Bold';font-family:'Roboto Condensed';font-weight:bold;font-style:normal;font-stretch:normal;font-variant:normal;font-size:40px;text-anchor:start;text-align:start;writing-mode:lr;line-height:125%">LEARN MORE &gt;</tspan></text>
+  </g>
 </svg>
