@@ -32,20 +32,6 @@
 <script type="text/javascript">
 $(document).ready(function(){
 
-  if (typeof String.prototype.startsWith != 'function') {
-    // see below for better implementation!
-    String.prototype.startsWith = function (str){
-    return this.indexOf(str) === 0;
-    };
-  };
-
-  if (window.location.href.startsWith('http://startpage-1072.appspot.com') ) {
-      $(location).attr('href', 'http://that.startpage.rocks')
-  };
-  if (window.location.href.startsWith('http://startpage.rocks') ) {
-      $(location).attr('href', 'http://that.startpage.rocks')
-  };
-
   $('.slideshow').slick({
     centerMode:true,
     dots:true
@@ -55,6 +41,22 @@ $(document).ready(function(){
 
 </head>
 <body>
+  <script>
+  if (typeof String.prototype.startsWith != 'function') {
+    // see below for better implementation!
+    String.prototype.startsWith = function (str){
+    return this.indexOf(str) === 0;
+    };
+  };
+
+  /*if (window.location.href.startsWith('http://startpage-1072.appspot.com') ) {
+      $(location).attr('href', 'http://that.startpage.rocks/signup')
+  };
+  if (window.location.href.startsWith('http://startpage.rocks') ) {
+      $(location).attr('href', 'http://that.startpage.rocks/signup')
+  };*/
+  </script>
+
   <div id='header'>
     <div id='icon-block'>
       <img src='/static/icons/tsr.svg' />
@@ -89,8 +91,12 @@ $(document).ready(function(){
 
   <div id='container'>
     <div id='right-panel'>
+    <script src="//static.getclicky.com/js" type="text/javascript"></script>
+    <script type="text/javascript">try{ clicky.init(100912894); }catch(e){}</script>
+    <noscript><p><img alt="Clicky" width="1" height="1" src="//in.getclicky.com/100912894ns.gif" /></p></noscript>
+
       <h1>Free & Open Source</h1>
-      <p> It's totally free, there's not even ads. The software is licensed under the GNU LGPL v3 license, meaning that it's open source. </p>
+      <p> <i>That Startpage Rocks</i> is licensed under the GNU LGPL v3 license, meaning that it's open source. </p>
       <p><a href="https://github.com/the-duck/that-startpage-rocks">Here's</a> the source code hosted on Github.</p>
       <h1>Quick & Easy to set up</h1>
       <p>Just a few steps to make that startpage your own.
@@ -128,12 +134,24 @@ $(document).ready(function(){
           <li><i>.. And more !</i></li>
         </ul>
       </p>
+
+      <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- kbb_banner -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:728px;height:90px"
+     data-ad-client="ca-pub-5263514922826121"
+     data-ad-slot="5374489896"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
       <h2>Customize your startpage</h2>
       <p>Change your startpage's look and feel with our simple interface, which lets you choose a colour theme, change your startpage's name or change your startpage's background.</p>
       <a class="signup-icon" href="/signup">Create Your Startpage → </a>
       <h2>Contribute</h2>
       <p>Please <a href="https://github.com/the-duck/that-startpage-rocks/issues/new">submit bugs</a> if you find some:) If you've got new web services that you'd like us to add, please do also submit a bug.</p>
       </div>
+
     </div>
   </div>
   <script>
@@ -147,6 +165,7 @@ $(document).ready(function(){
   ga('send', 'pageview');
 
   </script>
+
 </body>
 
 </html>

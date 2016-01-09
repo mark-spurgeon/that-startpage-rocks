@@ -218,7 +218,7 @@ div#edit-panel {
 }
 div#edit-panel:hover {
   width:300px;
-  height:100px;
+  height:40px;
   background-color:white;
 }
 div#cog {
@@ -248,6 +248,9 @@ div#cog i {
   margin:5px;
   margin-top:10px;
   text-decoration: none;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-family: "Roboto Condensed";
 }
 .edit-panel-link:hover{
   text-decoration: underline;
@@ -265,18 +268,18 @@ div#cog i {
   text-decoration:none;
   border-style:solid;
   border-width:0px;
-  border-bottom-width:1px;
+  border-bottom-width:0px;
   border-color:transparent;
+  border-radius: 2px;
   outline:none;
-  box-shadow: 0 2px 2px -2px transparent;
 }
 .app-item:hover {
   border-color:white;
-  box-shadow: 0 2px 2px -2px black;
+  background-color: rgba(255,255,255,0.1);
 }
 .app-item:active {
   outline:none;
-  background-color: rgba(255,255,255,0.1)
+  background-color: rgba(255,255,255,0.2)
 }
 .app-item img {
   margin-left:15px;
@@ -498,4 +501,31 @@ div#cog i {
     margin-top:10px;
   }
 
+}
+
+@media screen and (max-width: 600px) {
+  body {
+    margin:0px;
+    padding:0px;
+  }
+  #container {
+    width:100% !important;
+    margin:0px;
+    margin-top:0px !important;
+  }
+  div#search-panel{display:none}
+  div#search-results{display:none}
+  div#search-message{display:none}
+  div#app-view{
+    width:100%;
+    margin:0px;
+    bottom:0px;
+    height:90%;
+  }
+  div#search-bar{display: none}
+  div#app-view.searching{
+    width:100%;
+    height:90%;
+    margin:0px;
+  }
 }

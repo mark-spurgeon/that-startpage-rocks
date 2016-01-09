@@ -110,12 +110,15 @@ div#app-view.searching {
 }
 
 .app-item {
+  border-bottom-width: 1px;
   border-color:transparent;
+  border-radius: 0px;
 }
 .app-item:focus {
 }
 .app-item:hover {
   border-color: rgb(30,30,30);
+  background-color: transparent;
   box-shadow:none;
 }
 .app-item:active {

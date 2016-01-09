@@ -52,6 +52,10 @@ def jsonResponse(json_dict):
 
 @app.route('/')
 def index():
+    #return redirect(url_for("signup"))
+    return render_template('index.html')
+@app.route('/home')
+def homepage():
     return render_template('index.html')
 @app.route('/_data_info')
 def info():
@@ -130,10 +134,10 @@ def sp(source,user):
 
 @app.route('/<id_>')
 def sp_short(id_):
-    sp_l = sp_data.ExternalUser.query()
-    u  =  [u for u in sp_l if str(u.key.id()) == str(id_)]
-    if len(u)>0:
-        user = u[0]
+    #sp_l = sp_data.ExternalUser.query()
+    sp_item = sp_data.ExternalUser.get_by_id(int(id_))
+    if sp_item:
+        user = sp_item
         theme = user.themeName
         apps = user.linksList
         apps = sorted(apps, key=lambda k: k['position'])
@@ -170,24 +174,24 @@ def sp_short(id_):
 
 @app.route('/firefox_addon/<id_>')
 def sp_firefox_addon(id_):
-    sp_l = sp_data.ExternalUser.query()
-    u  =  [u for u in sp_l if str(u.key.id()) == str(id_)]
-    if len(u)>0:
-        theme = u[0].themeName
-        apps = u[0].linksList
+    sp_item = sp_data.ExternalUser.get_by_id(int(id_))
+    if sp_item:
+        user=sp_item
+        theme = user.themeName
+        apps = user.linksList
         apps = sorted(apps, key=lambda k: k['position'])
         a_list = []
         for a in apps :
             if a['icon'].startswith('icon:'):
                 ur  = a['icon'].replace('icon:','')
                 a['icon']='/icons/get?url='+ur
-        if u[0].backgroundImageURL:
-            img_url =  str(u[0].backgroundImageURL)+"=s0"#"http://startpage-1072.appspot.com/image/"+str(u[0].backgroundImageKey)
+        if user.backgroundImageURL:
+            img_url =  str(user.backgroundImageURL)+"=s0"#"http://startpage-1072.appspot.com/image/"+str(u[0].backgroundImageKey)
         else:
             img_url=''
         #md = markdown.Markdown()
-        title = u[0].spTitle #Markup(md.convert(u[0].spTitle))
-        manifest_url = "http://startpage-1072.appspot.com/manifest/{0}/{1}".format(u[0].source,u[0].userID)
+        title = user.spTitle #Markup(md.convert(u[0].spTitle))
+        manifest_url = "http://startpage-1072.appspot.com/manifest/{0}/{1}".format(user.source,user.userID)
 
         resp = make_response(render_template('sp_firefox_addon.html',title=title,apps=apps, theme=theme,img=img_url,manifest=manifest_url))
         resp.set_cookie('first-login',str(False))
@@ -197,15 +201,14 @@ def sp_firefox_addon(id_):
 @app.route('/firefox_addon_setup')
 def sp_firefox_addon_setup():
     return render_template('sp_firefox_addon_setup.html')
-@app.route('/manifest/<source>/<user>')
-def sp_manifest(source,user):
-    sp_l = sp_data.ExternalUser.query()
-    u  =  [u for u in sp_l if str(u.source)==source and str(u.userID) == str(user)]
-    if len(u)>0:
-        img =   str(u[0].backgroundImageURL)+"=s0"
-        apps = u[0].to_dict()['linksList']
-        theme = u[0].themeName
-        print apps
+@app.route('/manifest/<id_>')
+def sp_manifest(id_):
+    sp_item = sp_data.ExternalUser.get_by_id(int(id_))
+    if sp_item:
+        user=sp_item
+        img =   str(user.backgroundImageURL)+"=s0"
+        apps = user.to_dict()['linksList']
+        theme = user.themeName
         resp = Response(render_template('manifest.html', img=img,apps=apps,theme=theme))
         resp.headers["Content-Type"]="text/cache-manifest"
         resp.headers["Cache-Control"]="max-age=0, no-cache, public"
@@ -706,7 +709,13 @@ def emails():
         from plugins import apikeys
         if str(a)==str(apikeys.keys['self']):
             l = [e.email for e in sp_data.ExternalUser.query() if e.email!=None]
-            return jsonResponse({'status':'ok','emails':l})
+            text = ""
+            for e in l:
+                text+="<p>"
+                text+=e
+                text+="</p>"
+                text+=" "
+            return text
         else:
             return jsonResponse({'status':'error', 'details':'key is not valid'})
     else:
@@ -1112,7 +1121,7 @@ def oauth2callback_github():
     git_client_id="5ad12c1688855215b4ad"
     git_client_secret="4eaafce79dceb55c06d0a938f2033d0830cbdff8"
     signup=False
-    oauth="https://beta-dot-that-startpage.appspot.com/oauth2callback-github"
+    oauth="http://that.startpage.rocks/oauth2callback-github"
 
     if 'code' not in flask.request.args and 'token' not in flask.request.args:
         #import random,string
