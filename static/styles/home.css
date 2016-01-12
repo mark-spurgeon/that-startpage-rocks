@@ -136,7 +136,7 @@ h1,h2,p {
   }
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 768px) {
   #about {
     width:100%;
     margin:0px;
@@ -146,7 +146,7 @@ h1,h2,p {
   }
   .slideshow-container {display:none !important;}
 }
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 480px) {
   #container {
     width:100% !important;
   }

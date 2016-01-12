@@ -396,8 +396,8 @@ def cfg_add_website():
                         d_list = [ l.replace(' ','') for l in i.domains.split(',')]
                     else:
                         d_list = [i.domains.replace(' ','')]
-                        if  getDomainFromUrl(url) in d_list:
-                            img_url="icon:"+url
+                    if  getDomainFromUrl(url) in d_list:
+                        img_url="icon:"+url
                 if not img_url:
                     d = par.find('link',attrs={'rel':'icon','sizes':'128x128'})
                     if not d:
@@ -753,13 +753,13 @@ def add_icon():
     from plugins import domains
     for dom in theDomains:
         newdo = domains.parseDomain(dom)
-        if newdo!=None:
+        if newdo!=None and newdo!=' ' and newdo!='\n':
             theParsedDomains.append(newdo)
     if len(theParsedDomains)>0:
         domainslist = ""
         for do in theParsedDomains:
             domainslist+=do+","
-        newDomain = sp_data.appIconProposed(domains=domainlist, imageKey=theKey, imageURL=images.get_serving_url(blob_key))
+        newDomain = sp_data.appIconProposed(domains=domainslist[:-1], imageKey=theKey, imageURL=images.get_serving_url(blob_key))
         newDomain.put()
         return redirect(url_for('icons'))
     else:
@@ -802,7 +802,7 @@ def get_icon():
             ap.put()
         if ',' in ap.domains:
 
-            do = [ str(a).replace(' ', '') for a in ap.domains.split(',')]
+            do = [ str(a).replace(' ', '').replace('\n', '') for a in ap.domains.split(',')]
         else:
             do= [ap.domains.replace(' ','')]
         if getDomainFromUrl(domain) in do:

@@ -200,6 +200,9 @@ div#app-view.searching {
   width:674px;
   height:70%;
 }
+div#app-view.searching .app-item {
+  margin-left:6px;
+}
 
 div#edit-panel {
   transition: width .2s, height .3s, background-color .1s;
@@ -264,6 +267,7 @@ div#cog i {
   width:94px;
   height:114px;
   margin:10px;
+  margin-left:16px;
   overflow:hidden;
   text-decoration:none;
   border-style:solid;
@@ -469,10 +473,13 @@ div#cog i {
     width:360px;
   }
   .app-item {
-    margin-left:
+    margin-left:4px;
+  }
+  div#app-view.searching .app-item {
+    margin-left:6px;
   }
 }
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 768px) {
   body {
     overflow:auto;
   }
@@ -482,6 +489,13 @@ div#cog i {
   div#app-view {
     width:460px;
   }
+  .app-item {
+    margin-left:6px;
+  }
+  div#app-view.searching .app-item {
+    margin-left:10px;
+  }
+
   div#search-panel.searching {
     width:480px;
     height:250px;
@@ -503,7 +517,7 @@ div#cog i {
 
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 480px) {
   body {
     margin:0px;
     padding:0px;
@@ -528,4 +542,13 @@ div#cog i {
     height:90%;
     margin:0px;
   }
+
+  .app-item {
+    margin-left:6px;
+  }
+  div#app-view.searching .app-item {
+    margin-left:6px;
+  }
+
+
 }
