@@ -124,6 +124,37 @@ h1,h2,p {
   overflow-y: hidden;
 }
 
+#signup-animation {
+  margin:0px;
+  padding:0px;
+  position:relative;
+  background:white;
+}
+.signup-line {
+  display: block;
+  position:absolute;
+  left:0px;
+  width:30%;
+  top:88px;
+  height:2.5px;
+  background-color:#F4D03F;
+  margin:0px;
+}
+.signup-line.right {
+  left:auto;
+  right:0px;
+}
+#signup-link {
+  display:block;
+  width:728px;
+  background-color:white;
+  margin:0 auto;
+  z-index:100;
+}
+#signup-link img {
+  margin:0px;
+}
+
 
 
 
@@ -133,6 +164,9 @@ h1,h2,p {
   }
   #right-panel {
     width:200px;
+  }
+  .signup-line {
+    width:20%;
   }
 }
 
@@ -145,6 +179,9 @@ h1,h2,p {
     display:none;
   }
   .slideshow-container {display:none !important;}
+  .signup-line {
+    width:10%
+  }
 }
 @media screen and (max-width: 480px) {
   #container {
@@ -152,4 +189,5 @@ h1,h2,p {
   }
   #edit-btn {display: none;}
   #signup-btn {display: none;}
+  #signup-animation {display:none;}
 }

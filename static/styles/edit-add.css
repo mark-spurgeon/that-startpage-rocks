@@ -1,0 +1,84 @@
+body{
+  font-family: "Roboto Condensed", Arial, sans-serif;
+  background:white !important;
+  padding:0px;
+  margin:0px;
+}
+#container {
+  width:350px !important;
+  margin: 100px auto;
+}
+#title {
+  margin:0px;
+  padding:0px;
+  background-color: #F4D03F;
+}
+#title.error {
+  background-color:rgb(240,50,40);
+}
+#title h1 {
+  margin:5px;
+  padding:0px;
+  text-transform: uppercase;
+  color:rgb(30,30,30);
+}
+#content {
+  background-color:rgb(30,30,30);
+  margin:0px;
+  padding:10px;
+  margin-top:-5px;
+}
+#content form {
+  margin:0px;
+  padding:5px;
+}
+input[type="text"] {
+  border-style:solid;
+  border-width: 0px;
+  border-bottom-width: 1px;
+  border-top-left-radius: 2px;
+  border-top-right-radius: 2px;
+  border-color:#F4D03F;
+  background-color:rgb(30,30,30);
+  opacity:.6;
+  color:white;
+  padding:15px;
+}
+input[type="text"]:focus {
+  background-color:rgb(40,40,40);
+  opacity:1;
+}
+
+input[type="submit"] {
+  font-weight: bold;
+  border-style: solid;
+  border-width: 1px;
+  border-color:rgb(10,10,10);
+  background-color:#F4D03F;
+  color:rgb(30,30,30);
+  padding:15px;
+}
+
+/*Login Buttons*/
+.login-btn-container {
+  text-align: center;
+  margin:4px auto;
+  padding:20px;
+}
+.login-btn {
+  border-style:solid;
+  border-width: 0px;
+  border-bottom-width: 1px;
+  border-top-left-radius: 2px;
+  border-top-right-radius: 2px;
+  border-color:#F4D03F;
+  background-color:rgb(30,30,30);
+  opacity:.9;
+  color:#F4D03F;
+  padding:15px;
+  text-decoration: none;
+}
+.login-btn:hover {
+  background-color:rgb(40,40,40);
+  opacity:1;
+}

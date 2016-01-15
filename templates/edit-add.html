@@ -1,0 +1,42 @@
+<html manifest="/static/startpage.manifest">
+<head>
+  <meta name="robots" content="index,follow">
+  <meta property="og:title" content="That Startpage Rocks - Edit"/>
+	<meta property="og:url" content="http://startpage-1072.appspot.com"/>
+	<meta property="og:site_name" content="That Startpage Rocks"/>
+	<meta property="og:type" content="website"/>
+	<meta property="og:description" content="A simple and quick startpage that lets you access your favourite websites as well as the most famous services, all that with just a click or few keywords. It's a perfect replacement to the default startpage on your browser."/>
+	<meta name="google" content="notranslate" />
+
+
+  <title>Add a Bookmark - That Startpage Rocks</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Roboto+Condensed:700,400' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+  <link type="text/css" href="/static/styles/perfect-scrollbar.css" rel="stylesheet" media="all" />
+  <link type="text/css" href="/static/styles/edit-add.css" rel="stylesheet" media="all" />
+  <script src="/static/js/jquery-2.1.3.min.js"></script>
+  <script type="text/javascript" src="/static/js/perfect-scrollbar.jquery.min.js"></script>
+  <script type="text/javascript" src="/static/js/perfect-scrollbar.min.js"></script>
+  <script type="text/javascript" src="/static/js/jquery.sortable.js"></script>
+  <script src='/static/js/main.js'></script>
+</head>
+<body>
+<div id="container">
+  <div id="title">
+    <h1>Add a bookmark</h1>
+  </div>
+  <div id="content">
+  <form action="/config/add-website?redirect=http%3A%2F%2Fthat.startpage.rocks%2F<user>" enctype="multipart/form-data" method='post'>
+    <input type="text" placeholder="Paste URL" name="url" autofocus="true"></input>
+    <input type="submit" value="ADD"></submit>
+  </form>
+  </div>
+</div>
+</body>
+
+
+
+
+</html>

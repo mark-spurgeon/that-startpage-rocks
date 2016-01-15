@@ -57,12 +57,17 @@ def index():
 @app.route('/home')
 def homepage():
     return render_template('index.html')
+@app.route('/robots.txt')
+def bots():
+    return render_template('robots.txt')
+
 @app.route('/_data_info')
+@cache.cached(timeout=7200)
 def info():
     l = [ i for i in sp_data.ExternalUser.query()]
-    count = len(l)+1
+    count = len(l)
     l2 = [ i for i in sp_data.appIconProposed.query()]
-    count2 = len(l2)+1
+    count2 = len(l2)
     return render_template('data.html', userCount=count,iconCount=count2 )
 
 @app.route('/sitemap')
@@ -294,6 +299,19 @@ def setup_five():
 #####
 ## Startpage Edition
 #####
+
+@app.route("/add")
+def edit_add():
+    u, u_i = checkUserLoggedIn()
+    if u and u_i:
+        usr = sp_data.ExternalUser.query()
+        try:
+            user = [ue for ue in usr if str(ue.source)==str(u_i['source']) and str(ue.userID)==u_i['userID']][0]
+            return render_template("edit-add.html")
+        except:
+            return render_template("edit-add-error.html")
+    else:
+        return render_template("edit-add-error.html")
 @app.route('/edit')
 def edit():
     msg = request.args.get('message')
@@ -363,7 +381,6 @@ def cfg_upload_bg():
 @app.route('/config/add-website',methods=['POST'])
 def cfg_add_website():
 
-
     url  = request.form.get('url')
     if url.startswith('http://') or url.startswith('https://'):
         pass
@@ -374,11 +391,24 @@ def cfg_add_website():
 
     u, u_i = checkUserLoggedIn()
     if u and u_i:
+
+
+
         usr = sp_data.ExternalUser.query()
         us = [u for u in usr if str(u.source)==str(u_i['source']) and str(u.userID)==u_i['userID']]
         if len(us)>0:
 
             user = us[0]
+
+
+            #redirect
+            redi  = request.args.get('redirect')
+            if redi and redi!="":
+                redi = str(redi).replace("<user>",str(user.key.id()))
+            else:
+                redi=url_for('edit',message='Success! The website has been added!')+"#apps"
+
+
             try:
                 #Find Webapp Image Url + Title
                 h = httplib2.Http()
@@ -456,7 +486,6 @@ def cfg_add_website():
                     bg_color="rgb(30,30,30)"
                 ##
                 wa_list = user.linksList#json.loads(user.linksList)
-                print len(wa_list)+1
                 new_webapp = {'url':url,
                             'icon':img_url,
                             'display_name':the_title,
@@ -465,10 +494,19 @@ def cfg_add_website():
                 wa_list.append(new_webapp)
                 user.linksList = wa_list
                 user.put()
-                return redirect(url_for('edit',message='Success! The website has been added!')+"#apps")
+                return redirect(redi)
                 #return jsonResponse({'status':'ok','url':url,'img':img_url,'title':the_title})
             except:
-                return redirect(url_for('edit',message='Error. The website does not exist !')+"#apps")
+                wa_list = user.linksList#json.loads(user.linksList)
+                new_webapp = {'url':url,
+                            'icon':"letter",
+                            'display_name':"UNTITLED",
+                            'bg_color':"#F4D03F",
+                            'position':len(wa_list)+1}
+                wa_list.append(new_webapp)
+                user.linksList = wa_list
+                user.put()
+                return redirect(redi)
         else:
             #user not logged in
             return redirect(url_for('login'))
