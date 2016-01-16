@@ -450,6 +450,47 @@ div#popup {
   background-color:rgb(80,80,80);
 }
 
+#sp-zip {
+  background-color:rgb(30,30,30);
+  padding:50px;
+}
+#sp-zip p {
+  font-size: 1.2em;
+  width:auto;
+  text-transform: none;
+}
+#sp-zip code {
+  overflow-x: auto;
+}
+#sp-zip li {
+  background-color:transparent;
+  border-color:transparent;
+  display:list-item;
+  color:white;
+  list-style-type: circle;
+}
+.zip-link {
+  padding:20px;
+  background-color:#F4D03F;
+  border-radius:2px;
+  color:black;
+  text-decoration: none;
+}
+.zip-link:hover {
+  color:rgb(30,30,30)
+}
+.code {
+  color:#F4D03F;
+  border-bottom: 1px dotted #F4D03F;
+  padding:1px;
+}
+.code.dark {
+  color:rgb(30,30,30);
+  border-bottom: 1px dotted rgb(30,30,30);
+  padding:1px;
+}
+
+
 /* media */
 @media screen and (max-width: 1024px) {
   div#container {

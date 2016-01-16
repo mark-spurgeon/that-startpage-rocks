@@ -1,0 +1,63 @@
+<html >
+<head><!-- manifest='{{manifest}}'>-->
+  <title>{{title}}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Roboto+Condensed:700,400' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+  <link href="css/main.css" rel="stylesheet" type="text/css">
+  <link href="css/theme.css" rel="stylesheet" type="text/css">
+  <script type="text/javascript" src="js/jquery.min.js"></script>
+  <script type="text/javascript" src='js/main.js'></script>
+</head>
+<body style="background-image:url('image.png')">
+  <div id='container'>
+    <div id='edit-panel'>
+      <div id='cog'><i class='fa fa-cog'></i></div>
+      <div id='edit-panel-container'>
+        <a class='edit-panel-link' href='http://that.startpage.rocks/edit'>CLICK HERE FOR ONLINE VERSION</a>
+      </div>
+    </div>
+    <div id='sp-search-block'>
+      <h1 id='sp-title'>{{title}}</h1>
+      <div id='search-div'>
+        <div id='search-bar'>
+          <form action='{{searchEngineURL}}' method='get' style='margin:0px;padding:0px'>
+            <input type='text' id='search-input' name='{{searchEngineArg_search}}' placeholder='Type to search' onkeyup='searchFunction(this.value)' autocomplete='off' autofocus></input>
+            <button type='submit' value=' ' tabindex="100" style="background:url('http://that.startpage.rocks/static/search.svg');"></button>
+          </form>
+        </div>
+      </div>
+    </div>
+      <div id='search-panel'>
+        <div id='search-results' ></div>
+        <div id='search-message' ><p>Press Enter to search <span style='color:#0266C8'>{{searchEngine}}</span></p></div>
+      </div>
+      <div id='app-view'>
+        <!--<a class='widget-item' href='/'>
+          <p>Visit The Startpage</p>
+        </a>-->
+        {% for a in apps %}
+        <a href='{{a.url}}' class='app-item'>
+          {% if a.icon.startswith('/') or a.icon.startswith('http') %}
+            <img src='{{a.icon}}'>
+            {% else %}
+            <div class='letter' style='background-color:{{a.bg_color}}'>
+              <p>{{a.display_name[0]}}</p>
+            </div>
+          {% endif %}
+          <p>{{a.display_name}}</p>
+        </a>
+        {% endfor %}
+      </div>
+
+
+  </div>
+
+
+</body>
+
+
+
+
+</html>

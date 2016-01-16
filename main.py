@@ -48,7 +48,9 @@ def checkUserLoggedIn():
         user_info = users[0].to_dict()
     return (user, user_info)
 def jsonResponse(json_dict):
-    return Response(json.dumps(json_dict,indent=4, separators=(',', ': ')), mimetype="application/json")
+    resp = Response(json.dumps(json_dict,indent=4, separators=(',', ': ')), mimetype="application/json")
+    resp.headers['Access-Control-Allow-Origin']="*"
+    return resp
 
 @app.route('/')
 def index():
@@ -203,10 +205,83 @@ def sp_firefox_addon(id_):
         return resp
     else:
         abort(404)
-@app.route('/firefox_addon_setup')
-def sp_firefox_addon_setup():
-    return render_template('sp_firefox_addon_setup.html')
-@app.route('/manifest/<id_>')
+
+
+@app.route('/resources/zipfile/<id_>')
+def sp_zip(id_):
+    sp_item = sp_data.ExternalUser.get_by_id(int(id_))
+    if sp_item:
+        import zipfile
+        import urllib2
+        import StringIO
+        ##create zip file object
+        output = StringIO.StringIO()
+        z = zipfile.ZipFile(output,'w')
+        ## add static files
+        # -> js
+        jq = urllib2.urlopen('http://that.startpage.rocks/static/js/jquery.js').read()
+        z.writestr("js/jquery.min.js",jq)
+        js = urllib2.urlopen('http://that.startpage.rocks/static/js/main-local.js').read()
+        z.writestr("js/main.js",js)
+        # -> css
+        css = urllib2.urlopen('http://that.startpage.rocks/static/styles/main.css').read()
+        z.writestr("css/main.css",css)
+        if sp_item.themeName !="white":
+            css2 = urllib2.urlopen('http://that.startpage.rocks/static/styles/{}Theme.css'.format(sp_item.themeName)).read()
+        else:
+            css2=""
+        z.writestr("css/theme.css",css2)
+        # -> background image
+        bg = urllib2.urlopen(sp_item.backgroundImageURL+"=s0").read()
+        z.writestr("image.png",bg)
+
+        ## generate html
+
+        user = sp_item
+        theme = user.themeName
+        apps = user.linksList
+        apps = sorted(apps, key=lambda k: k['position'])
+        a_list = []
+        for a in apps :
+            if a['icon'].startswith('icon:'):
+                ur  = a['icon'].replace('icon:','')
+                a['icon']='http://that.startpage.rocks/icons/get?url='+ur
+        img_url =  str(user.backgroundImageURL)+"=s0"#"http://startpage-1072.appspot.com/image/"+str(u[0].backgroundImageKey)
+        #md = markdown.Markdown()
+        title = user.spTitle #Markup(md.convert(u[0].spTitle))
+        #manifest_url = "http://that.startpage.rocks/resources/manifest/{}".format(int(id_))
+
+        #search browser
+        if not user.searchBrowser:
+            user.searchBrowser = 'google'
+            user.put()
+        if user.searchBrowser in sp_browsers.browserOptions:
+            se = user.searchBrowser
+        else:
+            se = sp_browsers.defaultBrowser
+        se_info = sp_browsers.browsers[se]
+        searchEngine = user.searchBrowser
+        searchEngineURL = se_info['url']
+        searchEngineArg_search = se_info['#search']
+        html = render_template('sp-local.html',
+                                title=title,
+                                apps=apps,
+                                theme=theme,
+                                img=img_url,
+                                searchEngine = searchEngine,
+                                searchEngineURL =searchEngineURL,
+                                searchEngineArg_search=searchEngineArg_search)
+        html = html.encode('utf-8')
+        z.writestr("index.html",html)
+        z.close()
+        #response
+        resp = Response(output.getvalue())
+        resp.headers['Content-Type'] = 'application/zip'
+        resp.headers['Content-Disposition'] = 'attachment; filename=startpage.zip'
+        return resp
+    else:
+        abort(404)
+@app.route('/resources/manifest/<id_>')
 def sp_manifest(id_):
     sp_item = sp_data.ExternalUser.get_by_id(int(id_))
     if sp_item:
@@ -220,11 +295,10 @@ def sp_manifest(id_):
         return resp
     else:
         abort(404)
-@app.route('/sp-debug/<source>/<user>')
-def sp_debug(source,user):
-    sp_l = sp_data.ExternalUser.query()
-    u  =  [u for u in sp_l if str(u.source)==source and str(u.userID) == str(user)]
-    if len(u)>0:
+@app.route('/resources/json/<id_>')
+def sp_debug(id_):
+    sp_item = sp_data.ExternalUser.get_by_id(int(id_))
+    if sp_item:
         theme = u[0].themeName
         apps = u[0].linksList
         img_url = u[0].backgroundImageURL
@@ -333,6 +407,7 @@ def edit():
                     ur  = a['icon'].replace('icon:','')
                     a['icon']='/icons/get?url='+ur
             linkUrl = "http://that.startpage.rocks/"+str(us[0].key.id())
+            zipUrl = "http://that.startpage.rocks/resources/zipfile/"+str(us[0].key.id())
             uploadUri = blobstore.create_upload_url('/config/upload-bg')
 
             searchEngine = us[0].searchBrowser
@@ -341,11 +416,17 @@ def edit():
             if request.cookies.has_key('first-login') and request.cookies.get('first-login')==str(True):
                 return redirect(url_for('setup_one'))
             else:
-                return render_template('edit.html', user=u_i, upload_bg=uploadUri, title = title, img = img, theme= theme, apps = apps,linkUrl=linkUrl, message=msg,searchEngine = searchEngine,searchEngineOptions = searchEngineOptions)
+                return render_template('edit.html', user=u_i, upload_bg=uploadUri, title = title, img = img, theme= theme, apps = apps,linkUrl=linkUrl, message=msg,searchEngine = searchEngine,searchEngineOptions = searchEngineOptions, zipUrl=zipUrl)
     else:
         return redirect(url_for('login'))
-
-
+'''
+@app.route('/edit-dummy')
+def edit_du():
+    linkUrl = "http://that.startpage.rocks/"
+    searchEngine = "google"
+    searchEngineOptions = sp_browsers.browserOptions
+    return render_template('edit.html',user={'usermane':"Dummy"}, upload_bg="", title = "KA", img = "", theme= "white", apps = [],linkUrl=linkUrl, message="",searchEngine = searchEngine,searchEngineOptions = searchEngineOptions,zipUrl="/")
+'''
 
 ##config changes [backend]
 @app.route('/config/upload-bg',methods=['POST'])
@@ -481,7 +562,13 @@ def cfg_add_website():
 
                 #Get BG color
                 if img_url == 'letter':
-                    bg_color="#F4D03F"
+                    from plugins import names
+                    if names.colors[the_title[0].lower()]:
+                        bg_color=names.colors[the_title[0].lower()]
+                    else:
+                        bg_color="#F4D03F"
+
+
                 else:
                     bg_color="rgb(30,30,30)"
                 ##
@@ -1229,4 +1316,4 @@ def auth_logout():
 @app.errorhandler(404)
 def page_not_found(e):
     """Return a custom 404 error."""
-    return 'Sorry, nothing at this URL.', 404
+    return '404 Error', 404
