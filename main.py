@@ -419,14 +419,13 @@ def edit():
                 return render_template('edit.html', user=u_i, upload_bg=uploadUri, title = title, img = img, theme= theme, apps = apps,linkUrl=linkUrl, message=msg,searchEngine = searchEngine,searchEngineOptions = searchEngineOptions, zipUrl=zipUrl)
     else:
         return redirect(url_for('login'))
-'''
 @app.route('/edit-dummy')
 def edit_du():
     linkUrl = "http://that.startpage.rocks/"
     searchEngine = "google"
     searchEngineOptions = sp_browsers.browserOptions
-    return render_template('edit.html',user={'usermane':"Dummy"}, upload_bg="", title = "KA", img = "", theme= "white", apps = [],linkUrl=linkUrl, message="",searchEngine = searchEngine,searchEngineOptions = searchEngineOptions,zipUrl="/")
-'''
+    return render_template('edit.html',user={'usermane':"Dummy"}, upload_bg="", title = "KA", img = "", theme= "white", apps = [{'position':1, 'icon':'','display_name':"DUmmy",'url':'tralala'}],linkUrl=linkUrl, message="",searchEngine = searchEngine,searchEngineOptions = searchEngineOptions,zipUrl="/")
+
 
 ##config changes [backend]
 @app.route('/config/upload-bg',methods=['POST'])
@@ -437,23 +436,30 @@ def cfg_upload_bg():
         us = [u for u in usr if str(u.source)==str(u_i['source']) and str(u.userID)==u_i['userID']]
         if len(us)>0:
             user = us[0]
-            image=request.files["filename"]
-            header = image.headers['Content-Type']
-            parsed_header = parse_options_header(header)
-            blob_key = parsed_header[1]['blob-key']
-            l = images.get_serving_url(blob_key)
-            user.backgroundImageURL = l
-            user.backgroundImageKey=BlobKey(blob_key)
+            try:
+                image=request.files["filename"]
+                header = image.headers['Content-Type']
+                parsed_header = parse_options_header(header)
+                blob_key = parsed_header[1]['blob-key']
+                l = images.get_serving_url(blob_key)
+                user.backgroundImageURL = l
+                user.backgroundImageKey=BlobKey(blob_key)
 
-            #import datetime
-            #user.imgUrl="http://startpage-1072.appspot.com/img/{0}/{1}/{2}".format(us[0].source,us[0].userID,datetime.datetime.now())
-            user.put()
+                #import datetime
+                #user.imgUrl="http://startpage-1072.appspot.com/img/{0}/{1}/{2}".format(us[0].source,us[0].userID,datetime.datetime.now())
+                user.put()
+                if request.cookies.has_key('first-login') and request.cookies.get('first-login')==str(True):
+                    return redirect(url_for('setup_three'))
+                else:
+                    return redirect(url_for('edit',message="Success! Your startpage's got a new background image.")+"#image")
+            except:
+                return redirect(url_for('edit',message="Error. Sorry, we could not upload this image.")+"#image")
+        else:
             if request.cookies.has_key('first-login') and request.cookies.get('first-login')==str(True):
+
                 return redirect(url_for('setup_three'))
             else:
-                return redirect(url_for('edit',message="Success! Your startpage's got a new background image.")+"#image")
-        else:
-            return jsonResponse({'status':'error'})
+                return jsonResponse({'status':'error'})
     else:
         return redirect(url_for('login'))
 

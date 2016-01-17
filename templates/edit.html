@@ -21,6 +21,7 @@
   <script type="text/javascript" src="/static/js/jquery.sortable.js"></script>
   <link href="/static/styles/edit.css" rel="stylesheet" type="text/css">
   <script src='/static/js/main.js'></script>
+  <script src="https://cdn.jsdelivr.net/clipboard.js/1.5.5/clipboard.min.js"></script>
   <script type='text/javascript'>
   $.extend(
 {
@@ -37,22 +38,25 @@
 
 
     function changeDisplayName(node) {
-      console.log(node.dataset.position);
-      d = document.getElementById('popup');
+      document.getElementById("container").className="blur";
+      d = document.getElementById('popup-container');
 
       ti = document.getElementById('popup-title');
       ti.innerHTML="Change Website's Name";
       de = document.getElementById('popup-content');
-      de.innerHTML = "<form action='/config/modify-website/"+node.dataset.position+"/title' method='post' enctype='multipart/form-data'><input type='text' placeholder='Change Title' name='value'></input> <input type='submit' value='Change Title'></input></form>";
+      de.innerHTML = "<form action='/config/modify-website/"+node.dataset.position+"/title' method='post' enctype='multipart/form-data'><input type='text' placeholder='Name' name='value' id='ch-name-i'></input> <input type='submit' value='Change Name'></input></form>";
       d.style.display = 'block';
+      document.getElementById('ch-name-i').focus();
     }
     function addWebsite() {
-      d = document.getElementById('popup');
+      document.getElementById("container").className="blur";
+      d = document.getElementById('popup-container');
       ti = document.getElementById('popup-title');
       ti.innerHTML='Add a new Website';
       de = document.getElementById('popup-content');
-      de.innerHTML = "<form action='/config/add-website' method='post' enctype='multipart/form-data'><input type='text' placeholder='Paste URL' name='url'></input> <input type='submit' value='Add Website'></input></form>";
+      de.innerHTML = "<form action='/config/add-website' method='post' enctype='multipart/form-data'><input type='text' placeholder='Paste URL' name='url' id='add-web-i'></input> <input type='submit' value='Add Website'></input></form>";
       d.style.display = 'block';
+      document.getElementById('add-web-i').focus();
     }
 
     function elementChildren (element) {
@@ -89,7 +93,8 @@
 
 
     function closePopup() {
-      d = document.getElementById('popup');
+      document.getElementById("container").className="";
+      d = document.getElementById('popup-container');
       d.style.display='none';
     }
     function closeNotification() {
@@ -104,16 +109,6 @@
 <body>
 
   <div id='container'>
-    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<!-- tsr_banner
-<ins class="adsbygoogle"
-     style="display:inline-block;width:728px;height:90px"
-     data-ad-client="ca-pub-5263514922826121"
-     data-ad-slot="5268460296"></ins>
-<script>
-(adsbygoogle = window.adsbygoogle || []).push({});
-</script>
--->
     {% if message %}
       <div id='notification' class='{% if message.startswith("Success")%}success{% elif message.startswith("Error")%}error{%endif%}'>
         <p>{{message}}</p>
@@ -125,55 +120,73 @@
       <div id='edit-panel'>
         <h2 style='color:white;padding:2px;margin:15px;'>Welcome back, {{user.username}}</h2>
         <p>This is the link to your <a class="usr-link" href='{{linkUrl}}'>startpage</a> :</p>
-        <p><code>{{linkUrl}}</code></p>
+        <div class="sp-link-widget">
+          <input type="text" value="{{linkUrl}}" class="sp-link-text" onClick="this.select();"></input>
+          <script>var clipboard = new Clipboard('.sp-link-copy');</script>
+          <button class="sp-link-copy" data-clipboard-text="{{linkUrl}}" title="Copy to clipboard"> <i class="fa fa-clipboard"></i></button>
+        </div>
         <hr/>
         <p>Add your startpage to your <a class='usr-link' href='/browsers'>browser</a> to really make that startpage rock !</p>
         <hr/>
         <div style='margin:0px;'>
-          <p><a href='/logout' style='color:rgb(100,100,100)'>logout</a></p>
+          <p><a href='/logout' class="code"> <i class="fa fa-sign-out" ></i> LOGOUT</a></p>
         </div>
       </div>
       <div id='app-view'>
         <div style="background:url('{{img}}')" id='edit-bg' >
-          <p id='image'>Change Background Image</p>
+          <p id='image'>Background Image</p>
           <form id='bg-image' action='{{upload_bg}}' enctype="multipart/form-data" method='post'>
             <input type="file" name="filename" accept="image/gif, image/jpeg, image/png">
-            <input type='submit' value="Change Image"></input>
+            <input type='submit' value="Upload Image"></input>
           </form>
         </div>
 
+
+
         <div id='edit-title'>
-          <p id='title'>Change Startpage Title</p>
+          <p id='title'>Startpage Title</p>
         <form id='bg-theme' action='/config/change-title' enctype="multipart/form-data" method='post'>
           <input type='text' name='title' value='{{title}}'></input>
-          <input type='submit' value="Change Title"></input>
+          <input type='submit' value="Set Title"></input>
         </form>
       </div>
 
+
+      <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!-- tsr_resp -->
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-5263514922826121"
+         data-ad-slot="4567979499"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+
         <div id='edit-theme'>
-          <p id='theme'>Change Color Theme</p>
+          <p id='theme'>Colour Theme</p>
         <form id='bg-theme' action='/config/change-theme' enctype="multipart/form-data" method='post'>
           <select name='theme' selected='{{theme}}'>
             <option value="white" {% if theme == 'white'%}selected{% endif %}>White</option>
             <option value="dark" {% if theme == 'dark'%}selected{% endif %}>Dark</option>
           </select>
-          <input type='submit' value="Change Theme"></input>
+          <input type='submit' value="Choose Theme"></input>
         </form>
       </div>
       <div id='edit-theme'>
-        <p id='theme'>Change Search Engine</p>
+        <p id='theme'>Search Engine</p>
       <form id='bg-theme' action='/config/change-search-engine' enctype="multipart/form-data" method='post'>
         <select name='value' selected='{{searchEngine}}'>
           {% for se in searchEngineOptions %}
           <option value="{{se}}" {% if searchEngine == se %}selected{% endif %}>{{se | capitalize}}</option>
           {%endfor%}
         </select>
-        <input type='submit' value="Change Search Engine"></input>
+        <input type='submit' value="Choose Search Engine"></input>
       </form>
     </div>
     <div id='edit-title'>
-      <p id='apps'>Modify Bookmarks</p>
-      <button value="add-website" onclick='addWebsite()' id='edit-add-website'>+ Add Bookmark</button>
+      <p id='apps'>Bookmarks</p>
+      <button value="add-website" onclick='addWebsite()' id='edit-add-website'><i class="fa fa-plus"></i> Add Bookmark</button>
       <ul class="sortable" id='apps_list'>
         {% for a in  apps %}
         <li class='website-item' data-position={{a.position}} >
@@ -182,7 +195,7 @@
             <td style='width:20px'><div class='web-icon' style="background-image:url('{{a.icon}}')"><i class='fa fa-bars handle' title='Move bookmark' ></i></div></td>
             <td style='width:80px' class='web-display-name'>{{a.display_name}}<button class='btn-edit-title' value='edit' onclick='changeDisplayName(this.parentNode.parentNode.parentNode.parentNode.parentNode)'><i class='fa fa-pencil'></i></button></td>
             <td style='width:100px' class='web-url'>{{a.url}}</td>
-            <td style='width:15px' class='web-url'><a href='/config/delete-website?website={{a.position}}' class='btn-remove-website'>X</a></td>
+            <td style='width:15px' class='web-url'><a href='/config/delete-website?website={{a.position}}' class='btn-remove-website'><i class="fa fa-times"></i></a></td>
           </tr>
           </table>
         </li>
@@ -216,15 +229,18 @@
       <a class="zip-link" target="_blank" href=" {{zipUrl}}">Download your <span class="code dark">startpage.zip</span>  <i class="fa fa-chevron-right"></i></a>
     </div>
 </div>
+      </div>
+  </div>
 
+
+  <div id="popup-container">
     <div id='popup'>
       <div id='popup-top-bar'>
         <p id='popup-title'></p>
-        <button onclick='closePopup()' id='popup-close-button'><span id='popup-cross'>X</span> Close</button>
+        <button onclick='closePopup()' id='popup-close-button'><i class="fa fa-times"></i></button>
       </div>
       <div id='popup-content'></div>
     </div>
-      </div>
   </div>
 
   <script>

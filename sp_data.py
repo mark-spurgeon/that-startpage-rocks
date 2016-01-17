@@ -30,7 +30,7 @@ class ExternalUser(ndb.Model):
     themeName = ndb.StringProperty(default='dark')
     searchBrowser = ndb.StringProperty(default=browsers.defaultBrowser)
     backgroundImageKey = ndb.BlobKeyProperty()
-    backgroundImageURL = ndb.StringProperty()
+    backgroundImageURL = ndb.StringProperty(default="http://that.startpage.rocks/static/images/crowd-1056764_1280.jpg")
 class appIconProposed(ndb.Model):
     domains = ndb.StringProperty()
     imageKey = ndb.BlobKeyProperty()
