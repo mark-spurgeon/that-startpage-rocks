@@ -2,6 +2,8 @@
 
 ## That Startpage Rocks
 
+[![Join the chat at https://gitter.im/the-duck/that-startpage-rocks](https://badges.gitter.im/the-duck/that-startpage-rocks.svg)](https://gitter.im/the-duck/that-startpage-rocks?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 A simple and quick startpage that lets you access your favourite websites as well as the most famous services, all that with just a click or few keywords. It's a perfect replacement to the default startpage on your browser.  
 [Check out the website !](http://that.startpage.rocks)
 
