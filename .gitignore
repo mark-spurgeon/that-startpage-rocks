@@ -1,4 +1,5 @@
 plugins/apikeys.py
+plugins/admin_users.py
 
 *.pyc
 

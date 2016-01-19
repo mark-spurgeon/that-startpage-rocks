@@ -1,0 +1,26 @@
+<html>
+<head>
+  <title>Edit icon - That Startpage Rocks</title>
+  <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Roboto Condensed' rel='stylesheet' type='text/css'>
+  <link href="/static/styles/icons.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+  <div id='container'>
+    <div id='ico-form'>
+      <p class='ico-form-title'>Add an icon to the repositories</p>
+      <!--<p class='ico-form-warning'>The icon must follow the <a href='http://thestartpage.tumblr.com/post/131549756082/icon-submission-guidelines'>guidelines</a> in order to be included in the repositories.</p>-->
+    <form action='{{uploadUri}}' method='post' enctype="multipart/form-data" >
+      <p>List of domains, separated with commas:</p>
+      <textarea name='domains' class='form-text' >{{icon.domains}}</textarea>
+      <p>The Icon:</p>
+      <input type='file' name='icon' accept="image/gif, image/jpeg, image/png"></input>
+      <input type='submit' name='sub' value='Upload' class='ico-upload'></input>
+    </form>
+    </div>
+  </div>
+
+</body>
+
+</html>

@@ -2,7 +2,7 @@ defaultBrowser = 'google'
 browserOptions = ['google','duckduckgo','yahoo','bing','startpage','ixquick']
 browsers = {
     'google' : {
-        'url':'https://www.google.ch/search',
+        'url':'https://www.google.com/search',
         '#search':'q'
     },
     'duckduckgo' : {

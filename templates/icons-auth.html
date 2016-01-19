@@ -1,0 +1,23 @@
+<html>
+<head>
+  <title>Icons - That Startpage Rocks</title>
+  <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Roboto Condensed' rel='stylesheet' type='text/css'>
+  <link href="/static/styles/icons.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+    {% for i in icons%}
+    <div style="background-image:url('{{i['imageUrl']}}')" class='icon'>
+      <div class='domains'>
+        {% for l in i.domains%}
+          <a href='http://{{l}}'>{{l}}</a>
+        {% endfor %}
+          <a href="/admin/icons/{{i.iconID}}">EDIT</a>
+      </div>
+    </div>
+    {%endfor%}
+
+</body>
+
+</html>

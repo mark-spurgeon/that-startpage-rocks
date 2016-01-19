@@ -25,6 +25,7 @@ import uuid
 import app_list
 from plugins import plugins1 as plugins
 from plugins import browsers as sp_browsers
+from plugins import apikeys
 import sp_data
 
 app = Flask(__name__)
@@ -40,12 +41,17 @@ def checkUserLoggedIn():
     user_type=''
     user_info=None
     #print flask.session['ext-user']
-    ext = request.cookies.get('ext-user')
-    ext_s = request.cookies.get('ext-user-s')
-    users = [ u for u in sp_data.ExternalUser.query() if str(u.userID)==ext and u.source==ext_s ]
-    if len(users)>0:
-        user = True
-        user_info = users[0].to_dict()
+    cookieAdd = "&key=" + apikeys.keys['self']
+    if request.cookies.has_key("sp-user"):
+        ext = request.cookies.get('sp-user').replace(cookieAdd,'')
+        try :
+            sp_item = sp_data.ExternalUser.get_by_id(int(ext))
+            if sp_item:
+                user = True
+                user_info = sp_item.to_dict()
+                user_info['user-id']=sp_item.key.id()
+        except:pass
+    else: pass
     return (user, user_info)
 def jsonResponse(json_dict):
     resp = Response(json.dumps(json_dict,indent=4, separators=(',', ': ')), mimetype="application/json")
@@ -667,7 +673,7 @@ def cfg_mod_website_title(web):
     #website, depending on position
     website  = int(web)
     #new position
-    new_title = str(request.form.get('value'))
+    new_title = request.form.get('value')
 
     u, u_i = checkUserLoggedIn()
     if u and u_i:
@@ -865,12 +871,60 @@ def getDomainFromUrl(u):
     dom1 = dom.split('/')[0].split('.')
     f_dom = dom1[-2]+'.'+dom1[-1]
     return f_dom
-@app.route('/icons')
+@app.route('/icons/')
 def icons():
     uploadUri = blobstore.create_upload_url('/icons/add')
     q = sp_data.appIconProposed.query()
     icoList = [{'imageUrl':l.imageURL,'domains':[e.replace(' ','') for e in l.domains.split(',')]} for l in q]
     return render_template('icons.html', uploadUri=uploadUri, icons=icoList)
+@app.route('/admin/icons/')
+def admin_icons():
+    q = sp_data.appIconProposed.query()
+    icoList = [{'imageUrl':l.imageURL,'domains':[e.replace(' ','') for e in l.domains.split(',')], 'iconID':l.key.id()} for l in q]
+    return render_template('icons-auth.html', icons=icoList)
+@app.route('/admin/icons/<id_>')
+def admin_icon_edit(id_):
+    l = sp_data.appIconProposed.get_by_id(int(id_))
+    icon = {'imageUrl':l.imageURL,'domains':l.domains, 'iconID':l.key.id()}
+    uploadUri = blobstore.create_upload_url('/icons/{}/change'.format(str(l.key.id())))
+    return render_template('icon-edit.html', uploadUri=uploadUri, icon=icon)
+
+@app.route('/icons/<id_>/change', methods=['POST'])
+def admin_edit_icon(id_):
+    u, u_i = checkUserLoggedIn()
+    from plugins import admin_users
+    admin_usrs = admin_users.users
+    if u and u_i and str(u_i['user-id']) in admin_usrs :
+        image = request.files.get('icon')
+        header = image.headers['Content-Type']
+        parsed_header = parse_options_header(header)
+        blob_key = parsed_header[1]['blob-key']
+        theKey =BlobKey(blob_key)
+
+        item = sp_data.appIconProposed.get_by_id(int(id_))
+
+        theDomains = item.domains.split(',')
+        theParsedDomains = []
+        from plugins import domains
+        for dom in theDomains:
+            newdo = domains.parseDomain(dom)
+            if newdo!=None and newdo!=' ' and newdo!='\n':
+                theParsedDomains.append(newdo)
+        if len(theParsedDomains)>0:
+            domainslist = ""
+            for do in theParsedDomains:
+                domainslist+=do+","
+
+            item.domains = domainslist
+            item.imageKey=theKey
+            item.imageURL=images.get_serving_url(blob_key)
+            item.put()
+            return redirect(url_for('admin_icons'))
+        else:
+            return redirect(url_for('admin_icons'))
+    else:
+        return redirect(url_for('admin_icons'))
+
 @app.route('/icons/add', methods=['POST'])
 def add_icon():
     domainlist = request.form.get('domains')
@@ -1022,26 +1076,32 @@ def oauth2callback():
         credentials = flow.step2_exchange(auth_code)
         #flask.session['credentials']=credentials.to_json()
         u = getUserInfoGoogle(credentials)
-        flask.session['ext-user']= str(u['id'])
-        flask.session['ext-user-s']=u['source']
         l = sp_data.ExternalUser.query()
         g_user = [f for f in l if f.source=='google' and f.userID==u["id"] ]
         if len(g_user)>0:
             g_user[0].email=u['email']
             g_user[0].thumbnail=u['picture']
             g_user[0].put()
+
+            userId = g_user[0].key.id()
         else:
             signup=True
             fb = sp_data.ExternalUser(source='google', userID=u['id'],username=u['username'],thumbnail=u['picture'], email=u['email'])
             fb.put()
-
+            userId = fb.key.id()
         # expiration date
         import datetime
         expire_date = datetime.datetime.now()
         expire_date = expire_date + datetime.timedelta(days=90)
+
+        #cookie content
+        cookieAdd = "&key=" + apikeys.keys['self']
+
+        cookieContent = str(userId)+cookieAdd
+
         #
         resp = make_response(flask.redirect(flask.url_for('edit')))
-        resp.set_cookie('ext-user', u['id'],expires=expire_date)
+        resp.set_cookie('sp-user', cookieContent,expires=expire_date)
         resp.set_cookie('ext-user-s',u['source'],expires=expire_date)
         resp.set_cookie('first-login',str(signup))
         return resp
@@ -1109,18 +1169,25 @@ def oauth2callback_fb():
                         fb_user[0].email=u['email']
                         fb_user[0].thumbnail=u['picture']
                         fb_user[0].put()
+
+                        userId = fb_user[0].key.id()
                     else:
                         signup=True
                         fb = sp_data.ExternalUser(source='facebook', userID=data['id'],username=data['name'],thumbnail=u['picture'], email=u['email'])
                         fb.put()
-
+                        userId = fb.key.id()
                     # expiration date
                     import datetime
                     expire_date = datetime.datetime.now()
                     expire_date = expire_date + datetime.timedelta(days=90)
+
+                    #cookie content
+                    cookieAdd = "&key=" + apikeys.keys['self']
+                    cookieContent = str(userId)+cookieAdd
+
                     #
                     resp = make_response(flask.redirect(flask.url_for('edit')))
-                    resp.set_cookie('ext-user', u['id'],expires=expire_date)
+                    resp.set_cookie('sp-user',cookieContent,expires=expire_date)
                     resp.set_cookie('ext-user-s',u['source'],expires=expire_date)
                     resp.set_cookie('first-login',str(signup))
                     return resp
@@ -1276,26 +1343,30 @@ def oauth2callback_github():
                 data = json.loads(content)
                 #This is a user!!!!!
                 u = getUserInfoGithub(data)
-                flask.session['ext-user']= str(u['id'])
-                flask.session['ext-user-s']=u['source']
                 l = sp_data.ExternalUser.query()
                 fb_user = [f for f in l if f.source=='github' and f.userID==u['id'] ]
                 if len(fb_user)>0:
                     fb_user[0].email=u['email']
                     fb_user[0].thumbnail=u['picture']
                     fb_user[0].put()
+                    userId = fb_user[0].key.id()
                 else:
                     signup=True
                     fb = sp_data.ExternalUser(source='github', userID=u['id'],username=u['username'],thumbnail=u['picture'], email=u['email'])
                     fb.put()
-
+                    userId = fb.key.id()
                 # expiration date
                 import datetime
                 expire_date = datetime.datetime.now()
                 expire_date = expire_date + datetime.timedelta(days=90)
+
+                #cookie content
+                cookieAdd = "&key=" + apikeys.keys['self']
+                cookieContent = str(userId)+cookieAdd
+
                 #
                 resp = make_response(flask.redirect(flask.url_for('edit')))
-                resp.set_cookie('ext-user', u['id'],expires=expire_date)
+                resp.set_cookie('sp-user',cookieContent,expires=expire_date)
                 resp.set_cookie('ext-user-s',u['source'],expires=expire_date)
                 resp.set_cookie('first-login',str(signup))
                 return resp
@@ -1313,6 +1384,7 @@ def auth_logout():
     resp = make_response(flask.redirect(flask.url_for('login')))
     resp.set_cookie('ext-user',expires=0)
     resp.set_cookie('ext-user-s',expires=0)
+    resp.set_cookie('sp-user',expires=0)
     return resp
 
 
@@ -1323,3 +1395,11 @@ def auth_logout():
 def page_not_found(e):
     """Return a custom 404 error."""
     return '404 Error', 404
+@app.errorhandler(500)
+def int_server_error(e):
+    return """
+    <h1>Internal Server Error</h1>
+    <p>The server encountered an internal error and was unable to complete your request. You are probably seeing this because we have reached our daily quota of requests to the datastore. Please come back tomorrow.</p>
+
+
+    """, 404

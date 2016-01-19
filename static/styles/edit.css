@@ -33,6 +33,7 @@ input[type="submit"] {
   padding:15px;
   opacity:.9;
   font-weight: normal;
+  cursor: pointer;
 }
 input[type="submit"]:hover {
   font-weight: normal;
