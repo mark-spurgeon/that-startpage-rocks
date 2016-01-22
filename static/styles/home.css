@@ -1,3 +1,6 @@
+html {
+  min-height: 100%;
+}
 body {
   border-width: 0px;
   border-style:solid;
@@ -15,6 +18,8 @@ h1,h2,p {
 }
 #container {
   margin-top:10px !important;
+  height:auto !important;
+  min-height:1300px;
 }
 #message {
   background-color:rgb(30,30,30);
@@ -155,7 +160,27 @@ h1,h2,p {
   margin:0px;
 }
 
-
+footer {
+  width:auto;
+  overflow: hidden;
+  margin:0px;
+  margin-top:50px;
+  background-color:#F4D03F;
+  height: 200px;
+  padding: 1rem;
+}
+.footer-block {
+  display: block;
+  float:left;
+  list-style-type: none;
+  text-transform: uppercase;
+}
+.footer-block a {
+  color:rgb(30,30,30)
+}
+.footer-block-title{
+  font-weight: bold;
+}
 
 
 @media screen and (max-width: 1040px) {
@@ -169,6 +194,8 @@ h1,h2,p {
     width:16%;
   }
 }
+
+
 
 @media screen and (max-width: 768px) {
   #about {
