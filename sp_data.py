@@ -38,3 +38,5 @@ class appIconProposed(ndb.Model):
 class appIcon(ndb.Model):
     domains = ndb.StringProperty()
     imageKey = ndb.BlobKeyProperty()
+class spDownloadCount(ndb.Model):
+    count = ndb.IntegerProperty(default=0)

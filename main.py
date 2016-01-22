@@ -824,8 +824,7 @@ def cfg_change_search_engine():
 def make_cache_key(*args, **kwargs):
     path = request.path
     args = str(hash(frozenset(request.args.items())))
-    lang = get_locale()
-    return (path + args + lang).encode('utf-8')
+    return (path + args).encode('utf-8')
 
 @app.route('/search')
 @cache.cached(timeout=7200, key_prefix=make_cache_key)
@@ -886,10 +885,21 @@ def admin_icons():
 def admin_icon_edit(id_):
     l = sp_data.appIconProposed.get_by_id(int(id_))
     icon = {'imageUrl':l.imageURL,'domains':l.domains, 'iconID':l.key.id()}
-    uploadUri = blobstore.create_upload_url('/icons/{}/change'.format(str(l.key.id())))
+    uploadUri = blobstore.create_upload_url('/admin/icons/{}/change'.format(str(l.key.id())))
     return render_template('icon-edit.html', uploadUri=uploadUri, icon=icon)
 
-@app.route('/icons/<id_>/change', methods=['POST'])
+@app.route('/admin/icons/<id_>/delete')
+def admin_delete_icon(id_):
+    u, u_i = checkUserLoggedIn()
+    from plugins import admin_users
+    admin_usrs = admin_users.users
+    if u and u_i and str(u_i['user-id']) in admin_usrs :
+        item = sp_data.appIconProposed.get_by_id(int(id_))
+        item.key.delete()
+        return redirect(url_for('admin_icons'))
+    else:
+        return redirect(url_for('admin_icons'))
+@app.route('/admin/icons/<id_>/change', methods=['POST'])
 def admin_edit_icon(id_):
     u, u_i = checkUserLoggedIn()
     from plugins import admin_users
@@ -916,8 +926,12 @@ def admin_edit_icon(id_):
                 domainslist+=do+","
 
             item.domains = domainslist
-            item.imageKey=theKey
-            item.imageURL=images.get_serving_url(blob_key)
+            try:
+                item.imageURL=images.get_serving_url(blob_key)
+                images.delete_serving_url(item.imageKey)
+                item.imageKey=theKey
+            except:
+                pass
             item.put()
             return redirect(url_for('admin_icons'))
         else:
@@ -976,7 +990,7 @@ def reset_icons():
     return jsonResponse({'status':'ok',"results":all_icons})
 '''
 @app.route('/icons/get')
-@cache.cached(timeout=7200, key_prefix=make_cache_key)
+@cache.cached(timeout=86400, key_prefix=make_cache_key)
 def get_icon():
     domain = request.args.get('url')
     s = sp_data.appIconProposed.query()
