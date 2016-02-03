@@ -9,12 +9,12 @@ defaultAppList = [
         'icon':'icon:http://www.youtube.com',
         'display_name':'Youtube',
         'bg_color':'rgb(230,100,90)',
-        'position':1},
-        {'url':'http://www.theguardian.com',
-        'icon':'icon:http://www.theguardian.com',
-        'display_name':'The Guardian',
+        'position':2},
+        {'url':'http://www.google.com',
+        'icon':'icon:http://www.google.com',
+        'display_name':'Google',
         'bg_color':'rgb(230,100,90)',
-        'position':2}
+        'position':1}
     ]
 
 

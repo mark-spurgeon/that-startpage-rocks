@@ -43,6 +43,7 @@ input[type="text"] {
   opacity:.6;
   color:white;
   padding:15px;
+  outline:none;
 }
 input[type="text"]:focus {
   background-color:rgb(40,40,40);

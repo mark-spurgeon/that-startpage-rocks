@@ -69,7 +69,7 @@ def homepage():
 def bots():
     return render_template('robots.txt')
 
-@app.route('/_data_info')
+@app.route('/_data_info/')
 @cache.cached(timeout=7200)
 def info():
     l = [ i for i in sp_data.ExternalUser.query()]
@@ -78,23 +78,23 @@ def info():
     count2 = len(l2)
     return render_template('data.html', userCount=count,iconCount=count2 )
 
-@app.route('/sitemap')
+@app.route('/sitemap/')
 def index_sitemap():
     return render_template('sitemap.html')
-@app.route('/terms')
+@app.route('/terms/')
 def tos():
     return render_template("tos.html")
-@app.route('/privacy')
+@app.route('/privacy/')
 def privacy():
     return render_template("privacy.html")
-@app.route('/features')
+@app.route('/features/')
 def features():
     return redirect(url_for("index"))
 @app.route('/features/search')
 def features_searcj():
     return render_template('feature-search.html')
 
-@app.route('/browsers')
+@app.route('/browsers/')
 def browsers():
     return render_template('browsers.html')
 @app.route('/browsers/firefox')
@@ -115,14 +115,14 @@ def browsers_o():
 @app.route('/browsers/other')
 def browsers_other():
     return render_template('browsers/other.html')
-@app.route('/login')
+@app.route('/login/')
 def login():
     u, u_i = checkUserLoggedIn()
     if u and u_i:
         return redirect(url_for('edit'))
     else:
         return render_template('login.html')
-@app.route('/signup')
+@app.route('/signup/')
 def signup():
     u, u_i = checkUserLoggedIn()
     if u and u_i:
@@ -382,12 +382,17 @@ def setup_five():
 
 @app.route("/add")
 def edit_add():
+
+    url = request.args.get("url")
+
     u, u_i = checkUserLoggedIn()
     if u and u_i:
         usr = sp_data.ExternalUser.query()
         try:
             user = [ue for ue in usr if str(ue.source)==str(u_i['source']) and str(ue.userID)==u_i['userID']][0]
-            return render_template("edit-add.html")
+            if url == None:
+                url=""
+            return render_template("edit-add.html", url=url)
         except:
             return render_template("edit-add-error.html")
     else:
@@ -425,13 +430,14 @@ def edit():
                 return render_template('edit.html', user=u_i, upload_bg=uploadUri, title = title, img = img, theme= theme, apps = apps,linkUrl=linkUrl, message=msg,searchEngine = searchEngine,searchEngineOptions = searchEngineOptions, zipUrl=zipUrl)
     else:
         return redirect(url_for('login'))
+''' -> for development purposes
 @app.route('/edit-dummy')
 def edit_du():
     linkUrl = "http://that.startpage.rocks/"
     searchEngine = "google"
     searchEngineOptions = sp_browsers.browserOptions
-    return render_template('edit.html',user={'usermane':"Dummy"}, upload_bg="", title = "KA", img = "", theme= "white", apps = [{'position':1, 'icon':'','display_name':"DUmmy",'url':'tralala'}],linkUrl=linkUrl, message="",searchEngine = searchEngine,searchEngineOptions = searchEngineOptions,zipUrl="/")
-
+    return render_template('edit-2.html',user={'username':"Dummy"}, upload_bg="", title = "KA", img = "", theme= "white", apps = [{'position':1, 'icon':'','display_name':"DUmmy",'url':'tralala'}],linkUrl=linkUrl, message="",searchEngine = searchEngine,searchEngineOptions = searchEngineOptions,zipUrl="/")
+'''
 
 ##config changes [backend]
 @app.route('/config/upload-bg',methods=['POST'])
@@ -509,7 +515,7 @@ def cfg_add_website():
                 from BeautifulSoup import BeautifulSoup
                 par = BeautifulSoup(content)
 
-                the_title = par.find('title').string
+                the_title = str(par.find('title').string).decode('unicode-escape')
 
                 #find icon in repo
                 img_url=None
@@ -578,7 +584,7 @@ def cfg_add_website():
                     if names.colors[the_title[0].lower()]:
                         bg_color=names.colors[the_title[0].lower()]
                     else:
-                        bg_color="#F4D03F"
+                        bg_color="#1e1e1e"
 
 
                 else:
@@ -600,7 +606,7 @@ def cfg_add_website():
                 new_webapp = {'url':url,
                             'icon':"letter",
                             'display_name':"UNTITLED",
-                            'bg_color':"#F4D03F",
+                            'bg_color':"#1e1e1e",
                             'position':len(wa_list)+1}
                 wa_list.append(new_webapp)
                 user.linksList = wa_list
@@ -913,7 +919,7 @@ def admin_edit_icon(id_):
 
         item = sp_data.appIconProposed.get_by_id(int(id_))
 
-        theDomains = item.domains.split(',')
+        theDomains = request.form.get('domains').split(",")
         theParsedDomains = []
         from plugins import domains
         for dom in theDomains:
@@ -932,10 +938,11 @@ def admin_edit_icon(id_):
                 item.imageKey=theKey
             except:
                 pass
+            print "yeah new domains = " +domainslist
             item.put()
             return redirect(url_for('admin_icons'))
         else:
-            return redirect(url_for('admin_icons'))
+            return redirect(url_for('icons'))
     else:
         return redirect(url_for('admin_icons'))
 

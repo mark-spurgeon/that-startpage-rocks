@@ -1,6 +1,7 @@
 <html >
 <head><!-- manifest='{{manifest}}'>-->
   <title>{{title}}</title>
+  <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href='https://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
   <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
@@ -9,10 +10,11 @@
   <link type="text/css" href="/static/styles/perfect-scrollbar.css" rel="stylesheet" media="all" />
   <script src="/static/js/jquery-2.1.3.min.js"></script>
   <script type="text/javascript" src="/static/js/perfect-scrollbar.jquery.min.js"></script>
-  <script src='/static/js/masonry.pkgd.min.js'></script>
   <script type="text/javascript" src="/static/js/perfect-scrollbar.min.js"></script>
   <link href="/static/styles/main.css" rel="stylesheet" type="text/css">
+  {% if theme !='white'%}
   <link href="/static/styles/{{theme}}Theme.css" rel="stylesheet" type="text/css">
+  {% endif %}
   <script src='/static/js/main.js'></script>
 </head>
 <body style="background-image:url('{{img}}')">

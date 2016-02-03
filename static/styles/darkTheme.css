@@ -132,6 +132,9 @@ div#app-view.searching {
   color:rgb(30,30,30);
   text-shadow: none;
 }
+.letter p {
+  color:white;
+}
 
 
 /* Plugin Suggestion */
@@ -186,34 +189,4 @@ div#app-view.searching {
 .footer-link:hover {
   background-color:rgb(30,30,30);
   color:white;
-}
-
-/* media */
-@media screen and (max-width: 1024px) {
-  div#container {
-    width:860px;
-  }
-  div#app-view {
-    width:820px;
-  }
-  div#app-view.searching {
-    margin-top:-10px;
-    width:510px;
-  }
-}
-@media screen and (max-width: 920px) {
-  div#container {
-    width:500px;
-  }
-  div#app-view {
-    width:460px;
-  }
-  div#search-panel.searching {
-    width:480px;
-    height:250px;
-  }
-  div#app-view.searching {
-    width:460px;
-    margin-top:10px;
-  }
 }

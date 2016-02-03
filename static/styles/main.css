@@ -45,7 +45,7 @@ code {
 div#container {
   margin-left:auto;
   margin-right:auto;
-  margin-top:80px;
+  margin-top:20px;
   width:1024px;
   height:90%;
   position:relative;
@@ -198,7 +198,7 @@ div#app-view {
 div#app-view.searching {
   transition:width .1s, height .1s, margin-top .1s;
   width:674px;
-  height:70%;
+  height:80%;
 }
 div#app-view.searching .app-item {
   margin-left:6px;
@@ -461,6 +461,45 @@ div#cog i {
   color:rgb(30,30,30);
 }
 
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-button {
+  width: 0px;
+  height: 0px;
+}
+::-webkit-scrollbar-thumb {
+  -webkit-transition: background .2s;
+  background: rgba(255,255,255,0.3);
+  border: 0px none #ffffff;
+  border-radius: 41px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255,255,255,0.5);
+}
+::-webkit-scrollbar-thumb:active {
+  background: rgba(255,255,255,0.7);
+}
+::-webkit-scrollbar-track {
+  -webkit-transition: background .2s;
+  background: rgba(255,255,255,0.0);
+  border: 0px none #ffffff;
+  border-radius: 50px;
+}
+::-webkit-scrollbar-track:hover {
+  background:rgba(255,255,255,0.1);
+}
+::-webkit-scrollbar-track:active {
+  background: rgba(255,255,255,0.1);
+}
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+
 /* media */
 @media screen and (max-width: 1040px) {
   div#container {
@@ -501,7 +540,7 @@ div#cog i {
     height:250px;
   }
   div#search-results {
-    height:220px;
+    height:215px;
   }
   div#search-message {
     height:30px;
@@ -531,8 +570,9 @@ div#cog i {
   div#search-results{display:none}
   div#search-message{display:none}
   div#app-view{
-    width:100%;
-    margin:0px;
+    width:220px;
+    margin:0px auto;
+    float:none;
     bottom:0px;
     height:90%;
   }
@@ -541,6 +581,9 @@ div#cog i {
     width:100%;
     height:90%;
     margin:0px;
+  }
+  div#edit-panel {
+    display: none;
   }
 
   .app-item {

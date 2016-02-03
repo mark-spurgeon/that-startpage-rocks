@@ -1,5 +1,6 @@
 <html manifest="/static/startpage.manifest">
 <head>
+  <meta charset="utf-8">
   <meta name="robots" content="index,follow">
   <meta property="og:title" content="That Startpage Rocks - Edit"/>
 	<meta property="og:url" content="http://startpage-1072.appspot.com"/>
@@ -29,7 +30,7 @@
   </div>
   <div id="content">
   <form action="/config/add-website?redirect=http%3A%2F%2Fthat.startpage.rocks%2F<user>" enctype="multipart/form-data" method='post'>
-    <input type="text" placeholder="Paste URL" name="url" autofocus="true"></input>
+    <input type="text" placeholder="Paste URL" name="url" value="{{url}}" autofocus="true"></input>
     <input type="submit" value="ADD"></submit>
   </form>
   </div>
