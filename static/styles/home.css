@@ -19,7 +19,7 @@ h1,h2,p {
 #container {
   margin-top:10px !important;
   height:auto !important;
-  min-height:1300px;
+  
 }
 #message {
   background-color:rgb(30,30,30);
@@ -166,7 +166,7 @@ footer {
   margin:0px;
   margin-top:50px;
   background-color:#F4D03F;
-  height: 200px;
+  height: auto;
   padding: 1rem;
 }
 .footer-block {
@@ -176,7 +176,20 @@ footer {
   text-transform: uppercase;
 }
 .footer-block a {
-  color:rgb(30,30,30)
+  color:rgb(30,30,30);
+  text-decoration: none;
+  border-style: dotted;
+  border-width: 0px;
+  border-bottom-width: 1px;
+  border-color: transparent;
+  font-size: .9em;
+}
+.footer-block a:hover {
+  border-color: black;
+}
+.footer-block-title{
+  font-weight: bold;
+}
 }
 .footer-block-title{
   font-weight: bold;

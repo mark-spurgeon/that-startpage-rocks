@@ -11,7 +11,7 @@
 
 
   <title>Sign Up - That Startpage Rocks</title>
-  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/static/styles/font-awesome.css">
   <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
   <link href='https://fonts.googleapis.com/css?family=Roboto+Condensed:700,400' rel='stylesheet' type='text/css'>
   <script src="/static/js/jquery-2.1.3.min.js"></script>
@@ -21,12 +21,12 @@
 </head>
 
 <body>
-  <div id='filter'>
+  <div id='filter'></div>
   <div id='header' style='background-color:transparent;'>
     <div id='icon-block'>
       <img src='/static/icons/tsr-signup.svg' />
     </div>
-    <a class='h-icon' style="margin-right:74px;" href='/home'>
+    <a class='h-icon' style="margin-right:74px;" href='/more'>
       <img src='/static/icons/tsr-more.svg' />
     </a>
   </div>
@@ -44,18 +44,34 @@
     </div>
     <div id="attribution">
       <p>Background image <a href="https://pixabay.com/photo-1056764/">available here</a>, under the creative commons licence.</p>
-      <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-  <!-- tsr_banner -->
-  <ins class="adsbygoogle"
-       style="display:inline-block;width:728px;height:90px"
-       data-ad-client="ca-pub-5263514922826121"
-       data-ad-slot="5268460296"></ins>
-  <script>
-  (adsbygoogle = window.adsbygoogle || []).push({});
-  </script>
     </div>
   </div>
-</div>
+
+<footer id="footer">
+  <ul class="footer-block">
+    <li class="footer-block-title">That Startpage Rocks</li>
+     <li><a href="/home">Home</a></li>
+     <li><a href="/signup">Signup</a></li>
+     <li><a href="/login">Login</a></li>
+     <li><a href="/icons">Icon repository</a></li>
+     <li><a href="/browser">Add to browser</a></li>
+     <li><a href="/more">Presentation</a></li>
+  </ul>
+<ul class="footer-block">
+  <li class="footer-block-title">Copyright (C) 2016 Mark Spurgeon </li>
+   <li><a href="https://github.com/the-duck/that-startpage-rocks">Github Source (license: LGPL v3.0)</a></li>
+   <li><a href="/terms">Terms of Service</a></li>
+   <li><a href="/privacy">Privacy Policy</a></li>
+</ul>
+<ul class="footer-block">
+  <li class="footer-block-title">Made by @the-duck</li>
+   <li> <a href="http://the-duck.github.io">the-duck.github.io</a></li>
+   <li> <a href="mailto:theduck.dev@gmail.com">theduck.dev@gmail.com</a></li>
+</ul>
+</footer>
+
+
+
   <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),

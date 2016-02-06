@@ -9,7 +9,7 @@ div#container {
   margin-right:auto;
   width:1024px;
   height:90%;
-  height:512px;
+  height:522px !important;
 }
 div#logo {
   margin:0px auto;
@@ -27,7 +27,7 @@ div#logo img {
 div#login {
   margin:0 auto;
   width: 340px;
-  height:250px;
+  height:280px;
   padding:5px;
   background-color:white;
   border-style:solid;

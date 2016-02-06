@@ -11,7 +11,12 @@ body {
   padding:0px;
   margin:0px;
   background-color:rgba(10,10,20,0.6);
-  height:150%;
+  position: fixed;
+  left:0px;
+  right:0px;
+  top:0px;
+  bottom:0px;
+  z-index: -100;
 }
 h1 {
   text-transform: uppercase;
@@ -27,8 +32,10 @@ a {
 }
 div#container {
   width:720px;
+  height:460px !important;
   margin:60px auto;
   border-radius: 3px;
+  overflow: hidden;
 }
 div#left-block {
   margin:0px;
@@ -50,6 +57,9 @@ div#right-block {
   float:right;
 }
 div#attribution {
+  float:right;
+  width:400px;
+
   margin:0px;
   padding:0px;
   font-size: 0.6em;
@@ -93,9 +103,14 @@ div#attribution p {
 }
 .login-btn.signup{
   border-color:transparent;
-
+  font-size: .8em;
   background:#F4D03F;
 }
 .login-btn.signup:hover{
   background:linear-gradient(#F4D03F,#e8c63c);
+}
+
+.footer-block-title{
+  color:black !important;
+  font-weight: bold;
 }

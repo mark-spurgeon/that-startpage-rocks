@@ -7,6 +7,9 @@ from flask import g, make_response, request, current_app,send_from_directory,ren
 from werkzeug import parse_options_header
 from flask.ext.cache import Cache
 
+from flask.ext.mobility import Mobility
+from flask.ext.mobility.decorators import mobile_template
+
 from traceback import print_exc
 
 from google.appengine.api import users
@@ -32,6 +35,7 @@ app = Flask(__name__)
 app.config['DEBUG'] = False
 app.secret_key = str(uuid.uuid4())
 cache = Cache(app,config={'CACHE_TYPE': 'gaememcached'})
+Mobility(app)
 
 
 # Note: We don't need to call run() since our application is embedded within
@@ -60,11 +64,15 @@ def jsonResponse(json_dict):
 
 @app.route('/')
 def index():
-    #return redirect(url_for("signup"))
-    return render_template('index.html')
-@app.route('/home')
+    return redirect(url_for("signup"))
+    #return render_template('index.html')
+@app.route('/home/')
 def homepage():
     return render_template('index.html')
+@app.route('/more/')
+def presentation():
+    #return redirect(url_for("signup"))
+    return render_template('presentation.html')
 @app.route('/robots.txt')
 def bots():
     return render_template('robots.txt')
@@ -427,7 +435,10 @@ def edit():
             if request.cookies.has_key('first-login') and request.cookies.get('first-login')==str(True):
                 return redirect(url_for('setup_one'))
             else:
-                return render_template('edit.html', user=u_i, upload_bg=uploadUri, title = title, img = img, theme= theme, apps = apps,linkUrl=linkUrl, message=msg,searchEngine = searchEngine,searchEngineOptions = searchEngineOptions, zipUrl=zipUrl)
+                if request.MOBILE:
+                    return redirect(linkUrl)
+                else:
+                    return render_template('edit.html', user=u_i, upload_bg=uploadUri, title = title, img = img, theme= theme, apps = apps,linkUrl=linkUrl, message=msg,searchEngine = searchEngine,searchEngineOptions = searchEngineOptions, zipUrl=zipUrl)
     else:
         return redirect(url_for('login'))
 ''' -> for development purposes
