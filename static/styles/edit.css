@@ -2,6 +2,7 @@ body {
   background-color:white;
   font-family:'Roboto Condensed',serif;
   background:white;
+  margin:0px
 }
 
 
@@ -18,6 +19,7 @@ input[type="text"] {
   color:white;
   padding:15px;
   outline: none;
+  margin:5px;
 }
 input[type="text"]:focus {
   background-color:rgb(40,40,40);
@@ -25,6 +27,7 @@ input[type="text"]:focus {
 }
 
 input[type="submit"] {
+  margin:5px;
   text-transform: uppercase;
   border-style: solid;
   border-width: 0px;
@@ -53,7 +56,7 @@ select {
    border-top-right-radius: 2px;
    border-color:#F4D03F;
    background:url("/static/images/drop_arrow.png") no-repeat right 10px top 20px;
-   background-color:rgb(30,30,30);
+   background-color:black;
    opacity:.6;
    color:white;
    padding:15px;
@@ -73,10 +76,11 @@ option {
 }
 option:hover {
   background-color: #F4D03F;
-  color:rgb(30,30,30)
+  color:black
 }
 
 div#container {
+  transition: filter .5s;
   margin-left:auto;
   margin-right:auto;
   margin-top:5px;
@@ -94,12 +98,12 @@ filter: blur(10px);
 
 #sp-title {
   font-family:'Roboto Condensed',serif;
-  color:rgb(30,30,30);
+  color:black;
   border-style:solid;
   border-width:0px;
   border-top-width:0px;
   padding:2px;
-  border-color:rgb(30,30,30);
+  border-color:black;
   background-color:#F4D03F;
   margin:10px;
   width:200px;
@@ -114,12 +118,12 @@ div#search-bar {
   border-style:solid;
   border-width:0px;
   border-bottom-width: 3px;
-  border-color:rgb(30,30,30);
+  border-color:black;
   width:200px;
 
 }
 div#search-bar input[type='text'] {
-  color:rgb(30,30,30);
+  color:black;
   padding:6px;
   margin:0px;
   margin-top:2px;
@@ -139,7 +143,7 @@ div#search-bar input[type='text']:active {
   outline:none;
 }
 div#search-bar input[type='text']:focus {
-  border-color:rgb(30,30,30);
+  border-color:black;
   outline:none;
 }
 div#search-bar input[type='submit'] {
@@ -150,7 +154,7 @@ div#search-bar input[type='submit'] {
     border-style:solid;
     border-color:transparent;
     background:url('/static/searchDark.svg') center center;
-    color:rgb(30,30,30);
+    color:black;
     outline:none;
 }
 div#search-bar input[type='submit']:hover {
@@ -173,7 +177,7 @@ div#edit-panel {
   width:200px;
   height:auto;
   box-shadow: 1px 1px 0px 0px rgba(10,10,10,0.1);
-  background-color:rgb(30,30,30);
+  background-color:black;
   border-style: solid;
   border-width: 0px;
   border-bottom-width: 3px;
@@ -193,10 +197,13 @@ hr {
 .usr-link {
   padding:3px;
   color:#F4D03F;
+  text-decoration: none;
+  border-style: dotted;
+  border-width: 1px;
+  border-color: transparent;
 }
 .usr-link:hover {
-  color:rgb(30,30,30);
-  background-color:#F4D03F;
+  border-bottom-color:#F4D03F;
 }
 
 a {
@@ -255,7 +262,7 @@ div#app-view {
   height:auto;
   border-style: solid;
   border-width:0px;
-  border-color:rgb(30,30,30);
+  border-color:black;
   width:774px;
 }
 div#app-view.searching {
@@ -277,7 +284,7 @@ div#app-view.searching {
 }
 #edit-bg p {
   padding:4px;
-  color:rgb(30,30,30);
+  color:black;
   background-color:white;;
   text-transform:uppercase;
   width:300px;
@@ -290,13 +297,13 @@ div#app-view.searching {
 #edit-theme p {
   padding:4px;
   color:white;
-  background-color:rgb(30,30,30);;
+  background-color:black;;
   text-transform:uppercase;
   width:300px;
 }
 #edit-theme form {
   padding:40px;
-  background-color:rgb(30,30,30);
+  background-color:black;
   color:white;
 }
 
@@ -306,18 +313,18 @@ div#app-view.searching {
 #edit-title p {
   padding:4px;
   color:white;
-  background-color:rgb(30,30,30);;
+  background-color:black;;
   text-transform:uppercase;
   width:300px;
 }
 #edit-title form {
   padding:40px;
-  background-color:rgb(30,30,30);
+  background-color:black;
   color:white;
 }
 
 #edit-add-website {
-  background-color:rgb(30,30,30);;
+  background-color:black;;
   text-transform:uppercase;
   color:white;
   width:100%;
@@ -332,7 +339,7 @@ div#app-view.searching {
   background-color:rgb(60,60,60)
 }
 #edit-apply-website {
-  background-color:rgb(30,30,30);;
+  background-color:black;;
   text-transform:uppercase;
   color:rgb(200,200,200);
   width:100%;
@@ -358,11 +365,11 @@ div#app-view.searching {
 }
 
 #bg-theme {
-  background-color:rgb(30,30,30);
+  background-color:black;
   padding:50px;
 }
 #apps_list {
-  background-color:rgb(30,30,30);
+  background-color:black;
   padding:50px;
   padding-bottom:5px;
   margin-bottom:0px;
@@ -403,18 +410,18 @@ div#app-view.searching {
 
 .sp-link-widget {
   width:190px;
-  margin:5px;
+  margin:3px;
   border-style: solid;
   border-width: 1px;
-  border-radius: 2px;
+  border-radius: 1px;
   border-color:#F4D03F;
   color:#F4D03F;
-  background-color: rgb(30,30,30);
+  background-color: rgb(10,10,10);
   height:30px;
 }
 .sp-link-text {
   width:149px !important;
-  margin:0px;
+  margin:0px !important;
   margin-left:1px;
   padding:0px !important;
   padding-top:8px !important;
@@ -433,9 +440,10 @@ div#app-view.searching {
   padding-bottom:8px;
   padding-top:8px;
   background-color: #F4D03F;
-  color:rgb(30,30,30);
+  color:black;
   border-width: 0px;
   border-style: solid;
+  cursor:pointer;
 }
 .sp-link-widget button:active {
   opacity: .9
@@ -446,8 +454,8 @@ table {
   width:100%;
   color:white;
 }
-li {
-  background-color:rgb(80,80,80);
+#apps_list li {
+  background-color:rgb(50,50,50);
   border-style: dashed;
   border-width:1px;
   border-color:rgb(100,100,100);
@@ -460,8 +468,8 @@ li {
   display:block;
   list-style-type: none;
 }
-.website-item {
-  background-color:rgb(40,40,40);
+#apps_list li.website-item {
+  background-color:rgb(20,20,20);
   border-style:solid;
   border-width:0px;
   border-bottom-width: 1px;
@@ -492,6 +500,30 @@ li {
   background-color:rgba(0,0,0,0.6);
 }
 
+.web-display-name span {
+  width:80%;
+  margin:0px;
+  padding:0px;
+  overflow:hidden;
+  float:left;
+  line-height: 46px;
+  height:46px;
+}
+.web-display-name button {
+  width: 20%;
+  margin:0px;
+  padding:0px;
+  float:right;
+}
+.web-url span {
+  width:90%;
+  margin:0px auto;
+  padding:0px;
+  overflow:hidden;
+  float:left;
+  line-height: 46px;
+  height:46px;
+}
 
 .btn-remove-website {
   transition: background-color .1s, color .1s;
@@ -500,20 +532,26 @@ li {
   border-width: 0px;
   border-top-width: 1px;
   width:46px;
-  font-size:16px;
-  padding:14px;
-  padding-right: 18px;
+  height:46px;
+  margin:0px;
+  padding:0px;
+  font-size:1em;
   text-decoration: none;
-  color:rgba(255,255,255,0.6);
+  color:rgb(240,80,80);
+  display: block;
+  float:right;
+  margin-right: -3px;
+}
+.btn-remove-website i {
+  padding:16px;
+  padding-left:16px;
 }
 .btn-remove-website:hover {
-  border-color:rgb(240,80,80);
   color:rgb(240,80,80);
   background-color:rgba(240,80,80,0.05);
 }
 .btn-remove-website:active {
-  border-color:rgb(240,80,80);
-  color:rgb(30,30,30);
+  color:black;
   background-color:rgba(240,80,80,0.8);
 }
 .btn-edit-title {
@@ -523,9 +561,13 @@ li {
   padding:2px;
   text-decoration: none;
   color:rgba(255,255,255,0.6);
+  height:46px;
+  font-size: 1em;
+  cursor:pointer;
 }
 .btn-edit-title:hover {
   color:white;
+  background-color: rgb(30,30,30);
 }
 .btn-edit-title:active {
   border-style: dotted;
@@ -555,9 +597,14 @@ filter: blur(0px);
 }
 
 div#popup {
+  -webkit-filter: blur(0px);
+-moz-filter: blur(0px);
+-o-filter: blur(0px);
+-ms-filter: blur(0px);
+filter: blur(0px);
   position:fixed;
   width:500px;
-  background-color:rgb(30,30,30);
+  background-color:black;
   left:50%;
   margin-left:-300px;;
   top:100px;
@@ -602,7 +649,7 @@ div#popup {
 }
 
 #sp-zip {
-  background-color:rgb(30,30,30);
+  background-color:black;
   padding:50px;
 }
 #sp-zip p {
@@ -630,7 +677,7 @@ div#popup {
 }
 .zip-link:hover {
   opacity: 1;
-  color:rgb(30,30,30)
+  color:black
 }
 .code {
   color:#F4D03F;
@@ -638,8 +685,8 @@ div#popup {
   padding:1px;
 }
 .code.dark {
-  color:rgb(30,30,30);
-  border-bottom: 1px dotted rgb(30,30,30);
+  color:black;
+  border-bottom: 1px dotted black;
   padding:1px;
 }
 
@@ -648,7 +695,7 @@ div#popup {
   width:200px;
   padding:2px;
   margin:10px;
-  background-color:rgb(30,30,30);
+  background-color:black;
   height:55px;
   position:fixed;
   bottom:10px;
@@ -667,7 +714,7 @@ div#popup {
   height:18px;
   font-size: .9em;
   background-color:#F4D03F;
-  color:rgb(30,30,30);
+  color:black;
   text-transform: uppercase;
   font-weight: bold;
   font-style: italic;
@@ -676,6 +723,53 @@ div#popup {
   border-width: 0px;
   border-radius: 2px;
 }
+
+.chevron-animation {
+  transition: margin-left .2s;
+  margin-left:10px;
+}
+#movable-panel a:hover .chevron-animation {
+  margin-left:15px;
+}
+
+
+footer {
+  width:100%;
+  overflow: hidden;
+  margin:0px;
+  margin-top:0px;
+  background-color:#F4D03F;
+  height: auto;
+
+  padding: 0px;
+}
+.footer-block {
+  display: block;
+  float:left;
+  list-style-type: none;
+  text-transform: uppercase;
+  margin-left:0px;
+  padding-left:10px;
+  padding-right: 40px;
+}
+.footer-block a {
+  color:rgb(30,30,30);
+  text-decoration: none;
+  padding:1px;
+  border-style: dotted;
+  border-width: 0px;
+  border-bottom-width: 1px;
+  border-color: transparent;
+}
+.footer-block a:hover {
+  border-color: black;
+}
+.footer-block-title{
+  font-weight: bold;
+}
+
+
+
 /* media */
 @media screen and (max-width: 1024px) {
   div#container {

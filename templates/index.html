@@ -1,6 +1,6 @@
 <html lang="en">
 <head>
-  <title>That Startpage Rocks - The alternative startpage</title>
+  <title>That Startpage Rocks - A Simple & Beautiful Homepage for your Browser</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- Missing icon -->
  <link rel="icon" href="/static/icons/app/tsr-16.png" type="image/png" sizes="16x16">
@@ -97,7 +97,7 @@ $(document).ready(function(){
   </a>
 </div>
 
-  <div id='container' style="min-height:1300px;">
+  <div class='container' style="min-height:1300px;">
     <div id='right-panel'>
       <!-- tsr_resp -->
       <ins class="adsbygoogle"
@@ -181,6 +181,7 @@ $(document).ready(function(){
      <li><a href="https://github.com/the-duck/that-startpage-rocks">Github Source (license: LGPL v3.0)</a></li>
      <li><a href="/terms">Terms of Service</a></li>
      <li><a href="/privacy">Privacy Policy</a></li>
+     <li><a href="/more/#contact">Contact</a></li>
   </ul>
   <ul class="footer-block">
     <li class="footer-block-title">Made by @the-duck</li>
@@ -199,7 +200,7 @@ $(document).ready(function(){
   ga('create', 'UA-67397540-2', 'auto');
   ga('require', 'linkid');
   ga('send', 'pageview');
-
+ga('send', 'event','Views','Homepage',1);
   </script>
 
 </body>

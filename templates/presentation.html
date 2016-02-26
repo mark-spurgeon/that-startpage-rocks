@@ -1,13 +1,13 @@
 <html>
 <head>
-  <title>The Alternative Homepage - That Startpage Rocks</title>
+  <title>That Startpage Rocks - A Simple & Beautiful Homepage for your Browser</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" href="/static/icons/app/tsr-16.png" type="image/png" sizes="16x16">
   <link rel="icon" href="/static/icons/app/tsr-32.png" type="image/png" sizes="32x32">
   <link rel="icon" href="/static/icons/app/tsr-64.png" type="image/png" sizes="64x64">
   <link rel="icon" href="/static/icons/app/tsr-128.png" type="image/png" sizes="128x128">
-   <meta property="og:image" content=""/>
+   <meta property="og:image" content="http://that.startpage.rocks/static/images/preview.png"/>
  	<meta property="og:title" content="That Startpage Rocks"/>
  	<meta property="og:url" content="http://that.startpage.rocks"/>
  	<meta property="og:site_name" content="That Startpage Rocks"/>
@@ -32,6 +32,10 @@
     }, speed);
   }
 
+  function shareTo(url) {
+    var a = window.open(url, '', 'height=320, width=500, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, directories=no, status=no');
+  }
+
 </script>
 </head>
 <body>
@@ -42,6 +46,16 @@
     <a id="continue" onclick="scrollToElement('#slide1', 500)"><h4 style="text-align:center">Learn more</h4></a>
     <div id="animation">
     </div>
+
+    <div id="share-buttons">
+      <div>
+        <a class="share-platform tw" target="_blank" onclick="shareTo('http://www.twitter.com/intent/tweet?url=http%3A%2F%2Fthat.startpage.rocks%2Fmore')"><i class="fa fa-twitter"></i></a>
+        <a class="share-platform fb"  target="_blank" onclick="shareTo('https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fthat.startpage.rocks%2Fmore')"><i class="fa fa-facebook"></i></a>
+        <a class="share-platform g" target="_blank" onclick="shareTo('https://plus.google.com/share?url=http%3A%2F%2Fthat.startpage.rocks%2Fmore')"><i class="fa fa-google"></i></a>
+        <a class="share-platform m" onclick="mailto:?body=http%3A%2F%2Fthat.startpage.rocks%2Fmore&subject=ThatStartpageRocks"><i class="fa fa-envelope-o"></i></a>
+      <div>
+    </div>
+
   </section>
 
   <section class="module parallax parallax-1" id="slide1">
@@ -76,6 +90,13 @@
   <section class="module content dark">
     <div class="container" >
       <p class="definition unique"><b style="font-weight:bold;color:white;">Startpage,</b> <i style="font-style:italic">n.</i> 1. The opening page in a browser, set by the user. Also known as homepage.</p>
+    </div>
+  </section>
+
+  <section class="module content yellow">
+    <div class="container" >
+      <h2>How it works</h2>
+      <p class="definition yellow unique">First, <a href="/signup">signup</a>. Then, follow a few steps to customize your startpage. And that's it ! We give you a link to your startpage, from which you can access your bookmarks and search. To add or remove bookmarks, or to customize your startpage's look, place your cursor on the <i class="fa fa-cog"></i> button (on the top right corner of your startpage), and click on 'edit'.</p>
     </div>
   </section>
 
@@ -143,6 +164,54 @@
   </section>
 
 
+  <section class="module content yellow" id="contact">
+    <div class="container" style="overflow:hidden">
+
+      <div class="half-cont">
+        <div style="margin:5px;padding:10px;">
+          <h2><i class="fa fa fa-paper-plane"></i> Contact</h2>
+          <p>Are you a user, a developer or from the press ? Please fill in this form to ask questions, comment or discuss.</p>
+        </div>
+      </div>
+
+
+
+      <div class="half-cont">
+        <div style="margin:5px;padding:10px;">
+          <h2></h2>
+          <form enctype="multipart/form-data" action="/send_mail" method="POST">
+            <div style="float:left;margin:0px;padding:0px;width:50%">
+              <div style="margin:5px;">
+                <i class="in-text">First Name</i>
+                <input type="text" name="firstname" ></input>
+              </div>
+            </div>
+            <div style="float:left;margin:0px;padding:0px;width:50%">
+              <div style="margin:5px;">
+                <i class="in-text">Last Name</i>
+                <input type="text" name="lastname"></input>
+              </div>
+            </div>
+            <div style="margin:5px;">
+              <i class="in-text">Email Address</i>
+              <input type="email" name="email"></input>
+            </div>
+            <div style="margin:5px;">
+              <i class='in-text'>Message</i>
+              <textarea name="body"></textarea>
+            </div>
+            <input type="submit" value="Submit"></input>
+          </form>
+        </div>
+      </div>
+
+
+    </div>
+  </section>
+
+
+
+
   <footer id="footer">
     <div class="container">
     <ul class="footer-block">
@@ -158,6 +227,7 @@
      <li><a href="https://github.com/the-duck/that-startpage-rocks">Github Source (license: LGPL v3.0)</a></li>
      <li><a href="/terms">Terms of Service</a></li>
      <li><a href="/privacy">Privacy Policy</a></li>
+     <li><a href="/more/#contact">Contact</a></li>
   </ul>
   <ul class="footer-block">
     <li class="footer-block-title">Made by @the-duck</li>
@@ -168,6 +238,19 @@
 </footer>
 
   <a href="/signup" id="signup"></a>
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-67397540-2', 'auto');
+  ga('require', 'linkid');
+  ga('send', 'pageview');
+  ga('send', 'event','Views','Presentation',1);
+</script>
 
 </body>
 </html>

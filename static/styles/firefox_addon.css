@@ -43,7 +43,7 @@ body {
 .app-item p {
   text-decoration:none;
   text-transform:uppercase;
-  color:rgb(30,30,30);
+  color:white;
   font-family:'Roboto Condensed',sans-serif;
   /*font-weight:bold;*/
   font-size:0.8em;

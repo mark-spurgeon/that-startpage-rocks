@@ -41,6 +41,16 @@ section.module.content.dark p {
 section.module.content.dark  a{
   color:#F4D03F;
 }
+section.module.content.yellow {
+  background-color: #F4D03F;
+  color:black;
+}
+section.module.content.yellow p {
+  color:black;
+}
+section.module.content.yellow  a{
+  color:rgb(30,30,30);
+}
 section.module.head {
   padding:10px 0;
   margin:0px;
@@ -183,6 +193,18 @@ div#animation {
   line-height: 1.8em;
 }
 
+.half-cont {
+  margin:0px;
+  padding:0px;
+  border-style: solid;
+  border-width: 0px;
+  width:100%;
+  margin-bottom:20px;
+  float:left;
+  display: block
+}
+
+
 code {
   background-color: rgb(50,50,50);
   color:#F4D03F;
@@ -214,6 +236,48 @@ p.definition {
 }
 
 
+#share-buttons {
+  transition: width .2s, height .5s;
+  position:absolute;
+  right:30px;
+  top:31px;
+  width:48px;
+  height:48px;
+  overflow:hidden;
+  background-color:transparent;
+  color:transparent;
+}
+#share-buttons a {
+  color:transparent;
+}
+#share-buttons:hover {
+  visibility: visible;
+  background-color: white;
+  height:auto;
+  width:200px;
+  color:black;
+}
+#share-buttons:hover a {
+  color:black;
+}
+#share-buttons div {
+  margin-top:15px;
+  width:200px;
+}
+.share-platform {
+  cursor:pointer;
+  width:30px;
+  height:30px;
+  line-height: 30px;
+  font-size: 2em;
+  padding:10px;
+  border-style: solid;
+  border-width: 0px;
+  border-bottom-width: 0px;
+}
+.share-platform:hover {
+  border-bottom-width: 2px;
+}
 
 footer {
   width:auto;
@@ -261,6 +325,49 @@ footer {
   border-radius: 1px;
   border-width: 0px;
   background:url(/static/presentation/signup.gif);
+  box-shadow: 0px 1px 1.2px 1px rgba(20,20,20,0.2);
+}
+#signup:hover {
+  box-shadow: 0px 1.5px 1.2px 1px rgba(20,20,20,0.22);
+}
+
+input[type="text"],input[type="email"], textarea {
+  width:100%;
+  max-width:100%;
+  min-width:100%;
+  margin:0px;
+  padding:5px;
+  border-style: solid;
+  border-width: 3px;
+  border-color: black;
+  background-color:transparent;
+  color:black;
+  font-family: 'Roboto Condensed',Arial,sans-serif;
+}
+
+input[type="submit"] {
+  color:#F4D03F;
+  background: black;
+  border-style: solid;
+  border-width: 3px;
+  border-color: black;
+  margin:5px;
+  padding:5px;
+}
+input[type="submit"]:hover {
+  border-color: rgb(30,30,30);
+  background: rgb(30,30,30);
+  cursor: pointer;
+}
+input[type="submit"]:active {
+  border-color: black;
+  background: rgb(30,30,30);
+  cursor: pointer;
+}
+.in-text {
+  padding:6px;
+  margin:2px;
+  font-style: normal;
 }
 
 
@@ -286,5 +393,9 @@ footer {
   .sub-cont {
     width:33%;
     margin-bottom:40px;
+  }
+  .half-cont {
+    width:50%;
+    margin-bottom:10px;
   }
 }

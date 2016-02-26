@@ -17,6 +17,7 @@ from google.appengine.ext import ndb
 from google.appengine.ext import blobstore
 from google.appengine.ext.blobstore.blobstore import BlobKey
 from google.appengine.api import images
+from google.appengine.api import mail
 
 from apiclient import discovery
 from oauth2client import client
@@ -24,18 +25,23 @@ import httplib2
 import json
 
 import uuid
+from authomatic.adapters import WerkzeugAdapter
+from authomatic import Authomatic
 
 import app_list
 from plugins import plugins1 as plugins
 from plugins import browsers as sp_browsers
 from plugins import apikeys
 import sp_data
+from plugins.auth_config import CONFIG
+
 
 app = Flask(__name__)
 app.config['DEBUG'] = False
 app.secret_key = str(uuid.uuid4())
 cache = Cache(app,config={'CACHE_TYPE': 'gaememcached'})
 Mobility(app)
+authomatic = Authomatic(CONFIG, 'your secret string', report_errors=False)
 
 
 # Note: We don't need to call run() since our application is embedded within
@@ -64,7 +70,7 @@ def jsonResponse(json_dict):
 
 @app.route('/')
 def index():
-    return redirect(url_for("signup"))
+    return redirect(url_for("presentation"))
     #return render_template('index.html')
 @app.route('/home/')
 def homepage():
@@ -441,13 +447,13 @@ def edit():
                     return render_template('edit.html', user=u_i, upload_bg=uploadUri, title = title, img = img, theme= theme, apps = apps,linkUrl=linkUrl, message=msg,searchEngine = searchEngine,searchEngineOptions = searchEngineOptions, zipUrl=zipUrl)
     else:
         return redirect(url_for('login'))
-''' -> for development purposes
+'''
 @app.route('/edit-dummy')
 def edit_du():
     linkUrl = "http://that.startpage.rocks/"
     searchEngine = "google"
     searchEngineOptions = sp_browsers.browserOptions
-    return render_template('edit-2.html',user={'username':"Dummy"}, upload_bg="", title = "KA", img = "", theme= "white", apps = [{'position':1, 'icon':'','display_name':"DUmmy",'url':'tralala'}],linkUrl=linkUrl, message="",searchEngine = searchEngine,searchEngineOptions = searchEngineOptions,zipUrl="/")
+    return render_template('edit.html',user={'username':"Dummy"}, upload_bg="", title = "KA", img = "", theme= "white", apps = [{'position':1, 'icon':'','display_name':"DUmmy big enormous name title bookmar",'url':'http://that.startpage.rocks/adkle981230891204809/812043j9740/'}],linkUrl=linkUrl, message="",searchEngine = searchEngine,searchEngineOptions = searchEngineOptions,zipUrl="/")
 '''
 
 ##config changes [backend]
@@ -1419,7 +1425,64 @@ def auth_logout():
     resp.set_cookie('sp-user',expires=0)
     return resp
 
+###
+# NEW AUTH
+####
 
+@app.route('/auth/<provider_name>/', methods=['GET', 'POST'])
+def authenticate(provider_name):
+    """
+    Login handler, must accept both GET and POST to be able to use OpenID.
+    """
+
+    # We need response object for the WerkzeugAdapter.
+    response = make_response()
+
+    # Log the user in, pass it the adapter and the provider name.
+    result = authomatic.login(WerkzeugAdapter(request, response), provider_name)
+
+    # If there is no LoginResult object, the login procedure is still pending.
+    if result:
+        if result.user:
+            # We need to update the user to get more info.
+            result.user.update()
+
+            new_user = {'username':result.user.name, 'email':result.user.email}
+
+            if result.provider.name=="fb":
+                pass
+            return jsonResponse(result.user.data)
+            #sp_item = sp_data.ExternalUser.get_by_id(int(result.user.id))
+            #if sp_item:
+            #    print "User Exists"
+            #    return jsonResponse({'user':'yes','id':result.user.id})
+            #else:
+            #    return  jsonResponse({'user':'nope'})
+    # Don't forget to return the response.
+    return response
+
+
+@app.route("/sent_mail")
+def sent_mail():
+    return render_template("sent.html")
+
+
+@app.route('/send_mail', methods=['GET','POST'])
+def send_mail():
+
+    fn = request.form['firstname']
+    ln = request.form['lastname']
+    e = request.form['email']
+    b = request.form['body']
+    footer = "\n\n------- [Sent by this person via That Startpage Rocks' contact form] ----------\n{0} {1} <{2}>".format(fn, ln, e)
+
+    theBody = "{0}\n{1}".format(b,footer)
+
+    mail.send_mail(sender= "Sender <theduck.dev@gmail.com>",
+              to="Mark Spurgeon <theduck.dev@gmail.com>",
+              subject="[RockerBot] Contacted from That Startpage Rocks",
+              body=theBody)
+    return redirect(url_for('sent_mail'))
 #####
 # Errors
 ####

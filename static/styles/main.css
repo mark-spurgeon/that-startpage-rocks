@@ -17,12 +17,11 @@
 
 body {
   background-color:rgb(30,30,30);
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
   font-family:'Roboto Condensed',serif;
   overflow-y: hidden;
+  margin:0px;
+  padding:0px;
+  color:white;
 }
 
 code {
@@ -42,12 +41,45 @@ code {
   transform: translate3d(0,-50%, 0);
 }
 
-div#container {
+div#background {
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  margin:0px;
+  padding:20px;
+  position: fixed;
+  top:0px;
+  left:0px;
+  right:0px;
+  bottom:0px;
+
+  transition: filter .3s;
+  -webkit-transition: -webkit-filter .3s;
+  -o-transition: -o-filter .3s;
+  -ms-transition: -ms-filter .3s;
+  -webkit-filter: blur(0px);
+  -moz-filter: blur(0px);
+  -o-filter: blur(0px);
+  -ms-filter: blur(0px);
+  filter: blur(0px);
+
+}
+div#background.show-widgets {
+  -webkit-filter: blur(10px);
+-moz-filter: blur(10px);
+-o-filter: blur(10px);
+-ms-filter: blur(10px);
+filter: blur(10px);
+}
+
+
+div.container {
   margin-left:auto;
   margin-right:auto;
   margin-top:20px;
   width:1024px;
-  height:90%;
+  height:100%;
   position:relative;
 }
 
@@ -55,6 +87,7 @@ div#container {
   width:300px;
   margin:0px;
   padding:0px;
+  height:100px;
 }
 #sp-title {
   font-family:'Roboto Condensed',serif;
@@ -66,6 +99,8 @@ div#container {
   border-color:white;
   margin:10px;
   width:300px;
+  height:50px;
+  overflow: hidden
 }
 
 
@@ -132,10 +167,11 @@ div#search-bar button[type='submit']:active {
 
 div#search-panel {
   transition:none;
+  position: absolute;
+  top:112px;
   width:0px;
   height:0px;
   margin-left:10px;
-  margin-top:-10px;
   float:left;
   display:block;
   background-color:white;
@@ -149,7 +185,6 @@ div#search-panel.searching {
   transition:width .2s, height .3s;
   width:300px;
   height:460px;
-  box-shadow: 1px 1px 0px 0px rgba(10,10,10,0.1);
   overflow:hidden;
 }
 div#search-results {
@@ -180,14 +215,15 @@ div#search-message p {
 
 div#app-view {
   transition:none;
-  position:relative;
+  position:absolute;
+  top:110px;
+  right:10px;
+  bottom:10px;
   float:right;
   margin:10px;
   margin-top:10px;
   margin-left:10px;
   padding: 10px;
-  /*height:420px;*/
-  height:70%;
   border-style: solid;
   border-width: 0px;
   border-bottom-width:0px;
@@ -198,10 +234,9 @@ div#app-view {
 div#app-view.searching {
   transition:width .1s, height .1s, margin-top .1s;
   width:674px;
-  height:80%;
 }
 div#app-view.searching .app-item {
-  margin-left:6px;
+  margin-left:5px;
 }
 
 div#edit-panel {
@@ -210,8 +245,8 @@ div#edit-panel {
   position:absolute;
   top:0px;
   right:10px;
-  width:28px;
-  height:28px;
+  width:32px;
+  height:32px;
   background-color:transparent;
   overflow: hidden;
   border-style:solid;
@@ -226,8 +261,8 @@ div#edit-panel:hover {
 }
 div#cog {
   transition: color .1s;
-  width:20px;
-  height:20px;
+  width:32px;
+  height:32px;
   margin:3px;
   margin-top:5px;
   display:block;
@@ -243,7 +278,8 @@ div#edit-panel:hover div#cog {
   padding:5px;
 }
 div#cog i {
-  margin:2px;
+  margin:6px;
+  font-size: 1.3em;
 }
 .edit-panel-link {
   color:rgb(30,30,30);
@@ -258,6 +294,174 @@ div#cog i {
 .edit-panel-link:hover{
   text-decoration: underline;
 }
+
+div#widget-button {
+  display:block;
+  position:absolute;
+  top:34px;
+  right:13px;
+  width:32px;
+  height:32px;
+  background-color:transparent;
+  cursor:pointer;
+}
+
+div#widget-button i {
+  font-size: 1.2em;
+  margin:6px;
+}
+div#widget-panel {
+  transform: translateY(100%);
+  transition:opacity .3s;
+  position: fixed;
+  left:0px;
+  right:0px;
+  top:0px;
+  bottom:0px;
+  padding-top:20px;
+  display:block;
+  opacity: 0;
+  background-color: rgba(0,0,0,0.2);
+}
+div#widget-panel.show-widgets {
+  transform: translateY(0px);
+  opacity: 1;
+}
+div#widget-panel h1, div#widget-panel p, div#widget-panel a {
+  color:white;
+}
+button#widget-close-button {
+  display:block;
+  position:absolute;
+  top:3px;
+  left:13px;
+  width:90px;
+  height:32px;
+  background-color:transparent;
+  cursor:pointer;
+  border-style: solid;
+  border-width: 0px;
+  font-weight: bold;
+  font-family: "Roboto Condensed", Arial, sans-serif;
+  color:white;
+}
+button#widget-close-button:active {
+  padding:0px;
+}
+
+div#edit-panel-widget {
+  transition: width .2s, height .3s, background-color .1s;
+  display:block;
+  position:absolute;
+  top:0px;
+  right:10px;
+  width:32px;
+  height:32px;
+  background-color:transparent;
+  overflow: hidden;
+  border-style:solid;
+  border-width:0px;
+  border-top-width: 0px;
+  border-color:white;
+}
+div#edit-panel-widget:hover {
+  width:400px;
+  height:40px;
+  background-color:white;
+}
+div#cog-widget {
+  transition: color .1s;
+  width:32px;
+  height:32px;
+  margin:3px;
+  margin-top:5px;
+  display:block;
+  float:right;
+  color:white;
+  cursor:pointer;
+}
+div#edit-panel-widget:hover div#cog-widget {
+  color:rgb(30,30,30);
+}
+#edit-panel-container-widget {
+  margin:5px;
+  padding:5px;
+}
+div#cog-widget i {
+  margin:6px;
+  font-size: 1.3em;
+}
+.edit-panel-link-widget {
+  color:rgb(30,30,30) !important;
+  padding:5px;
+  margin:5px;
+  margin-top:10px;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-family: "Roboto Condensed";
+}
+.edit-panel-link-widget:hover{
+  text-decoration: underline;
+}
+
+button#widget-close-button i {
+  font-size: 1.2em;
+}
+
+div#widget-view {
+  position:absolute;
+  top:100px;
+  left:10px;
+  right:10px;
+  bottom:40px;
+    overflow: auto;
+}
+div#widget-container{
+  column-count: 4;
+  -moz-column-count: 4;
+  -webkit-column-count: 4;
+  column-gap: 0px;
+  -moz-column-gap: 0px;
+  -webkit-column-gap: 0px;
+}
+.widget {
+  display: inline-block;
+  vertical-align: top;
+  padding:0px;
+  /*float:left;*/
+  width: 100%;
+  margin:0px;
+  height:94px;
+  position: relative;
+}
+
+.widget.small {
+  height:94px;
+
+}
+.widget.quite-small {
+  height:188px;
+}
+.widget.big {
+  height:376px;
+}
+
+.widget-content {
+  margin:5px;
+  background: white;
+  position: absolute;
+  top:5px;
+  right:5px;
+  left:5px;
+  bottom:5px;
+}
+.widget-content p {
+  color:rgb(30,30,30) !important;
+}
+
+
+
 
 
 .app-item {
@@ -502,7 +706,7 @@ div#cog i {
 
 /* media */
 @media screen and (max-width: 1040px) {
-  div#container {
+  div.container {
     width:710px;
   }
   div#app-view {
@@ -517,43 +721,33 @@ div#cog i {
   div#app-view.searching .app-item {
     margin-left:6px;
   }
+  div#widget-container{
+    column-count: 3;
+    -moz-column-count: 3;
+    -webkit-column-count: 3;
+  }
 }
 @media screen and (max-width: 768px) {
   body {
     overflow:auto;
   }
-  div#container {
+  div.container {
     width:500px;
   }
   div#app-view {
     width:460px;
+    top:60px;
   }
   .app-item {
     margin-left:6px;
   }
-  div#app-view.searching .app-item {
-    margin-left:10px;
-  }
 
-  div#search-panel.searching {
-    width:480px;
-    height:250px;
-  }
-  div#search-results {
-    height:215px;
-  }
-  div#search-message {
-    height:30px;
-    font-size:.8em;
-  }
-  div#search-message p {
-    padding:0px;
-  }
-  div#app-view.searching {
-    width:460px;
-    margin-top:10px;
-  }
-
+  div#search-panel{display:none}
+  div#search-results{display:none}
+  div#search-message{display:none}
+  div#search-bar{display: none}
+  div#edit-panel{display:none}
+  div#widget-button{display:none}
 }
 
 @media screen and (max-width: 480px) {
@@ -561,7 +755,7 @@ div#cog i {
     margin:0px;
     padding:0px;
   }
-  #container {
+  .container {
     width:100% !important;
     margin:0px;
     margin-top:0px !important;
@@ -570,16 +764,18 @@ div#cog i {
   div#search-results{display:none}
   div#search-message{display:none}
   div#app-view{
+    position: absolute;;
+    right:auto;
     width:220px;
-    margin:0px auto;
+    margin-left:-120px;
+    left:50%;
     float:none;
+
     bottom:0px;
-    height:90%;
   }
   div#search-bar{display: none}
   div#app-view.searching{
     width:100%;
-    height:90%;
     margin:0px;
   }
   div#edit-panel {

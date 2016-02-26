@@ -129,7 +129,7 @@
         <p>Add your startpage to your <a class='usr-link' href='/browsers'>browser</a> to really make that startpage rock !</p>
         <hr/>
         <div style='margin:0px;'>
-          <p><a href='/logout' class="code"> <i class="fa fa-sign-out" ></i> LOGOUT</a></p>
+          <p><a href='/logout' class="usr-link"> <i class="fa fa-sign-out" ></i> LOGOUT</a></p>
         </div>
       </div>
 
@@ -142,7 +142,7 @@
           <script>
             (adsbygoogle = window.adsbygoogle || []).push({});
           </script>-->
-          <a href="{{linkUrl}}">Go To Startpage <i class="fa fa-chevron-right" style="margin-left:10px;"></i></a>
+          <a href="{{linkUrl}}">Go To Startpage <i class="chevron-animation fa fa-chevron-right"></i></a>
 
       </div>
 
@@ -166,18 +166,6 @@
           <input type='submit' value="Set Title"></input>
         </form>
       </div>
-
-
-      <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-    <!-- tsr_resp -->
-    <ins class="adsbygoogle"
-         style="display:block"
-         data-ad-client="ca-pub-5263514922826121"
-         data-ad-slot="4567979499"
-         data-ad-format="auto"></ins>
-    <script>
-    (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
 
         <div id='edit-theme'>
           <p id='theme'>Colour Theme</p>
@@ -209,8 +197,8 @@
           <table width="100%">
           <tr>
             <td style='width:20px'><div class='web-icon' style="background-image:url('{{a.icon}}')"><i class='fa fa-bars handle' title='Move bookmark' ></i></div></td>
-            <td style='width:80px' class='web-display-name'>{{a.display_name}}<button class='btn-edit-title' value='edit' onclick='changeDisplayName(this.parentNode.parentNode.parentNode.parentNode.parentNode)'><i class='fa fa-pencil'></i></button></td>
-            <td style='width:100px' class='web-url'>{{a.url}}</td>
+            <td style='width:80px' class='web-display-name'><span>{{a.display_name}}</span><button class='btn-edit-title' value='edit' onclick='changeDisplayName(this.parentNode.parentNode.parentNode.parentNode.parentNode)'><i class='fa fa-pencil'></i></button></td>
+            <td style='width:100px' class='web-url'><span>{{a.url}}</span></td>
             <td style='width:15px' class='web-url'><a href='/config/delete-website?website={{a.position}}' class='btn-remove-website'><i class="fa fa-times"></i></a></td>
           </tr>
           </table>
@@ -232,7 +220,7 @@
         });
       </script>
   </div>
-
+  <!--
   <div id='edit-title'>
     <p id='title'><span style="color:rgb(40,240,60)">[NEW]</span> Local Startpage</p>
     <div id="sp-zip">
@@ -247,17 +235,12 @@
 </div>
       </div>
   </div>
+-->
 
 
-  <div id="popup-container">
-    <div id='popup'>
-      <div id='popup-top-bar'>
-        <p id='popup-title'></p>
-        <button onclick='closePopup()' id='popup-close-button'><i class="fa fa-times"></i></button>
-      </div>
-      <div id='popup-content'></div>
-    </div>
-  </div>
+
+
+
 
   <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -268,8 +251,52 @@
   ga('create', 'UA-67397540-2', 'auto');
   ga('require', 'linkid');
   ga('send', 'pageview');
-
+  ga('send', 'event','Views','Edition',1);
 </script>
+
+
+</div>
+
+</div>
+
+
+<footer id="footer">
+  <div class="container">
+  <ul class="footer-block">
+    <li class="footer-block-title">That Startpage Rocks</li>
+     <li><a href="/home">Home</a></li>
+     <li><a href="/signup">Signup</a></li>
+     <li><a href="/login">Login</a></li>
+     <li><a href="/icons">Icon repository</a></li>
+     <li><a href="/browser">Add to browser</a></li>
+  </ul>
+<ul class="footer-block">
+  <li class="footer-block-title">Copyright (C) 2016 Mark Spurgeon </li>
+   <li><a href="https://github.com/the-duck/that-startpage-rocks">Github Source (license: LGPL v3.0)</a></li>
+   <li><a href="/terms">Terms of Service</a></li>
+   <li><a href="/privacy">Privacy Policy</a></li>
+   <li><a href="/more/#contact">Contact</a></li>
+</ul>
+<ul class="footer-block">
+  <li class="footer-block-title">Made by @the-duck</li>
+   <li> <a href="http://the-duck.github.io">the-duck.github.io</a></li>
+   <li> <a href="mailto:theduck.dev@gmail.com">theduck.dev@gmail.com</a></li>
+</ul>
+</div>
+</footer>
+
+<div id="popup-container">
+  <div id='popup'>
+    <div id='popup-top-bar'>
+      <p id='popup-title'></p>
+      <button onclick='closePopup()' id='popup-close-button'><i class="fa fa-times"></i></button>
+    </div>
+    <div id='popup-content'></div>
+  </div>
+</div>
+
+
+
 
 </body>
 

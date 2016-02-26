@@ -1,6 +1,16 @@
 $(document).ready( function() {
   $('#search-results').perfectScrollbar();
 
+  $("#widget-button").hover(function(){
+      console.log("whahaaa");
+      var wp = document.getElementById("widget-panel");
+      wp.className="show-widgets";
+      var cont = document.getElementById("background");
+      cont.className="show-widgets";
+  });
+
+  dragula([document.getElementById('widget-container')]);
+
 })
 /*
 window.addEventListener('load', function(e) {
@@ -21,6 +31,14 @@ window.addEventListener('load', function(e) {
 
 }, false);
 */
+
+
+function disableWidgets() {
+  var wp = document.getElementById("widget-panel");
+  wp.className="";
+  var cont = document.getElementById("background");
+  cont.className="";
+}
 
 function showSearchPanel() {
   var p = document.getElementById('search-panel');
@@ -48,7 +66,6 @@ function searchFunction(data) {
     $.getJSON( "/search?q="+data, function( d ) {
       $('#search-results').empty();
       var res= d.results;
-      console.log('got results');
       if (d.responseType=='plugin-results') {
         $.each( res, function(k,v) {
           var a = document.createElement('a');

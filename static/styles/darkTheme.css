@@ -25,6 +25,7 @@ body {
   background-size: cover;
   font-family:'Roboto Condensed',serif;
   overflow-y: hidden;
+  color:rgb(30,30,30)
 }
 
 
@@ -59,10 +60,12 @@ div#search-bar button[type='submit'] {
     color:rgb(30,30,30);
 }
 div#search-bar button[type='submit']:hover {
-  border-color:rgb(30,30,30)
+  border-color:rgb(30,30,30);
+  background-color: rgba(30,30,30,0.04)
 }
 div#search-bar button[type='submit']:active {
   border-color:rgb(30,30,30);
+  background-color: rgba(30,30,30,0.08)
 }
 div#search-panel {
   background-color:rgb(40,40,40);
@@ -96,9 +99,6 @@ div#cog {
 }
 div#edit-panel:hover div#cog{
   color:rgb(255,255,255);
-}
-div#cog i {
-  margin:2px;
 }
 .edit-panel-link{color:white}
 
