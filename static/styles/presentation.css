@@ -316,19 +316,80 @@ footer {
 
 
 #signup {
+  transition: transform .1s, border-width .1s;
   position:fixed;
   bottom:30px;
   right:30px;
   width:128px;
-  height:48px;
+  height:128px;
   border-style: solid;
-  border-radius: 1px;
+  border-radius: 50%;
   border-width: 0px;
-  background:url(/static/presentation/signup.gif);
-  box-shadow: 0px 1px 1.2px 1px rgba(20,20,20,0.2);
+  border-color: black;
+  color: black;
+  font-size: 2em;
+  font-weight: bold;
+  text-decoration: none;
+  line-height: 128px;
+  text-align: center;
+  background:#F4D03F;
+  overflow:hidden;
 }
 #signup:hover {
-  box-shadow: 0px 1.5px 1.2px 1px rgba(20,20,20,0.22);
+  border-width: 3px;
+  transform: scale(1.2);
+}
+#signup .text {
+  transition: transform .1s, border-width .1s;
+}
+#signup:hover .text {
+  transition: scale(0.8333);
+}
+
+#signup-thing{
+  animation-duration: 6s;
+  animation-name: inandout;
+  animation-iteration-count: infinite;
+  position: absolute;
+  top:-50px;
+  right:0px;
+  width: 130px;
+  height: 130px;
+  background:black;
+  margin:0px;
+  padding:0px;
+  border-style: solid;
+  border-width: 0px;
+  border-radius:50%;
+  line-height: 128px;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: .5em;
+  color:#F4D03F;
+}
+
+@keyframes inandout {
+  0% {
+    top:-130px;
+  }
+  10% {
+    top:-5px;
+  }
+  20% {
+    top:-2px;
+  }
+  40% {
+    top:0px
+  }
+  42% {
+    top:-5px;
+  }
+  50% {
+    top:128px;
+  }
+  100% {
+    top:130px;
+  }
 }
 
 input[type="text"],input[type="email"], textarea {

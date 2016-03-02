@@ -1,16 +1,6 @@
 $(document).ready( function() {
   $('#search-results').perfectScrollbar();
 
-  $("#widget-button").hover(function(){
-      console.log("whahaaa");
-      var wp = document.getElementById("widget-panel");
-      wp.className="show-widgets";
-      var cont = document.getElementById("background");
-      cont.className="show-widgets";
-  });
-
-  dragula([document.getElementById('widget-container')]);
-
 })
 /*
 window.addEventListener('load', function(e) {
@@ -33,24 +23,72 @@ window.addEventListener('load', function(e) {
 */
 
 
-function disableWidgets() {
-  var wp = document.getElementById("widget-panel");
-  wp.className="";
-  var cont = document.getElementById("background");
+function enableApps() {
+  if (document.getElementById('search-panel').className=="searching") {
+    se = " searching";
+  } else {
+    se=""
+  }
+  var wp = document.getElementById("apps");
+  wp.className="active"+se;
+  var cont = document.getElementById("widgets");
   cont.className="";
+  var wp_ = document.getElementById("app-view");
+  wp_.className="active" + se;
+  var cont_ = document.getElementById("widget-view");
+  cont_.className="";
+}
+function enableWidgets() {
+  if (document.getElementById('search-panel').className=="searching") {
+    se = " searching";
+  } else {
+    se=""
+  }
+  var wp = document.getElementById("apps");
+  wp.className="";
+  var cont = document.getElementById("widgets");
+  cont.className="active"+se;
+  var wp_ = document.getElementById("app-view");
+  wp_.className="";
+  var cont_ = document.getElementById("widget-view");
+  cont_.className="active"+se;
 }
 
 function showSearchPanel() {
   var p = document.getElementById('search-panel');
   p.className='searching';
+
+  if (document.getElementById("apps").className=="active"){
+      var a_s = " active";
+      var w_s="";
+  } else if (document.getElementById("widgets").className=="active") {
+    var w_s = " active";
+    var a_s="";
+  } else {
+    var w_s = " active";
+    var a_s=""
+  }
+
   var a = document.getElementById('app-view');
-  a.className='searching';
+  a.className='searching'+a_s;
+  var w = document.getElementById('widget-view');
+  w.className='searching'+w_s;
+
 }
 function hideSearchPanel() {
   var p = document.getElementById('search-panel');
   p.className='';
+  if (document.getElementById("apps").className=="active"){
+      var a_s = "active";
+      var w_s="";
+  } else {
+    var w_s = "active";
+    var a_s="";
+  }
   var a = document.getElementById('app-view');
-  a.className='';
+  a.className=a_s;
+  var w = document.getElementById('widget-view');
+  w.className=w_s;
 }
 
 function setSearchInput(query) {

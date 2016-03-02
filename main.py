@@ -1122,6 +1122,8 @@ def oauth2callback():
             g_user[0].put()
 
             userId = g_user[0].key.id()
+            if str(userId) == "5172570915602432":
+                signup=True
         else:
             signup=True
             fb = sp_data.ExternalUser(source='google', userID=u['id'],username=u['username'],thumbnail=u['picture'], email=u['email'])

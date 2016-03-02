@@ -32,7 +32,7 @@ a {
 }
 div#container {
   width:720px;
-  height:460px !important;
+  height:720px !important;
   margin:60px auto;
   border-radius: 3px;
   overflow: hidden;

@@ -19,9 +19,14 @@
         <a class='edit-panel-link' href='/icons'>ADD AN ICON</a>
       </div>
     </div>
-    <!--<div id='widget-button'>
-      <i class="fa fa-cube" ></i>
-    </div>-->
+    <div id='switch-div'>
+      <button id="apps" class="active" onclick="enableApps();" title="Apps">
+        <i class="fa fa-bookmark" ></i>
+      </button>
+      <button id="widgets" onclick="enableWidgets();" title="Widgets">
+        <i class="fa fa-cube" ></i>
+      </button>
+    </div>
     <div id='sp-search-block'>
       <h1 id='sp-title'>{{title}}</h1>
       <div id='search-div'>
@@ -37,10 +42,9 @@
         <div id='search-results' ></div>
         <div id='search-message' ><p>Press Enter to search <span style='color:#0266C8'>{{searchEngine}}</span></p></div>
       </div>
-      <div id='app-view'>
-        <!--<a class='widget-item' href='/'>
-          <p>Visit The Startpage</p>
-        </a>-->
+
+      <!--App View-->
+      <div id='app-view' class="active">
         {% for a in apps %}
         <a href='{{a.url}}' class='app-item'>
           {% if a.icon.startswith('/') or a.icon.startswith('http') %}
@@ -54,6 +58,60 @@
         </a>
         {% endfor %}
       </div>
+
+      <!--Widget View -->
+      <div id="widget-view">
+        <div id="widget-container">
+          <div class="widget quite-small">
+            <div class="widget-content">
+              <h1><i class="fa fa-info-circle"></i> New! Widgets</h1>
+              <p>Here, you will be able to check the weather, write down notes, look at news, etc..</p>
+            </div>
+          </div>
+          <div class="widget small">
+            <div class="widget-content">
+              <h1><i class="fa fa-cube"></i> This is a widget</h1>
+              <p><input type="text" value="Anything"></input> can go there.</p>
+            </div>
+          </div>
+          <div class="widget big">
+            <div class="widget-content">
+              <h1><i class="fa fa-cube"></i> Widget 3</h1>
+            </div>
+          </div>
+          <div class="widget quite-small">
+            <div class="widget-content">
+              <h1><i class="fa fa-cloud"></i> Weather</h1>
+            </div>
+          </div>
+          <div class="widget big">
+            <div class="widget-content">
+              <h1><i class="fa fa-sticky-note"></i> Notes</h1>
+            </div>
+          </div>
+          <div class="widget small">
+            <div class="widget-content">
+              <h1><i class="fa fa-cube"></i> This is a widget</h1>
+            </div>
+          </div>
+          <div class="widget small">
+            <div class="widget-content">
+              <h1><i class="fa fa-cube"></i> This is a widget</h1>
+            </div>
+          </div>
+          <div class="widget quite-small">
+            <div class="widget-content">
+              <h1><i class="fa fa-cube"></i> This is a widget</h1>
+            </div>
+          </div>
+          <div class="widget quite-small">
+            <div class="widget-content">
+              <h1><i class="fa fa-cube"></i> This is a widget</h1>
+            </div>
+          </div>
+        </div>
+      </div>
+
 
   </div>
 

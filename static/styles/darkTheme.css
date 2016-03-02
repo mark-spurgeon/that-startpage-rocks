@@ -108,6 +108,12 @@ div#app-view {
 }
 div#app-view.searching {
 }
+div#switch-div button {
+  color:rgb(30,30,30)
+}
+.widget-content *  {
+  color:rgb(30,30,30);
+}
 
 .app-item {
   border-bottom-width: 1px;

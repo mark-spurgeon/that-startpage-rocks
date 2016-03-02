@@ -230,6 +230,10 @@ div#app-view {
   border-color:white;
   width:984px;
   overflow-y: auto;
+  display:none
+}
+div#app-view.active {
+  display:block;
 }
 div#app-view.searching {
   transition:width .1s, height .1s, margin-top .1s;
@@ -295,135 +299,100 @@ div#cog i {
   text-decoration: underline;
 }
 
-div#widget-button {
+div#switch-div {
   display:block;
   position:absolute;
-  top:34px;
-  right:13px;
-  width:32px;
+  top:48px;
+  right:10px;
+  width:66px;
   height:32px;
-  background-color:transparent;
-  cursor:pointer;
-}
-
-div#widget-button i {
-  font-size: 1.2em;
-  margin:6px;
-}
-div#widget-panel {
-  transform: translateY(100%);
-  transition:opacity .3s;
-  position: fixed;
-  left:0px;
-  right:0px;
-  top:0px;
-  bottom:0px;
-  padding-top:20px;
-  display:block;
-  opacity: 0;
-  background-color: rgba(0,0,0,0.2);
-}
-div#widget-panel.show-widgets {
-  transform: translateY(0px);
-  opacity: 1;
-}
-div#widget-panel h1, div#widget-panel p, div#widget-panel a {
-  color:white;
-}
-button#widget-close-button {
-  display:block;
-  position:absolute;
-  top:3px;
-  left:13px;
-  width:90px;
-  height:32px;
-  background-color:transparent;
-  cursor:pointer;
+  background-color:rgba(0,0,0,0.05);
   border-style: solid;
   border-width: 0px;
-  font-weight: bold;
-  font-family: "Roboto Condensed", Arial, sans-serif;
-  color:white;
-}
-button#widget-close-button:active {
+  /*border-radius: 20px;*/
+  margin:0px;
   padding:0px;
 }
-
-div#edit-panel-widget {
-  transition: width .2s, height .3s, background-color .1s;
-  display:block;
-  position:absolute;
-  top:0px;
-  right:10px;
-  width:32px;
-  height:32px;
-  background-color:transparent;
-  overflow: hidden;
-  border-style:solid;
-  border-width:0px;
-  border-top-width: 0px;
-  border-color:white;
+div#switch-div button {
+    width: 32px;
+    height:32px;
+    border-style: solid;
+    border-width: 0px;
+    background:transparent;
+    margin:0px;
+    padding:0px;
+    color:white;
+    font-size: .8em;
+    display: inline-block;
+    float:left;
+    cursor:pointer;
+    outline:none;
 }
-div#edit-panel-widget:hover {
-  width:400px;
-  height:40px;
-  background-color:white;
+div#switch-div button:hover {
+  background-color:rgba(0,0,0,0.2)
 }
-div#cog-widget {
-  transition: color .1s;
-  width:32px;
-  height:32px;
-  margin:3px;
-  margin-top:5px;
-  display:block;
-  float:right;
-  color:white;
-  cursor:pointer;
+div#switch-div button:active {
+  background-color:rgba(0,0,0,0.3)
 }
-div#edit-panel-widget:hover div#cog-widget {
-  color:rgb(30,30,30);
+div#switch-div button.active {
+  background-color:rgba(0,0,0,0.1)
 }
-#edit-panel-container-widget {
-  margin:5px;
-  padding:5px;
+div#switch-div button#apps {
+  /*border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;*/
+  border-right-width: 1px;
+  border-right-color: rgba(0,0,0,0.1)
 }
-div#cog-widget i {
-  margin:6px;
-  font-size: 1.3em;
-}
-.edit-panel-link-widget {
-  color:rgb(30,30,30) !important;
-  padding:5px;
-  margin:5px;
-  margin-top:10px;
-  text-decoration: none;
-  text-transform: uppercase;
-  font-weight: bold;
-  font-family: "Roboto Condensed";
-}
-.edit-panel-link-widget:hover{
-  text-decoration: underline;
+div#switch-div button#widgets {
+  /*border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;*/
 }
 
-button#widget-close-button i {
+
+
+div#switch-div button i {
   font-size: 1.2em;
+  margin:6px;
 }
 
-div#widget-view {
-  position:absolute;
-  top:100px;
-  left:10px;
-  right:10px;
-  bottom:40px;
-    overflow: auto;
+div#widget-view{
+    transition:none;
+    position:absolute;
+    top:110px;
+    right:10px;
+    bottom:10px;
+    float:right;
+    margin:10px;
+    margin-top:10px;
+    margin-left:10px;
+    padding: 10px;
+    border-style: solid;
+    border-width: 0px;
+    border-bottom-width:0px;
+    border-color:white;
+    width:984px;
+    overflow-x: auto;
+    display:none;
+  }
+div#widget-view.active {
+  display:block;
 }
-div#widget-container{
-  column-count: 4;
-  -moz-column-count: 4;
-  -webkit-column-count: 4;
+div#widget-view.searching {
+    transition:width .1s, height .1s, margin-top .1s;
+    width:674px;
+  }
+div#widget-container {
+  margin:0px;
+  padding:0px;
+  width: 100%;
+  height:auto;
+  column-count: 3;
+  -moz-column-count: 3;
+  -webkit-column-count: 3;
   column-gap: 0px;
   -moz-column-gap: 0px;
   -webkit-column-gap: 0px;
+
 }
 .widget {
   display: inline-block;
@@ -449,15 +418,20 @@ div#widget-container{
 
 .widget-content {
   margin:5px;
-  background: white;
   position: absolute;
   top:5px;
   right:5px;
   left:5px;
   bottom:5px;
+  color:white
 }
-.widget-content p {
-  color:rgb(30,30,30) !important;
+.widget-content *  {
+  color:white;
+}
+.widget-content h1 {
+  font-size: 1.4em;
+  text-transform: uppercase;
+  font-weight: bold;
 }
 
 
@@ -709,10 +683,10 @@ div#widget-container{
   div.container {
     width:710px;
   }
-  div#app-view {
+  div#app-view, div#widget-view {
     width:670px;
   }
-  div#app-view.searching {
+  div#app-view.searching, div#widget-view.searching {
     width:360px;
   }
   .app-item {
@@ -721,10 +695,10 @@ div#widget-container{
   div#app-view.searching .app-item {
     margin-left:6px;
   }
-  div#widget-container{
-    column-count: 3;
-    -moz-column-count: 3;
-    -webkit-column-count: 3;
+  div#widget-container {
+    column-count: 2;
+    -moz-column-count: 2;
+    -webkit-column-count: 2;
   }
 }
 @media screen and (max-width: 768px) {
@@ -734,12 +708,20 @@ div#widget-container{
   div.container {
     width:500px;
   }
-  div#app-view {
+  div#app-view, div#widget-view, div#app-view.searching, div#widget-view.searching  {
     width:460px;
     top:60px;
   }
   .app-item {
     margin-left:6px;
+  }
+  div#widget-container {
+    column-count: 1;
+    -moz-column-count: 1;
+    -webkit-column-count: 1;
+  }
+  div#switch-div {
+    top:0px;
   }
 
   div#search-panel{display:none}
@@ -763,7 +745,7 @@ div#widget-container{
   div#search-panel{display:none}
   div#search-results{display:none}
   div#search-message{display:none}
-  div#app-view{
+  div#app-view, div#app-view.searching{
     position: absolute;;
     right:auto;
     width:220px;
@@ -773,11 +755,14 @@ div#widget-container{
 
     bottom:0px;
   }
+   div#widget-view, div#widget-view.searching  {
+     width: 100%;
+     position: absolute;
+     bottom:0px;
+     margin:0 auto;
+     padding:0px;
+   }
   div#search-bar{display: none}
-  div#app-view.searching{
-    width:100%;
-    margin:0px;
-  }
   div#edit-panel {
     display: none;
   }
@@ -789,5 +774,13 @@ div#widget-container{
     margin-left:6px;
   }
 
+  div#widget-container {
+    column-count: 1;
+    -moz-column-count: 1;
+    -webkit-column-count: 1;
+  }
+  div#switch-div {
+    top:0px;
+  }
 
 }
